@@ -72,12 +72,4 @@ h5,
 h6 {
   text-wrap: balance;
 }
-
-/*
-  10. Create a root stacking context
-*/
-#root,
-#__next {
-  isolation: isolate;
-}
 </style>
