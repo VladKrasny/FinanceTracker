@@ -1,54 +1,38 @@
-# Finance Tracker
+# .
 
-Single page application for tracking personal finance built with Vue 3
+This template should help get you started developing with Vue 3 in Vite.
 
-## Features
+## Recommended IDE Setup
 
-- Add income and expense transactions
-- Custom categories created by the user
-- Filter by type, category, and date range
-- Summary: total income, total expenses, and current balance
-- Data persistence
-- Responsive layout (desktop and mobile friendly)
+[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Tech Stack
+## Recommended Browser Setup
 
-- [Vue 3](https://vuejs.org/) (Options API, JavaScript)
-- [Vite](https://vitejs.dev/)
-- Plain CSS
-- `localStorage` for persistence
+- Chromium-based browsers (Chrome, Edge, Brave, etc.):
+  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
+  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
+- Firefox:
+  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
+  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
 
-## Git Workflow
+## Customize configuration
 
-- Do not commit directly to `main`.
-- Every task is implemented in a separate branch from `main`.
-- Branch naming must follow a specific format:
-  - start with combination of your first and last name. For example **Vald Krasny** will be `vkrasny/...`
-  - include type of changes:
-    - `../feat/...` for new features
-    - `../fix/...` for bug fixes
-    - `../chore/...` for configs or refactors
-  - include the related issue id: `../1234/`
-  - here is the complete example: `vkrasny/chore/0/initialize-repository`
+See [Vite Configuration Reference](https://vite.dev/config/).
 
-Examples:
+## Project Setup
 
-- `vkrasny/feat/123/add-transaction-form`
-- `vkrasny/fix/321/transaction-form-validation`
-- `vkrasny/chore/0/initialize-repository`
+```sh
+npm install
+```
 
-- Every branch must be merged via Pull Request.
-- Each PR must:
-  - рave a clear, descriptive title
-  - reference the related issue (e.g. Closes #1)
-  - include a short summary of changes
-  - (optional) include screenshots/video for UI changes
-- Commit messages should follow [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) specification
-- When merging to `main` only squash merge is available in order to have a clear history
+### Compile and Hot-Reload for Development
 
-## Code Style
+```sh
+npm run dev
+```
 
-- Prefer small, focused components.
-- Use Options API
-- Use `props` and `emits` for communication between parent and child components.
-- Use `computed` properties instead of recalculating values in templates.
+### Compile and Minify for Production
+
+```sh
+npm run build
+```
