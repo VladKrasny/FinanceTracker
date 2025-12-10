@@ -1,11 +1,22 @@
 <template>
-  <div :class="['typography', variant ? 'typography--' + variant : '']">
+  <div
+    :class="{
+      typography: true,
+      [`typography--${variant}`]: Boolean(variant),
+    }"
+  >
     <slot></slot>
   </div>
 </template>
 <script>
 export default {
   name: "TheTypography",
+  props: {
+    variant: {
+      type: String,
+      default: "",
+    },
+  },
 };
 </script>
 

@@ -1,14 +1,14 @@
 <template>
   <CSSReset>
-    <TransactionSection blockTitle="Add Transaction"></TransactionSection>
+    <TransactionForm blockTitle="Add Transaction"></TransactionForm>
   </CSSReset>
 </template>
 
 <script>
 import CSSReset from "./CSSReset.vue";
-import TransactionSection from "./components/TransactionSection.vue";
+import TransactionForm from "./components/TransactionForm.vue";
 export default {
   name: "App",
-  components: { CSSReset, TransactionSection },
+  components: { CSSReset, TransactionForm },
 };
 </script>

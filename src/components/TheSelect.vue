@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "TheList",
+  name: "TheSelect",
 
   props: {
     fieldName: String,

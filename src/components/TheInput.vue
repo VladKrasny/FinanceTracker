@@ -1,17 +1,13 @@
 <template>
-  <div class="inputField">
-    <label for="amountInput">{{ fieldName }}</label>
+  <div class="input-field">
+    <label for="Input">{{ fieldName }}</label>
     <input
-      type="text"
-      id="amountInput"
-      v-model="amount"
-      @input="checkInput"
-      :class="{ error: amountError }"
-      placeholder="Enter ammount"
+      :type="type"
+      id="Input"
+      v-model="model"
+      :placeholder
+      :class="{ error: hasError }"
     />
-    <p v-if="amountError" class="error-message">
-      {{ amountError }}
-    </p>
   </div>
 </template>
 
@@ -20,43 +16,41 @@ export default {
   name: "TheInput",
 
   props: {
+    placeholder: {
+      type: String,
+      default: "Enter ammount",
+    },
     fieldName: String,
+    type: {
+      type: String,
+      default: "text",
+    },
+    modelValue: {
+      type: String,
+      default: "",
+    },
+    hasError: {
+      type: Boolean,
+      default: false,
+    },
   },
+  emits: ["update:modelValue"],
 
-  data() {
-    return {
-      amountError: "",
-      amount: "",
-    };
-  },
-
-  methods: {
-    checkInput() {
-      const value = this.amount.trim();
-
-      if (value === "") {
-        this.amountError = "Amount cannot be empty";
-        return;
-      }
-
-      if (isNaN(value)) {
-        this.amountError = "Amount must be a number";
-        return;
-      }
-
-      if (Number(value) <= 0) {
-        this.amountError = "Value must be greater than 0";
-        return;
-      }
-
-      this.amountError = "";
+  computed: {
+    model: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit("update:modelValue", value);
+      },
     },
   },
 };
 </script>
 
 <style scoped>
-.inputField {
+.input-field {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -72,10 +66,5 @@ input {
 
 input.error {
   border-color: red;
-}
-
-.error-message {
-  color: red;
-  font-size: 18px;
 }
 </style>
