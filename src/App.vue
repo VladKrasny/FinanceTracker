@@ -1,14 +1,54 @@
 <template>
   <CSSReset>
     <TransactionForm blockTitle="Add Transaction"></TransactionForm>
+    <TransactionList :transactions="transactions"></TransactionList>
   </CSSReset>
 </template>
 
 <script>
 import CSSReset from "./CSSReset.vue";
 import TransactionForm from "./components/TransactionForm.vue";
+import TransactionList from "./components/transactionlist/TransactionList.vue";
 export default {
   name: "App",
-  components: { CSSReset, TransactionForm },
+  components: { CSSReset, TransactionForm, TransactionList },
+  data() {
+    return {
+      transactions: [
+        {
+          id: 1,
+          type: "income",
+          amount: 100.0,
+          category: "Other Income",
+          date: "2025-11-28",
+          description: "Salary",
+        },
+        {
+          id: 2,
+          type: "expense",
+          amount: 10.0,
+          category: "Food",
+          date: "2025-11-29",
+          description: "Lunch",
+        },
+        {
+          id: 3,
+          type: "expense",
+          amount: 15.0,
+          category: "Transport",
+          date: "2025-11-29",
+          description: "Taxi back home",
+        },
+        {
+          id: 4,
+          type: "income",
+          amount: 50.0,
+          category: "Gift",
+          date: "2025-11-27",
+          description: "Birthday gift",
+        },
+      ],
+    };
+  },
 };
 </script>
