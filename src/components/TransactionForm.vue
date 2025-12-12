@@ -1,32 +1,33 @@
 <template>
-  <div class="transaction-form">
-    <TheTypography variant="title">{{ blockTitle }}</TheTypography>
-    <TheSelect fieldName="Type" :options="typeOptions" v-model="selectedType" />
-    <AmmountInput />
-    <CategoryInput />
-    <!-- <TheSelect
-      fieldName="Category"
-      :options="categoryOptions"
-      v-model="selectedCategory"
-    /> -->
-    <TheInput fieldName="Date" type="date" v-model="date" />
-  </div>
+  <form class="transaction-form">
+    <TheTypography variant="title">{{ FormTitle }}</TheTypography>
+    <TheSelect fieldName="Type" :options="typeOptions" v-model="typeModel" />
+    <AmmountInput v-model="ammountModel" @error="amountError = $event" />
+    <CategoryInput v-model="categoryModel" @error="categoryError = $event" />
+    <TheInput fieldName="Date" type="date" v-model="dateModel" />
+    <FormTextArea
+      fieldName="Discription (optional)"
+      v-model="descriptionModel"
+      @error="textAreaError = $event"
+    />
+    <TheButton label="Add" :disabled="isActive" @click="saveData" />
+  </form>
 </template>
 
 <script>
 import TheTypography from "./TheTypography.vue";
 import TheSelect from "./TheSelect.vue";
 import AmmountInput from "./AmmountInput.vue";
-// import DateInput from "./DateInput.vue";
 import { typeOptions } from "./options-data.js";
-import { categoryOptions } from "./options-data.js";
 import CategoryInput from "./CategoryInput.vue";
 import TheInput from "./TheInput.vue";
+import FormTextArea from "./FormTextArea.vue";
+import TheButton from "./TheButton.vue";
 
 export default {
   name: "TransactionForm",
   props: {
-    blockTitle: {
+    FormTitle: {
       type: String,
     },
   },
@@ -35,18 +36,52 @@ export default {
     TheTypography,
     TheSelect,
     AmmountInput,
-    // DateInput,
     TheInput,
+    FormTextArea,
+    TheButton,
   },
   data() {
     return {
-      selectedType: "expense",
       typeOptions: typeOptions,
-      selectedCategory: "",
-      categoryOptions: categoryOptions,
-      dateType: "",
-      date: "",
+
+      typeModel: "expense",
+      dateModel: "",
+      categoryModel: "",
+      ammountModel: "",
+      descriptionModel: "",
+
+      amountError: "",
+      textAreaError: "",
+      categoryError: "",
     };
+  },
+  methods: {
+    saveData() {
+      const newEntry = {
+        type: this.typeModel,
+        amount: this.ammountModel,
+        category: this.categoryModel,
+        date: this.dateModel,
+        description: this.descriptionModel,
+      };
+
+      console.log("Saved Data:", newEntry);
+    },
+  },
+  computed: {
+    isActive() {
+      const fieldsValid =
+        this.ammountModel && this.categoryModel && this.dateModel;
+
+      const hasErrors =
+        this.amountError && this.categoryError && this.descriptionError;
+
+      if (fieldsValid && !hasErrors) {
+        return false;
+      } else {
+        return true;
+      }
+    },
   },
 };
 </script>

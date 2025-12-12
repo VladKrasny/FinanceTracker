@@ -1,58 +1,75 @@
 <template>
   <div>
     <TheInput
-      fieldName="Ammount"
+      fieldName="Amount"
       type="text"
-      @update:modelValue="CheckInput"
-      v-model="ammount"
+      v-model="model"
       :hasError="Boolean(amountError)"
+      :errorMessage="amountError"
       placeholder="Enter amount"
     />
-    <p v-if="amountError" class="error-message">
-      {{ amountError }}
-    </p>
   </div>
 </template>
 
 <script>
 import TheInput from "./TheInput.vue";
+
 export default {
-  name: "AmmountInput",
+  name: "AmountInput",
 
   components: { TheInput },
+
+  props: {
+    modelValue: {
+      type: String,
+      default: "",
+    },
+  },
+
+  emits: ["update:modelValue", "error"],
+
   data() {
     return {
-      ammount: "",
       amountError: "",
     };
   },
-  methods: {
-    CheckInput() {
-      const value = this.ammount.trim();
-      if (value === "") {
+
+  computed: {
+    model: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit("update:modelValue", value);
+      },
+    },
+  },
+
+  watch: {
+    model(value) {
+      const val = value.trim();
+
+      if (val === "") {
         this.amountError = "Amount cannot be empty";
+        this.$emit("error", this.amountError);
         return;
       }
 
-      if (isNaN(value)) {
+      if (isNaN(val)) {
         this.amountError = "Amount must be a number";
+        this.$emit("error", this.amountError);
         return;
       }
 
-      if (Number(value) <= 0) {
+      if (Number(val) <= 0) {
         this.amountError = "Value must be greater than 0";
+        this.$emit("error", this.amountError);
         return;
       }
 
       this.amountError = "";
+      this.$emit("error", "");
     },
   },
 };
 </script>
-
-<style scoped>
-.error-message {
-  color: red;
-  font-size: 18px;
-}
-</style>

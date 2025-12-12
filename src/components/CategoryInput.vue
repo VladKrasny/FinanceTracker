@@ -2,12 +2,11 @@
   <TheInput
     fieldName="Category"
     type="text"
-    v-model="category"
-    @update:modelValue="checkInput"
+    v-model="model"
     :hasError="Boolean(categoryError)"
     placeholder="Enter category"
+    :errorMessage="categoryError"
   />
-  <p v-if="categoryError" class="error-message">{{ categoryError }}</p>
 </template>
 
 <script>
@@ -22,27 +21,41 @@ export default {
       categoryError: "",
     };
   },
-  methods: {
-    checkInput() {
-      const value = this.category.trim();
+  computed: {
+    model: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit("update:modelValue", value);
+      },
+    },
+  },
+  watch: {
+    model(value) {
+      const val = value.trim();
 
-      if (value === "") {
+      if (val === "") {
         this.categoryError = "Category cannot be empty";
+        this.$emit("error", this.categoryError);
         return;
       }
 
-      if (value.length < 3) {
+      if (val.length < 3) {
         this.categoryError = "Category must be at least 3 characters long";
+        this.$emit("error", this.categoryError);
         return;
       }
 
-      // Проверка на буквы + пробелы
-      if (!/^[A-Za-z\s]+$/.test(value)) {
+      if (!/^[A-Za-z\s]+$/.test(val)) {
         this.categoryError = "Category must contain only letters and spaces";
+        this.$emit("error", this.categoryError);
+
         return;
       }
 
       this.categoryError = "";
+      this.$emit("error", "");
     },
   },
 };

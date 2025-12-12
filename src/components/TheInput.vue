@@ -1,13 +1,17 @@
 <template>
-  <div class="input-field">
-    <label for="Input">{{ fieldName }}</label>
+  <div class="input">
+    <label :for="randomId">{{ fieldName }}</label>
     <input
+      class="input__field"
       :type="type"
-      id="Input"
+      :id="randomId"
       v-model="model"
-      :placeholder
-      :class="{ error: hasError }"
+      :placeholder="placeholder"
+      :class="{ 'input--error': hasError }"
     />
+    <p v-if="errorMessage" class="input__error-message">
+      {{ errorMessage }}
+    </p>
   </div>
 </template>
 
@@ -18,7 +22,7 @@ export default {
   props: {
     placeholder: {
       type: String,
-      default: "Enter ammount",
+      default: "",
     },
     fieldName: String,
     type: {
@@ -33,8 +37,19 @@ export default {
       type: Boolean,
       default: false,
     },
+    errorMessage: {
+      type: String,
+      default: "",
+    },
   },
+
   emits: ["update:modelValue"],
+
+  data() {
+    return {
+      randomId: `input-${Math.random().toString(36).slice(2, 9)}`,
+    };
+  },
 
   computed: {
     model: {
@@ -50,21 +65,26 @@ export default {
 </script>
 
 <style scoped>
-.input-field {
+.input {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
-input {
-  width: 340px;
+.input__field {
+  width: 100%;
   height: 40px;
   border-radius: 15px;
   border: 1px solid gray;
   padding: 10px;
 }
 
-input.error {
+.input--error {
   border-color: red;
+}
+
+.input__error-message {
+  color: red;
+  font-size: 18px;
 }
 </style>

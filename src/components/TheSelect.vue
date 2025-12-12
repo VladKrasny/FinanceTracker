@@ -1,8 +1,8 @@
 <template>
-  <div class="list">
-    <label for="type">{{ fieldName }}</label>
+  <div class="select">
+    <label :for="randomId">{{ fieldName }}</label>
 
-    <select class="list__options" id="type" v-model="model">
+    <select class="select__options" :id="randomId" v-model="model">
       <option
         v-for="(option, index) in options"
         :key="index"
@@ -30,6 +30,12 @@ export default {
     },
   },
 
+  data() {
+    return {
+      randomId: `select-${Math.random().toString(36).slice(2, 9)}`,
+    };
+  },
+
   computed: {
     model: {
       get() {
@@ -44,13 +50,13 @@ export default {
 </script>
 
 <style scoped>
-.list {
+.select {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
-.list__options {
-  width: 340px;
+.select__options {
+  width: 100%;
   height: 40px;
   border-radius: 15px;
   border: 1px solid gray;
