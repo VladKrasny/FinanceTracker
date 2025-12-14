@@ -12,7 +12,7 @@
 import TheTextArea from "./TheTextArea.vue";
 
 export default {
-  name: "FormTextArea",
+  name: "DescriptionTextArea",
   components: { TheTextArea },
 
   props: {
@@ -42,19 +42,9 @@ export default {
   },
 
   watch: {
-    model(value) {
-      const val = value.trim();
-      if (val.length > 200) {
-        this.textAreaError = "Description cannot exceed 200 characters.";
-        this.$emit("error", this.textAreaError);
-        return;
-      }
-
-      this.textAreaError = "";
-      this.$emit("error", "");
+    textAreaError(value) {
+      this.$emit("error", value);
     },
   },
 };
 </script>
-
-<style scoped></style>

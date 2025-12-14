@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { generateId } from "../utils/generateId.js";
+
 export default {
   name: "TheInput",
 
@@ -47,7 +49,7 @@ export default {
 
   data() {
     return {
-      randomId: `input-${Math.random().toString(36).slice(2, 9)}`,
+      randomId: generateId("input"),
     };
   },
 

@@ -17,7 +17,6 @@ export default {
 
   data() {
     return {
-      category: "",
       categoryError: "",
     };
   },
@@ -32,6 +31,10 @@ export default {
     },
   },
   watch: {
+    categotryError(value) {
+      this.$emit("error", value);
+    },
+
     model(value) {
       const val = value.trim();
 
@@ -60,10 +63,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.error-message {
-  color: red;
-  font-size: 18px;
-}
-</style>

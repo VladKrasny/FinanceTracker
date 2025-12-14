@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <TheInput
-      fieldName="Amount"
-      type="text"
-      v-model="model"
-      :hasError="Boolean(amountError)"
-      :errorMessage="amountError"
-      placeholder="Enter amount"
-    />
-  </div>
+  <TheInput
+    fieldName="Amount"
+    type="text"
+    v-model="model"
+    :hasError="Boolean(amountError)"
+    :errorMessage="amountError"
+    placeholder="Enter amount"
+  />
 </template>
 
 <script>
@@ -46,6 +44,10 @@ export default {
   },
 
   watch: {
+    ammountError(value) {
+      this.$emit("error", value);
+    },
+
     model(value) {
       const val = value.trim();
 
@@ -61,7 +63,7 @@ export default {
         return;
       }
 
-      if (Number(val) <= 0) {
+      if (Number(val) < 0) {
         this.amountError = "Value must be greater than 0";
         this.$emit("error", this.amountError);
         return;

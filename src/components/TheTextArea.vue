@@ -1,20 +1,24 @@
 <template>
-  <label :for="randomId">{{ fieldName }}</label>
-  <textarea
-    class="text-area"
-    ref="textArea"
-    :id="randomId"
-    v-model="model"
-    :placeholder="placeholder"
-    :class="{ 'text-area--error': hasError }"
-    @input="sizeCheck"
-  ></textarea>
-  <p v-if="errorMessage" class="text-area__error-message">
-    {{ errorMessage }}
-  </p>
+  <div class="text-area">
+    <label :for="randomId">{{ fieldName }}</label>
+    <textarea
+      class="text-area__input"
+      ref="textArea"
+      :id="randomId"
+      v-model="model"
+      :placeholder="placeholder"
+      :class="{ 'text-area__input--error': hasError }"
+      @input="sizeCheck"
+    ></textarea>
+    <p v-if="errorMessage" class="text-area__error-message">
+      {{ errorMessage }}
+    </p>
+  </div>
 </template>
 
 <script>
+import { generateId } from "../utils/generateId.js";
+
 export default {
   name: "TheTextArea",
 
@@ -41,7 +45,7 @@ export default {
 
   data() {
     return {
-      randomId: `textarea-${Math.random().toString(36).slice(2, 9)}`,
+      randomId: generateId("textarea"),
     };
   },
   computed: {
@@ -54,6 +58,7 @@ export default {
       },
     },
   },
+
   methods: {
     sizeCheck() {
       const el = this.$refs.textArea;
@@ -62,28 +67,34 @@ export default {
       el.style.height = el.scrollHeight + "px";
     },
   },
+
   watch: {
-    model(value) {
-      this.$nextTick(() => {
+    model: {
+      handler() {
         this.sizeCheck();
-      });
+      },
+      immediate: true,
+      flush: "post",
     },
-  },
-  mounted() {
-    this.sizeCheck();
   },
 };
 </script>
 
 <style scoped>
 .text-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.text-area__input {
   width: 100%;
   min-height: 80px;
   border-radius: 15px;
   border: 1px solid gray;
   padding: 10px;
 }
-.text-area--error {
+.text-area__input--error {
   border-color: red;
 }
 .text-area__error-message {

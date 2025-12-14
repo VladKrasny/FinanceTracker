@@ -42,8 +42,7 @@ export default {
   cursor: pointer;
   font-size: 16px;
 }
-.button--disabled,
-.button:disabled {
+.button--disabled {
   background-color: #a0a0a0; /* серая */
   cursor: not-allowed;
   opacity: 0.7;

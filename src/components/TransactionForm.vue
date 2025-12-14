@@ -1,16 +1,16 @@
 <template>
   <form class="transaction-form">
-    <TheTypography variant="title">{{ FormTitle }}</TheTypography>
+    <TheTypography variant="title">{{ formTitle }}</TheTypography>
     <TheSelect fieldName="Type" :options="typeOptions" v-model="typeModel" />
     <AmmountInput v-model="ammountModel" @error="amountError = $event" />
     <CategoryInput v-model="categoryModel" @error="categoryError = $event" />
     <TheInput fieldName="Date" type="date" v-model="dateModel" />
-    <FormTextArea
+    <DescriptionTextArea
       fieldName="Discription (optional)"
       v-model="descriptionModel"
       @error="textAreaError = $event"
     />
-    <TheButton label="Add" :disabled="isActive" @click="saveData" />
+    <TheButton label="Add" :disabled="isDisabled" @click="saveData" />
   </form>
 </template>
 
@@ -18,16 +18,15 @@
 import TheTypography from "./TheTypography.vue";
 import TheSelect from "./TheSelect.vue";
 import AmmountInput from "./AmmountInput.vue";
-import { typeOptions } from "./options-data.js";
 import CategoryInput from "./CategoryInput.vue";
 import TheInput from "./TheInput.vue";
-import FormTextArea from "./FormTextArea.vue";
+import DescriptionTextArea from "./DescriptionTextArea.vue";
 import TheButton from "./TheButton.vue";
 
 export default {
   name: "TransactionForm",
   props: {
-    FormTitle: {
+    formTitle: {
       type: String,
     },
   },
@@ -37,13 +36,15 @@ export default {
     TheSelect,
     AmmountInput,
     TheInput,
-    FormTextArea,
+    DescriptionTextArea,
     TheButton,
   },
   data() {
     return {
-      typeOptions: typeOptions,
-
+      typeOptions: [
+        { value: "income", label: "Income" },
+        { value: "expense", label: "Expense" },
+      ],
       typeModel: "expense",
       dateModel: "",
       categoryModel: "",
@@ -69,18 +70,14 @@ export default {
     },
   },
   computed: {
-    isActive() {
-      const fieldsValid =
+    isDisabled() {
+      const areFieldsValid =
         this.ammountModel && this.categoryModel && this.dateModel;
 
       const hasErrors =
         this.amountError && this.categoryError && this.descriptionError;
 
-      if (fieldsValid && !hasErrors) {
-        return false;
-      } else {
-        return true;
-      }
+      return !areFieldsValid || hasErrors;
     },
   },
 };
