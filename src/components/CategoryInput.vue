@@ -40,25 +40,20 @@ export default {
 
       if (val === "") {
         this.categoryError = "Category cannot be empty";
-        this.$emit("error", this.categoryError);
         return;
       }
 
       if (val.length < 3) {
         this.categoryError = "Category must be at least 3 characters long";
-        this.$emit("error", this.categoryError);
         return;
       }
 
       if (!/^[A-Za-z\s]+$/.test(val)) {
         this.categoryError = "Category must contain only letters and spaces";
-        this.$emit("error", this.categoryError);
-
         return;
       }
 
       this.categoryError = "";
-      this.$emit("error", "");
     },
   },
 };

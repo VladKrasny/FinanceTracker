@@ -8,7 +8,6 @@
       v-model="model"
       :placeholder="placeholder"
       :class="{ 'text-area__input--error': hasError }"
-      @input="sizeCheck"
     ></textarea>
     <p v-if="errorMessage" class="text-area__error-message">
       {{ errorMessage }}
@@ -27,7 +26,11 @@ export default {
       type: String,
       default: "",
     },
-    fieldName: String,
+    fieldName: {
+      type: String,
+      required: true,
+    },
+
     modelValue: {
       type: String,
       default: "",

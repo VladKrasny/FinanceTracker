@@ -43,7 +43,7 @@ export default {
   font-size: 16px;
 }
 .button--disabled {
-  background-color: #a0a0a0; /* серая */
+  background-color: #a0a0a0;
   cursor: not-allowed;
   opacity: 0.7;
 }

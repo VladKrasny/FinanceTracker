@@ -2,8 +2,6 @@
   <TheTextArea
     v-model="model"
     placeholder="Add notes..."
-    :hasError="Boolean(textAreaError)"
-    :errorMessage="textAreaError"
     fieldName="Add notes"
   />
 </template>
@@ -24,12 +22,6 @@ export default {
 
   emits: ["update:modelValue", "error"],
 
-  data() {
-    return {
-      textAreaError: "",
-    };
-  },
-
   computed: {
     model: {
       get() {
@@ -38,12 +30,6 @@ export default {
       set(value) {
         this.$emit("update:modelValue", value);
       },
-    },
-  },
-
-  watch: {
-    textAreaError(value) {
-      this.$emit("error", value);
     },
   },
 };

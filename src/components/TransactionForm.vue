@@ -8,7 +8,6 @@
     <DescriptionTextArea
       fieldName="Discription (optional)"
       v-model="descriptionModel"
-      @error="textAreaError = $event"
     />
     <TheButton label="Add" :disabled="isDisabled" @click="saveData" />
   </form>
@@ -52,7 +51,6 @@ export default {
       descriptionModel: "",
 
       amountError: "",
-      textAreaError: "",
       categoryError: "",
     };
   },

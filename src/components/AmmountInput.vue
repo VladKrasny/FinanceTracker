@@ -53,24 +53,20 @@ export default {
 
       if (val === "") {
         this.amountError = "Amount cannot be empty";
-        this.$emit("error", this.amountError);
         return;
       }
 
       if (isNaN(val)) {
         this.amountError = "Amount must be a number";
-        this.$emit("error", this.amountError);
         return;
       }
 
-      if (Number(val) < 0) {
+      if (Number(val) <= 0) {
         this.amountError = "Value must be greater than 0";
-        this.$emit("error", this.amountError);
         return;
       }
 
       this.amountError = "";
-      this.$emit("error", "");
     },
   },
 };
