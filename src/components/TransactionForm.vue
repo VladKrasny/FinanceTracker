@@ -69,11 +69,13 @@ export default {
   },
   computed: {
     isDisabled() {
-      const areFieldsValid =
-        this.ammountModel && this.categoryModel && this.dateModel;
+      const areFieldsValid = Boolean(
+        this.ammountModel && this.categoryModel && this.dateModel
+      );
 
-      const hasErrors =
-        this.amountError && this.categoryError && this.descriptionError;
+      const hasErrors = Boolean(
+        this.amountError || this.categoryError || this.descriptionError
+      );
 
       return !areFieldsValid || hasErrors;
     },
