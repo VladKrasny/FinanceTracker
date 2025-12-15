@@ -7,7 +7,7 @@
       :id="randomId"
       v-model="model"
       :placeholder="placeholder"
-      :class="{ input__field--error: hasError }"
+      :class="{ 'input__field--error': hasError }"
     />
     <p v-if="errorMessage" class="input__error-message">
       {{ errorMessage }}
