@@ -24,6 +24,7 @@ export default {
 .typography {
   font-family: "Arial", sans-serif;
   color: #333;
+  font-size: 16px;
 }
 .typography--title {
   font-size: 24px;
