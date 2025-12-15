@@ -73,9 +73,7 @@ export default {
         this.ammountModel && this.categoryModel && this.dateModel
       );
 
-      const hasErrors = Boolean(
-        this.amountError || this.categoryError || this.descriptionError
-      );
+      const hasErrors = Boolean(this.amountError || this.categoryError);
 
       return !areFieldsValid || hasErrors;
     },

@@ -7,7 +7,7 @@
       :id="randomId"
       v-model="model"
       :placeholder="placeholder"
-      :class="{ input__error: hasError }"
+      :class="{ input__field--error: hasError }"
     />
     <p v-if="errorMessage" class="input__error-message">
       {{ errorMessage }}
@@ -81,7 +81,7 @@ export default {
   padding: 10px;
 }
 
-.input__error {
+.input__field--error {
   border-color: red;
 }
 

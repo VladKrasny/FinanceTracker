@@ -20,7 +20,7 @@ export default {
     },
   },
 
-  emits: ["update:modelValue", "error"],
+  emits: ["update:modelValue"],
 
   computed: {
     model: {
