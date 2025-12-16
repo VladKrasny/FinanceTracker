@@ -1,9 +1,11 @@
 <template>
-  <TheTextArea
-    v-model="model"
-    placeholder="Add notes..."
-    fieldName="Add notes"
-  />
+  <div class="description-text-area">
+    <TheTextArea
+      v-model="model"
+      placeholder="Add notes..."
+      fieldName="Add notes"
+    />
+  </div>
 </template>
 
 <script>
@@ -34,3 +36,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.description-text-area {
+  height: 135px;
+  overflow: hidden;
+  border-radius: 15px;
+}
+</style>

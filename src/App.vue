@@ -1,9 +1,19 @@
 <template>
   <CSSReset>
-    <TransactionForm blockTitle="Add Transaction"></TransactionForm>
-    <TransactionListSection
-      :transactions="transactions"
-    ></TransactionListSection>
+    <TheTypography>
+      <TheWrapper>
+        <TransactionForm
+          blockTitle="Add Transaction"
+          formTitle="Add Transaction"
+        ></TransactionForm>
+        <TransactionListSection
+          :transactions="transactions"
+          fieldName="Transaction List"
+          sectionDescription="Manage and filter your transactions"
+          @delete="deleteTransaction"
+        ></TransactionListSection
+      ></TheWrapper>
+    </TheTypography>
   </CSSReset>
 </template>
 
@@ -11,10 +21,17 @@
 import CSSReset from "./CSSReset.vue";
 import TransactionForm from "./components/TransactionForm.vue";
 import TransactionListSection from "./components/transactionlist/TransactionListSection.vue";
-
+import TheTypography from "./components/TheTypography.vue";
+import TheWrapper from "./components/TheWrapper.vue";
 export default {
   name: "App",
-  components: { CSSReset, TransactionForm, TransactionListSection },
+  components: {
+    TheTypography,
+    CSSReset,
+    TransactionForm,
+    TransactionListSection,
+    TheWrapper,
+  },
   data() {
     return {
       transactions: [
@@ -52,6 +69,13 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    deleteTransaction(id) {
+      this.transactions = this.transactions.filter(
+        (transaction) => transaction.id !== id
+      );
+    },
   },
 };
 </script>

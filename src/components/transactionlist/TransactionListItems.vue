@@ -5,7 +5,10 @@
       v-for="item in sortedTransactions"
       :key="item.id"
     >
-      <TransactionListItem :transaction="item" />
+      <TransactionListItem
+        :transaction="item"
+        @delete="$emit('delete', $event)"
+      />
     </li>
   </ul>
 </template>
@@ -17,6 +20,7 @@ export default {
   name: "TransactionListItems",
 
   components: { TransactionListItem },
+  emits: ["delete"],
 
   props: {
     transactions: {

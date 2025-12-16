@@ -44,7 +44,7 @@ export default {
   },
 
   watch: {
-    ammountError(value) {
+    amountError(value) {
       this.$emit("error", value);
     },
 

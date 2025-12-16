@@ -30,4 +30,9 @@ export default {
   font-size: 24px;
   font-weight: bold;
 }
+
+.typography--subtitle {
+  font-size: 16px;
+  color: gray;
+}
 </style>
