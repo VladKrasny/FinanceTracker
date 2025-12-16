@@ -2,10 +2,7 @@
   <CSSReset>
     <TheTypography>
       <TheWrapper>
-        <TransactionForm
-          blockTitle="Add Transaction"
-          formTitle="Add Transaction"
-        ></TransactionForm>
+        <TransactionForm></TransactionForm>
         <TransactionListSection
           :transactions="transactions"
           fieldName="Transaction List"

@@ -2,7 +2,7 @@
   <form class="transaction-form">
     <TheTypography variant="title">{{ formTitle }}</TheTypography>
     <TheSelect fieldName="Type" :options="typeOptions" v-model="typeModel" />
-    <amountInput v-model="amountModel" @error="amountError = $event" />
+    <AmmountInput v-model="ammountModel" @error="ammountError = $event" />
     <CategoryInput v-model="categoryModel" @error="categoryError = $event" />
     <TheInput fieldName="Date" type="date" v-model="dateModel" />
     <DescriptionTextArea
@@ -16,7 +16,7 @@
 <script>
 import TheTypography from "./TheTypography.vue";
 import TheSelect from "./TheSelect.vue";
-import amountInput from "./amountInput.vue";
+import AmmountInput from "./AmmountInput.vue";
 import CategoryInput from "./CategoryInput.vue";
 import TheInput from "./TheInput.vue";
 import DescriptionTextArea from "./DescriptionTextArea.vue";
@@ -33,7 +33,7 @@ export default {
     CategoryInput,
     TheTypography,
     TheSelect,
-    amountInput,
+    AmmountInput,
     TheInput,
     DescriptionTextArea,
     TheButton,
@@ -47,10 +47,10 @@ export default {
       typeModel: "expense",
       dateModel: "",
       categoryModel: "",
-      amountModel: "",
+      ammountModel: "",
       descriptionModel: "",
 
-      amountError: "",
+      ammountError: "",
       categoryError: "",
     };
   },
@@ -58,22 +58,21 @@ export default {
     saveData() {
       const newEntry = {
         type: this.typeModel,
-        amount: this.amountModel,
+        ammount: this.ammountModel,
         category: this.categoryModel,
         date: this.dateModel,
         description: this.descriptionModel,
       };
-
-      transactions.push(newEntry);
+      console.log("Saved Data:", newEntry);
     },
   },
   computed: {
     isDisabled() {
       const areFieldsValid = Boolean(
-        this.amountModel && this.categoryModel && this.dateModel
+        this.ammountModel && this.categoryModel && this.dateModel
       );
 
-      const hasErrors = Boolean(this.amountError || this.categoryError);
+      const hasErrors = Boolean(this.ammountError || this.categoryError);
 
       return !areFieldsValid || hasErrors;
     },
@@ -91,6 +90,5 @@ export default {
   flex-direction: column;
   border-radius: 20px;
   gap: 20px;
-  min-width: 400px;
 }
 </style>

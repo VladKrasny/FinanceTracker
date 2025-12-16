@@ -1,11 +1,9 @@
 <template>
-  <div class="description-text-area">
-    <TheTextArea
-      v-model="model"
-      placeholder="Add notes..."
-      fieldName="Add notes"
-    />
-  </div>
+  <TheTextArea
+    v-model="model"
+    placeholder="Add notes..."
+    fieldName="Add notes"
+  />
 </template>
 
 <script>
