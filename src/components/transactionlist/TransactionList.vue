@@ -5,7 +5,7 @@
       v-for="transaction in sortedTransactions"
       :key="transaction.id"
     >
-      <ListItem
+      <TheTransaction
         :id="transaction.id"
         :type="transaction.type"
         :amount="transaction.amount"
@@ -19,12 +19,12 @@
 </template>
 
 <script>
-import ListItem from "./ListItem.vue";
+import TheTransaction from "./TheTransaction.vue";
 
 export default {
   name: "TransactionList",
 
-  components: { ListItem },
+  components: { TheTransaction },
   emits: ["delete"],
 
   props: {
