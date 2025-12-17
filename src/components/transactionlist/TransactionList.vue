@@ -1,12 +1,17 @@
 <template>
-  <ul class="transaction-list-items">
+  <ul class="transaction-list">
     <li
-      class="transaction-list-items__item"
-      v-for="item in sortedTransactions"
-      :key="item.id"
+      class="transaction-list__item"
+      v-for="transaction in sortedTransactions"
+      :key="transaction.id"
     >
-      <TransactionListItem
-        :transaction="item"
+      <ListItem
+        :id="transaction.id"
+        :type="transaction.type"
+        :amount="transaction.amount"
+        :category="transaction.category"
+        :date="transaction.date"
+        :description="transaction.description"
         @delete="$emit('delete', $event)"
       />
     </li>
@@ -14,12 +19,12 @@
 </template>
 
 <script>
-import TransactionListItem from "./TransactionListItem.vue";
+import ListItem from "./ListItem.vue";
 
 export default {
-  name: "TransactionListItems",
+  name: "TransactionList",
 
-  components: { TransactionListItem },
+  components: { ListItem },
   emits: ["delete"],
 
   props: {
@@ -40,7 +45,7 @@ export default {
 </script>
 
 <style scoped>
-.transaction-list-items {
+.transaction-list {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -49,7 +54,7 @@ export default {
   margin: 0;
 }
 
-.transaction-list-items__item {
+.transaction-list__item {
   padding: 20px;
   display: flex;
   flex-direction: column;

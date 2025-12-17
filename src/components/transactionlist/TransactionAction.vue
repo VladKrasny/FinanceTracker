@@ -1,27 +1,27 @@
 <template>
   <button
     :class="{
-      'transaction-list-button': true,
-      [`transaction-list-button--${variant}`]: Boolean(variant),
+      'transaction-action': true,
+      [`transaction-action--${variant}`]: Boolean(variant),
     }"
-    @click="$emit('action')"
+    @click="$emit('click')"
   >
     <span class="material-symbols-outlined">
-      {{ symbol }}
+      {{ iconSymbol }}
     </span>
   </button>
 </template>
 
 <script>
 export default {
-  name: "TransactionListButton",
+  name: "TransactionAction",
   emits: ["click"],
   props: {
     variant: {
       type: String,
       default: "",
     },
-    symbol: {
+    iconSymbol: {
       type: String,
       required: true,
     },
@@ -30,17 +30,17 @@ export default {
 </script>
 
 <style scoped>
-.transaction-list-button {
+.transaction-action {
   color: gray;
   height: 40px;
   background-color: inherit;
   border-width: 0px;
   cursor: pointer;
 }
-.transaction-list-button--edit {
+.transaction-action--edit {
   color: #848c95;
 }
-.transaction-list-button--delete {
+.transaction-action--delete {
   color: #dc3545;
 }
 </style>
