@@ -8,7 +8,9 @@
           title="Transaction List"
           subtitle="Manage and filter your transactions"
           @delete="deleteTransaction"
-        ></TransactionListSection>
+        >
+          <TransactionList :transactions @delete="deleteTransaction"
+        /></TransactionListSection>
       </div>
     </TheTypography>
   </CSSReset>
@@ -19,6 +21,7 @@ import CSSReset from "./CSSReset.vue";
 import TransactionForm from "./components/TransactionForm.vue";
 import TransactionListSection from "./components/transactionlist/TransactionListSection.vue";
 import TheTypography from "./components/TheTypography.vue";
+import TransactionList from "./components/transactionlist/TransactionList.vue";
 
 export default {
   name: "App",
@@ -27,7 +30,9 @@ export default {
     CSSReset,
     TransactionForm,
     TransactionListSection,
+    TransactionList,
   },
+  emits: ["delete"],
   data() {
     return {
       transactions: [

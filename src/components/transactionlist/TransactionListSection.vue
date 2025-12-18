@@ -7,26 +7,18 @@
       </TheTypography>
     </div>
     <div class="transaction-list-section__content">
-      <TransactionList
-        :transactions="transactions"
-        @delete="$emit('delete', $event)"
-      />
+      <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
-import TransactionList from "./TransactionList.vue";
 import TheTypography from "../TheTypography.vue";
 
 export default {
   name: "TransactionListSection",
   emits: ["delete"],
   props: {
-    transactions: {
-      type: Array,
-      required: true,
-    },
     title: {
       type: String,
       required: true,
@@ -36,7 +28,7 @@ export default {
       required: true,
     },
   },
-  components: { TransactionList, TheTypography },
+  components: { TheTypography },
 };
 </script>
 <style scoped>
