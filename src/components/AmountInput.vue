@@ -1,6 +1,6 @@
 <template>
   <TheInput
-    fieldName="Amount"
+    label="Amount"
     type="text"
     v-model="model"
     :hasError="Boolean(amountError)"
@@ -44,7 +44,7 @@ export default {
   },
 
   watch: {
-    ammountError(value) {
+    amountError(value) {
       this.$emit("error", value);
     },
 

@@ -1,6 +1,6 @@
 <template>
   <CSSReset>
-    <TransactionForm blockTitle="Add Transaction"></TransactionForm>
+    <TransactionForm title="Add Transaction"></TransactionForm>
   </CSSReset>
 </template>
 

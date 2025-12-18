@@ -2,7 +2,8 @@
   <TheTextArea
     v-model="model"
     placeholder="Add notes..."
-    fieldName="Add notes"
+    label="Add notes"
+    :maxHeight="135"
   />
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <TheInput
-    fieldName="Category"
+    label="Category"
     type="text"
     v-model="model"
     :hasError="Boolean(categoryError)"
