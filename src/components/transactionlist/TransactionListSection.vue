@@ -33,7 +33,7 @@ export default {
     },
     subtitle: {
       type: String,
-      default: "",
+      required: true,
     },
   },
   components: { TransactionList, TheTypography },
