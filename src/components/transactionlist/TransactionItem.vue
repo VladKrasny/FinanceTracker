@@ -1,17 +1,17 @@
 <template>
-  <div class="transaction">
-    <div class="transaction__left-part">
-      <div class="transaction__category">
+  <div class="transaction-item">
+    <div class="transaction-item__left-part">
+      <div class="transaction-item__category">
         {{ category }}
       </div>
-      <div class="transaction__date">{{ date }}</div>
-      <div class="transaction__description">
+      <div class="transaction-item__date">{{ date }}</div>
+      <div class="transaction-item__description">
         {{ description }}
       </div>
     </div>
 
-    <div class="transaction__right-part">
-      <div class="transaction__amount" :class="amountClass">
+    <div class="transaction-item__right-part">
+      <div class="transaction-item__amount" :class="amountClass">
         {{ formattedAmount }}
       </div>
 
@@ -28,7 +28,7 @@
 import TransactionAction from "./TransactionAction.vue";
 
 export default {
-  name: "TheTransaction",
+  name: "TransactionItem",
   emits: ["delete"],
   components: { TransactionAction },
   props: {
@@ -48,8 +48,8 @@ export default {
   computed: {
     amountClass() {
       return this.type === "income"
-        ? "transaction__amount--income"
-        : "transaction__amount--expense";
+        ? "transaction-item__amount--income"
+        : "transaction-item__amount--expense";
     },
     formattedAmount() {
       const sign = this.type === "income" ? "+" : "-";
@@ -62,29 +62,29 @@ export default {
 </script>
 
 <style scoped>
-.transaction__amount--income {
+.transaction-item__amount--income {
   color: green;
 }
-.transaction__amount--expense {
+.transaction-item__amount--expense {
   color: red;
 }
 
-.transaction__amount {
+.transaction-item__amount {
   font-size: 25px;
   font-weight: 600;
 }
 
-.transaction {
+.transaction-item {
   display: flex;
   justify-content: space-between;
 }
 
-.transaction__category {
+.transaction-item__category {
   font-weight: bold;
   font-size: 18px;
 }
 
-.transaction__description {
+.transaction-item__description {
   font-style: italic;
   color: gray;
 }
@@ -92,7 +92,7 @@ export default {
   color: gray;
 }
 
-.transaction__right-part {
+.transaction-item__right-part {
   display: flex;
   flex-direction: row;
   gap: 20px;
