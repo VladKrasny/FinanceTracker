@@ -45,7 +45,6 @@ export default {
     },
     maxHeight: {
       type: Number,
-      default: null,
       required: true,
     },
   },
@@ -65,17 +64,12 @@ export default {
         this.$emit("update:modelValue", value);
       },
     },
+    getMaxHeight() {
+      return typeof this.maxHeight === "number" ? this.maxHeight : null;
+    },
   },
 
   methods: {
-    getMaxHeight() {
-      if (this.maxHeight == null || this.maxHeight === "") return null;
-
-      if (typeof this.maxHeight === "number") return this.maxHeight;
-
-      return Number(String(this.maxHeight));
-    },
-
     sizeCheck() {
       const el = this.$refs.textArea;
       if (!el) return;
@@ -83,7 +77,7 @@ export default {
       el.style.height = "auto";
 
       const nextHeight = el.scrollHeight;
-      const maxHeight = this.getMaxHeight();
+      const maxHeight = this.getMaxHeight;
 
       const clamped = Math.min(nextHeight, maxHeight);
       el.style.height = `${clamped}px`;

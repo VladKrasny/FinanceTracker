@@ -15,7 +15,7 @@
 
 <script>
 import TheSelect from "./TheSelect.vue";
-import amountInput from "./AmountInput.vue";
+import AmountInput from "./AmountInput.vue";
 import CategoryInput from "./CategoryInput.vue";
 import TheInput from "./TheInput.vue";
 import DescriptionTextArea from "./DescriptionTextArea.vue";
@@ -27,12 +27,13 @@ export default {
   props: {
     title: {
       type: String,
+      required: true,
     },
   },
   components: {
     CategoryInput,
     TheSelect,
-    amountInput,
+    AmountInput,
     TheInput,
     DescriptionTextArea,
     TheButton,

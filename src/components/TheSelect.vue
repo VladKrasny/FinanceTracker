@@ -24,7 +24,7 @@ export default {
     label: { type: String, require: true },
     options: {
       type: Array,
-      require: true,
+      required: true,
     },
     modelValue: {
       type: String,

@@ -26,7 +26,7 @@ export default {
       type: String,
       default: "",
     },
-    label: String,
+    label: { type: String, reuqired: true },
     type: {
       type: String,
       default: "text",
