@@ -2,7 +2,7 @@
   <form class="transaction-form">
     <TheTypography variant="title">{{ title }}</TheTypography>
     <TheSelect label="Type" :options="typeOptions" v-model="typeModel" />
-    <amountInput v-model="amountModel" @error="amountError = $event" />
+    <AmountInput v-model="amountModel" @error="amountError = $event" />
     <CategoryInput v-model="categoryModel" @error="categoryError = $event" />
     <TheInput label="Date" type="date" v-model="dateModel" />
     <DescriptionTextArea

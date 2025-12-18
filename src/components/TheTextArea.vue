@@ -64,24 +64,17 @@ export default {
         this.$emit("update:modelValue", value);
       },
     },
-    getMaxHeight() {
-      return typeof this.maxHeight === "number" ? this.maxHeight : null;
-    },
   },
 
   methods: {
     sizeCheck() {
       const el = this.$refs.textArea;
       if (!el) return;
-
       el.style.height = "auto";
-
       const nextHeight = el.scrollHeight;
-      const maxHeight = this.getMaxHeight;
-
-      const clamped = Math.min(nextHeight, maxHeight);
+      const clamped = Math.min(nextHeight, this.maxHeight);
       el.style.height = `${clamped}px`;
-      el.style.overflowY = nextHeight > maxHeight ? "auto" : "hidden";
+      el.style.overflowY = nextHeight > this.maxHeight ? "auto" : "hidden";
     },
   },
 
