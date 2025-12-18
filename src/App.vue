@@ -32,7 +32,6 @@ export default {
     TransactionListSection,
     TransactionList,
   },
-  emits: ["delete"],
   data() {
     return {
       transactions: [

@@ -17,7 +17,6 @@ import TheTypography from "../TheTypography.vue";
 
 export default {
   name: "TransactionListSection",
-  emits: ["delete"],
   props: {
     title: {
       type: String,
