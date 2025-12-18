@@ -5,8 +5,8 @@
         <TransactionForm></TransactionForm>
         <TransactionListSection
           :transactions="transactions"
-          fieldName="Transaction List"
-          sectionDescription="Manage and filter your transactions"
+          title="Transaction List"
+          subtitle="Manage and filter your transactions"
           @delete="deleteTransaction"
         ></TransactionListSection>
       </div>
