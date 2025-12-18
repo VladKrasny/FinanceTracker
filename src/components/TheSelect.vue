@@ -21,7 +21,7 @@ export default {
   name: "TheSelect",
 
   props: {
-    label: { type: String, require: true },
+    label: { type: String, required: true },
     options: {
       type: Array,
       required: true,
