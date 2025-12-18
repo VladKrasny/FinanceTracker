@@ -1,10 +1,10 @@
 <template>
   <div class="transaction-list-section">
     <div class="transaction-list-section__header">
-      <div class="transaction-list-section__title">{{ fieldName }}</div>
-      <div class="transaction-list-section__subtitle">
-        {{ sectionDescription }}
-      </div>
+      <TheTypography variant="title">{{ title }}</TheTypography>
+      <TheTypography variant="subtitle">
+        {{ subtitle }}
+      </TheTypography>
     </div>
     <div class="transaction-list-section__content">
       <TransactionList
@@ -17,6 +17,7 @@
 
 <script>
 import TransactionList from "./TransactionList.vue";
+import TheTypography from "../TheTypography.vue";
 
 export default {
   name: "TransactionListSection",
@@ -26,16 +27,16 @@ export default {
       type: Array,
       required: true,
     },
-    fieldName: {
+    title: {
       type: String,
       required: true,
     },
-    sectionDescription: {
+    subtitle: {
       type: String,
       default: "",
     },
   },
-  components: { TransactionList },
+  components: { TransactionList, TheTypography },
 };
 </script>
 <style scoped>
@@ -66,15 +67,5 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-.transaction-list-section__title {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.transaction-list-section__subtitle {
-  font-size: 16px;
-  color: gray;
 }
 </style>

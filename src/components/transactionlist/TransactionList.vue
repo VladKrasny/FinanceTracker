@@ -6,13 +6,12 @@
       :key="transaction.id"
     >
       <TransactionItem
-        :id="transaction.id"
         :type="transaction.type"
         :amount="transaction.amount"
         :category="transaction.category"
         :date="transaction.date"
         :description="transaction.description"
-        @delete="$emit('delete', $event)"
+        @delete="$emit('delete', transaction.id)"
       />
     </li>
   </ul>
