@@ -2,7 +2,7 @@
   <form class="transaction-form">
     <TheTypography variant="title">{{ formTitle }}</TheTypography>
     <TheSelect fieldName="Type" :options="typeOptions" v-model="typeModel" />
-    <AmmountInput v-model="ammountModel" @error="ammountError = $event" />
+    <AmmountInput v-model="ammountModel" @error="amountError = $event" />
     <CategoryInput v-model="categoryModel" @error="categoryError = $event" />
     <TheInput fieldName="Date" type="date" v-model="dateModel" />
     <DescriptionTextArea
@@ -50,7 +50,7 @@ export default {
       ammountModel: "",
       descriptionModel: "",
 
-      ammountError: "",
+      amountError: "",
       categoryError: "",
     };
   },
@@ -58,11 +58,12 @@ export default {
     saveData() {
       const newEntry = {
         type: this.typeModel,
-        ammount: this.ammountModel,
+        amount: this.ammountModel,
         category: this.categoryModel,
         date: this.dateModel,
         description: this.descriptionModel,
       };
+
       console.log("Saved Data:", newEntry);
     },
   },
@@ -72,7 +73,7 @@ export default {
         this.ammountModel && this.categoryModel && this.dateModel
       );
 
-      const hasErrors = Boolean(this.ammountError || this.categoryError);
+      const hasErrors = Boolean(this.amountError || this.categoryError);
 
       return !areFieldsValid || hasErrors;
     },

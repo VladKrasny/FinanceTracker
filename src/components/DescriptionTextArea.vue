@@ -34,11 +34,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.description-text-area {
-  height: 135px;
-  overflow: hidden;
-  border-radius: 15px;
-}
-</style>

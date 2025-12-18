@@ -1,11 +1,11 @@
 <template>
   <TheInput
-    fieldName="ammount"
+    fieldName="Amount"
     type="text"
     v-model="model"
-    :hasError="Boolean(ammountError)"
-    :errorMessage="ammountError"
-    placeholder="Enter ammount"
+    :hasError="Boolean(amountError)"
+    :errorMessage="amountError"
+    placeholder="Enter amount"
   />
 </template>
 
@@ -13,7 +13,7 @@
 import TheInput from "./TheInput.vue";
 
 export default {
-  name: "ammountInput",
+  name: "AmountInput",
 
   components: { TheInput },
 
@@ -28,7 +28,7 @@ export default {
 
   data() {
     return {
-      ammountError: "",
+      amountError: "",
     };
   },
 
@@ -52,21 +52,21 @@ export default {
       const val = value.trim();
 
       if (val === "") {
-        this.ammountError = "ammount cannot be empty";
+        this.amountError = "Amount cannot be empty";
         return;
       }
 
       if (isNaN(val)) {
-        this.ammountError = "ammount must be a number";
+        this.amountError = "Amount must be a number";
         return;
       }
 
       if (Number(val) <= 0) {
-        this.ammountError = "Value must be greater than 0";
+        this.amountError = "Value must be greater than 0";
         return;
       }
 
-      this.ammountError = "";
+      this.amountError = "";
     },
   },
 };

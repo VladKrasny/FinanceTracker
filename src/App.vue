@@ -1,15 +1,15 @@
 <template>
   <CSSReset>
     <TheTypography>
-      <TheWrapper>
+      <div class="app">
         <TransactionForm></TransactionForm>
         <TransactionListSection
           :transactions="transactions"
           fieldName="Transaction List"
           sectionDescription="Manage and filter your transactions"
           @delete="deleteTransaction"
-        ></TransactionListSection
-      ></TheWrapper>
+        ></TransactionListSection>
+      </div>
     </TheTypography>
   </CSSReset>
 </template>
@@ -19,7 +19,7 @@ import CSSReset from "./CSSReset.vue";
 import TransactionForm from "./components/TransactionForm.vue";
 import TransactionListSection from "./components/transactionlist/TransactionListSection.vue";
 import TheTypography from "./components/TheTypography.vue";
-import TheWrapper from "./components/TheWrapper.vue";
+
 export default {
   name: "App",
   components: {
@@ -27,7 +27,6 @@ export default {
     CSSReset,
     TransactionForm,
     TransactionListSection,
-    TheWrapper,
   },
   data() {
     return {
@@ -76,3 +75,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.app {
+  display: flex;
+  padding: 100px;
+  gap: 20px;
+}
+</style>
