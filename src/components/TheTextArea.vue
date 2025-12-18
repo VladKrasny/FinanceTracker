@@ -1,6 +1,6 @@
 <template>
   <div class="text-area">
-    <label :for="randomId">{{ fieldName }}</label>
+    <label :for="randomId">{{ label }}</label>
     <textarea
       class="text-area__input"
       ref="textArea"
@@ -26,7 +26,7 @@ export default {
       type: String,
       default: "",
     },
-    fieldName: {
+    label: {
       type: String,
       required: true,
     },
@@ -42,6 +42,11 @@ export default {
     errorMessage: {
       type: String,
       default: "",
+    },
+    maxHeight: {
+      type: Number,
+      default: null,
+      required: true,
     },
   },
   emits: ["update:modelValue"],
@@ -63,11 +68,26 @@ export default {
   },
 
   methods: {
+    getMaxHeight() {
+      if (this.maxHeight == null || this.maxHeight === "") return null;
+
+      if (typeof this.maxHeight === "number") return this.maxHeight;
+
+      return Number(String(this.maxHeight));
+    },
+
     sizeCheck() {
       const el = this.$refs.textArea;
       if (!el) return;
+
       el.style.height = "auto";
-      el.style.height = el.scrollHeight + "px";
+
+      const nextHeight = el.scrollHeight;
+      const maxHeight = this.getMaxHeight();
+
+      const clamped = Math.min(nextHeight, maxHeight);
+      el.style.height = `${clamped}px`;
+      el.style.overflowY = nextHeight > maxHeight ? "auto" : "hidden";
     },
   },
 
@@ -96,6 +116,7 @@ export default {
   border-radius: 15px;
   border: 1px solid gray;
   padding: 10px;
+  resize: none;
 }
 .text-area__input--error {
   border-color: red;

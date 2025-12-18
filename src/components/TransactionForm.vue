@@ -1,12 +1,12 @@
 <template>
   <form class="transaction-form">
-    <TheTypography variant="title">{{ formTitle }}</TheTypography>
-    <TheSelect fieldName="Type" :options="typeOptions" v-model="typeModel" />
-    <AmmountInput v-model="ammountModel" @error="amountError = $event" />
+    <TheTypography variant="title">{{ title }}</TheTypography>
+    <TheSelect label="Type" :options="typeOptions" v-model="typeModel" />
+    <amountInput v-model="amountModel" @error="amountError = $event" />
     <CategoryInput v-model="categoryModel" @error="categoryError = $event" />
-    <TheInput fieldName="Date" type="date" v-model="dateModel" />
+    <TheInput label="Date" type="date" v-model="dateModel" />
     <DescriptionTextArea
-      fieldName="Discription (optional)"
+      label="Discription (optional)"
       v-model="descriptionModel"
     />
     <TheButton label="Add" :disabled="isDisabled" @click="saveData" />
@@ -14,29 +14,29 @@
 </template>
 
 <script>
-import TheTypography from "./TheTypography.vue";
 import TheSelect from "./TheSelect.vue";
-import AmmountInput from "./AmmountInput.vue";
+import amountInput from "./AmountInput.vue";
 import CategoryInput from "./CategoryInput.vue";
 import TheInput from "./TheInput.vue";
 import DescriptionTextArea from "./DescriptionTextArea.vue";
 import TheButton from "./TheButton.vue";
+import TheTypography from "./TheTypography.vue";
 
 export default {
   name: "TransactionForm",
   props: {
-    formTitle: {
+    title: {
       type: String,
     },
   },
   components: {
     CategoryInput,
-    TheTypography,
     TheSelect,
-    AmmountInput,
+    amountInput,
     TheInput,
     DescriptionTextArea,
     TheButton,
+    TheTypography,
   },
   data() {
     return {
@@ -47,7 +47,7 @@ export default {
       typeModel: "expense",
       dateModel: "",
       categoryModel: "",
-      ammountModel: "",
+      amountModel: "",
       descriptionModel: "",
 
       amountError: "",
@@ -58,7 +58,7 @@ export default {
     saveData() {
       const newEntry = {
         type: this.typeModel,
-        amount: this.ammountModel,
+        amount: this.amountModel,
         category: this.categoryModel,
         date: this.dateModel,
         description: this.descriptionModel,
@@ -70,7 +70,7 @@ export default {
   computed: {
     isDisabled() {
       const areFieldsValid = Boolean(
-        this.ammountModel && this.categoryModel && this.dateModel
+        this.amountModel && this.categoryModel && this.dateModel
       );
 
       const hasErrors = Boolean(this.amountError || this.categoryError);
@@ -86,6 +86,7 @@ export default {
   padding: 20px;
   background-color: rgb(210, 209, 209);
   width: 400px;
+  min-width: 400px;
   height: auto;
   display: flex;
   flex-direction: column;
