@@ -1,6 +1,6 @@
 <template>
   <div class="select">
-    <label :for="randomId">{{ fieldName }}</label>
+    <label :for="randomId">{{ label }}</label>
 
     <select class="select__options" :id="randomId" v-model="model">
       <option
@@ -21,10 +21,10 @@ export default {
   name: "TheSelect",
 
   props: {
-    fieldName: String,
+    label: { type: String, required: true },
     options: {
       type: Array,
-      require: true,
+      required: true,
     },
     modelValue: {
       type: String,

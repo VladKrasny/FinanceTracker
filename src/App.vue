@@ -2,7 +2,7 @@
   <CSSReset>
     <TheTypography>
       <div class="app">
-        <TransactionForm blockTitle="Add Transaction"></TransactionForm>
+        <TransactionForm title="Add Transaction"></TransactionForm>
         <TransactionListSection
           :transactions="transactions"
           title="Transaction List"

@@ -1,6 +1,6 @@
 <template>
   <div class="input">
-    <label :for="randomId">{{ fieldName }}</label>
+    <label :for="randomId">{{ label }}</label>
     <input
       class="input__field"
       :type="type"
@@ -26,7 +26,7 @@ export default {
       type: String,
       default: "",
     },
-    fieldName: String,
+    label: { type: String, required: true },
     type: {
       type: String,
       default: "text",
