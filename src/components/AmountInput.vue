@@ -1,6 +1,6 @@
 <template>
   <TheInput
-    titl="Amount"
+    label="Amount"
     type="text"
     v-model="model"
     :hasError="Boolean(amountError)"
