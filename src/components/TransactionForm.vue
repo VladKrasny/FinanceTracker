@@ -51,6 +51,8 @@ export default {
       categoryModel: "",
       amountModel: "",
       descriptionModel: "",
+      amountError: "",
+      categoryError: "",
     };
   },
   methods: {
@@ -72,8 +74,6 @@ export default {
       this.categoryModel = "";
       this.dateModel = "";
       this.descriptionModel = "";
-      this.amountError = "";
-      this.categoryError = "";
     },
   },
   computed: {
