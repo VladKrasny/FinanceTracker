@@ -1,5 +1,5 @@
 <template>
-  <form class="transaction-form" @submit.prevent="saveReset">
+  <form class="transaction-form" @submit.prevent="submitAndReset">
     <TheTypography variant="title">{{ title }}</TheTypography>
     <TheSelect label="Type" :options="typeOptions" v-model="typeModel" />
     <AmountInput v-model="amountModel" @error="amountError = $event" />
@@ -51,13 +51,10 @@ export default {
       categoryModel: "",
       amountModel: "",
       descriptionModel: "",
-
-      amountError: "",
-      categoryError: "",
     };
   },
   methods: {
-    saveReset() {
+    submitAndReset() {
       const newEntry = {
         type: this.typeModel,
         amount: this.amountModel,
