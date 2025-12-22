@@ -1,5 +1,5 @@
 <template>
-  <form class="transaction-form">
+  <form class="transaction-form" @submit.prevent="submitAndReset">
     <TheTypography variant="title">{{ title }}</TheTypography>
     <TheSelect label="Type" :options="typeOptions" v-model="typeModel" />
     <AmountInput v-model="amountModel" @error="amountError = $event" />
@@ -9,7 +9,7 @@
       label="Discription (optional)"
       v-model="descriptionModel"
     />
-    <TheButton label="Add" :disabled="isDisabled" @click="saveData" />
+    <TheButton label="Add" :disabled="isDisabled" />
   </form>
 </template>
 
@@ -30,6 +30,7 @@ export default {
       required: true,
     },
   },
+  emits: ["submit"],
   components: {
     CategoryInput,
     TheSelect,
@@ -50,13 +51,12 @@ export default {
       categoryModel: "",
       amountModel: "",
       descriptionModel: "",
-
       amountError: "",
       categoryError: "",
     };
   },
   methods: {
-    saveData() {
+    submitAndReset() {
       const newEntry = {
         type: this.typeModel,
         amount: this.amountModel,
@@ -65,7 +65,15 @@ export default {
         description: this.descriptionModel,
       };
 
-      console.log("Saved Data:", newEntry);
+      this.$emit("submit", newEntry);
+      this.resetForm();
+    },
+    resetForm() {
+      this.typeModel = "expense";
+      this.amountModel = "";
+      this.categoryModel = "";
+      this.dateModel = "";
+      this.descriptionModel = "";
     },
   },
   computed: {

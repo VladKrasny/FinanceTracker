@@ -2,14 +2,17 @@
   <CSSReset>
     <TheTypography>
       <div class="app">
-        <TransactionForm title="Add Transaction"></TransactionForm>
+        <TransactionForm
+          title="Add Transaction"
+          @submit="saveNewTransaction"
+        ></TransactionForm>
         <TransactionListSection
-          :transactions="transactions"
           title="Transaction List"
           subtitle="Manage and filter your transactions"
-          @delete="deleteTransaction"
         >
-          <TransactionList :transactions @delete="deleteTransaction"
+          <TransactionList
+            :transactions="transactions"
+            @delete="deleteTransaction"
         /></TransactionListSection>
       </div>
     </TheTypography>
@@ -17,6 +20,7 @@
 </template>
 
 <script>
+import { generateId } from "./utils/generateId";
 import CSSReset from "./CSSReset.vue";
 import TransactionForm from "./components/TransactionForm.vue";
 import TransactionListSection from "./components/transactionlist/TransactionListSection.vue";
@@ -75,6 +79,13 @@ export default {
       this.transactions = this.transactions.filter(
         (transaction) => transaction.id !== id
       );
+    },
+    saveNewTransaction(newEntry) {
+      const newTransaction = {
+        id: generateId("transaction"),
+        ...newEntry,
+      };
+      this.transactions.push(newTransaction);
     },
   },
 };
