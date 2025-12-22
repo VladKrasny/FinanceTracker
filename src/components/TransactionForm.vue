@@ -3,7 +3,11 @@
     <TheTypography variant="title">{{ title }}</TheTypography>
     <TheSelect label="Type" :options="typeOptions" v-model="typeModel" />
     <AmountInput v-model="amountModel" @error="amountError = $event" />
-    <CategoryInput v-model="categoryModel" @error="categoryError = $event" />
+    <TheSelect
+      label="Category"
+      :options="categoryOptions"
+      v-model="categoryModel"
+    />
     <TheInput label="Date" type="date" v-model="dateModel" />
     <DescriptionTextArea
       label="Discription (optional)"
@@ -16,7 +20,6 @@
 <script>
 import TheSelect from "./TheSelect.vue";
 import AmountInput from "./AmountInput.vue";
-import CategoryInput from "./CategoryInput.vue";
 import TheInput from "./TheInput.vue";
 import DescriptionTextArea from "./DescriptionTextArea.vue";
 import TheButton from "./TheButton.vue";
@@ -29,10 +32,10 @@ export default {
       type: String,
       required: true,
     },
+    categoryOptions: { type: Array, required: true },
   },
   emits: ["submit"],
   components: {
-    CategoryInput,
     TheSelect,
     AmountInput,
     TheInput,
@@ -52,7 +55,6 @@ export default {
       amountModel: "",
       descriptionModel: "",
       amountError: "",
-      categoryError: "",
     };
   },
   methods: {
@@ -80,7 +82,7 @@ export default {
     isDisabled() {
       const areFieldsValid = Boolean(this.dateModel);
 
-      const hasErrors = Boolean(this.amountError || this.categoryError);
+      const hasErrors = Boolean(this.amountError);
 
       return !areFieldsValid || hasErrors;
     },
