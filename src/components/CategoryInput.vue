@@ -18,7 +18,6 @@ export default {
   props: {
     modelValue: {
       type: String,
-      default: "",
       required: true,
     },
   },
@@ -47,11 +46,6 @@ export default {
 
     model(value) {
       const val = value.trim();
-
-      if (value === "") {
-        this.categoryError = "";
-        return;
-      }
 
       if (val.length > 0 && !/^[A-Za-z\s]+$/.test(val)) {
         this.categoryError = "Category must contain only letters and spaces";
