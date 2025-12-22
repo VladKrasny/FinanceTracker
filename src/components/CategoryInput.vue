@@ -1,6 +1,6 @@
 <template>
   <TheInput
-    label="Category"
+    fieldName="Category"
     type="text"
     v-model="model"
     :hasError="Boolean(categoryError)"
@@ -11,9 +11,18 @@
 
 <script>
 import TheInput from "./TheInput.vue";
+
 export default {
   name: "CategoryInput",
   components: { TheInput },
+  props: {
+    modelValue: {
+      type: String,
+      default: "",
+    },
+  },
+
+  emits: ["modelValue", "error"],
 
   data() {
     return {
@@ -31,20 +40,15 @@ export default {
     },
   },
   watch: {
-    categotryError(value) {
+    categoryError(value) {
       this.$emit("error", value);
     },
 
     model(value) {
       const val = value.trim();
 
-      if (val === "") {
-        this.categoryError = "Category cannot be empty";
-        return;
-      }
-
-      if (val.length < 3) {
-        this.categoryError = "Category must be at least 3 characters long";
+      if (value === "") {
+        this.categoryError = "";
         return;
       }
 
