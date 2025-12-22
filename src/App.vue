@@ -5,7 +5,7 @@
         <TransactionForm
           title="Add Transaction"
           @submit="saveNewTransaction"
-          :categories="categories"
+          :categoryOptions="categoryOptions"
         ></TransactionForm>
         <TransactionListSection
           title="Transaction List"
@@ -73,7 +73,7 @@ export default {
           description: "Birthday gift",
         },
       ],
-      categories: [
+      categoryOptions: [
         { value: "Food", label: "Food" },
         { value: "Salary", label: "Salary" },
         { value: "Transport", label: "Transport" },

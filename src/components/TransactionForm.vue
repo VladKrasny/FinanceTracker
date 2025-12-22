@@ -3,7 +3,11 @@
     <TheTypography variant="title">{{ title }}</TheTypography>
     <TheSelect label="Type" :options="typeOptions" v-model="typeModel" />
     <AmountInput v-model="amountModel" @error="amountError = $event" />
-    <TheSelect label="Category" :options="categories" v-model="categoryModel" />
+    <TheSelect
+      label="Category"
+      :options="categoryOptions"
+      v-model="categoryModel"
+    />
     <TheInput label="Date" type="date" v-model="dateModel" />
     <DescriptionTextArea
       label="Discription (optional)"
@@ -28,7 +32,7 @@ export default {
       type: String,
       required: true,
     },
-    categories: { type: Array, required: true },
+    categoryOptions: { type: Array, required: true },
   },
   emits: ["submit"],
   components: {
