@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     isDisabled() {
-      const areFieldsValid = Boolean(this.amountModel && this.dateModel);
+      const areFieldsValid = Boolean(this.dateModel);
 
       const hasErrors = Boolean(this.amountError || this.categoryError);
 

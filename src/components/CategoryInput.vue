@@ -19,6 +19,7 @@ export default {
     modelValue: {
       type: String,
       default: "",
+      required: true,
     },
   },
 
@@ -52,7 +53,7 @@ export default {
         return;
       }
 
-      if (!/^[A-Za-z\s]+$/.test(val)) {
+      if (val.length > 0 && !/^[A-Za-z\s]+$/.test(val)) {
         this.categoryError = "Category must contain only letters and spaces";
         return;
       }
