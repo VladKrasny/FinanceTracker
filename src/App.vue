@@ -2,19 +2,29 @@
   <CSSReset>
     <TheTypography>
       <div class="app">
-        <TransactionForm
-          title="Add Transaction"
-          @submit="saveNewTransaction"
-          :categoryOptions="categoryOptions"
-        ></TransactionForm>
-        <TransactionListSection
-          title="Transaction List"
-          subtitle="Manage and filter your transactions"
-        >
-          <TransactionList
-            :transactions="transactions"
-            @delete="deleteTransaction"
-        /></TransactionListSection>
+        <div class="app__top">
+          <TransactionForm
+            title="Add Transaction"
+            @submit="saveNewTransaction"
+            :categoryOptions="categoryOptions"
+          ></TransactionForm>
+          <TransactionListSection
+            title="Transaction List"
+            subtitle="Manage and filter your transactions"
+          >
+            <TransactionList
+              :transactions="transactions"
+              @delete="deleteTransaction"
+            />
+          </TransactionListSection>
+        </div>
+        <div class="app__bottom">
+          <NewCategoryCreate
+            title="Add new category"
+            subtitle="Create a custom category for your transaction"
+            @submit="addNewCategory"
+          />
+        </div>
       </div>
     </TheTypography>
   </CSSReset>
@@ -27,6 +37,7 @@ import TransactionForm from "./components/TransactionForm.vue";
 import TransactionListSection from "./components/transactionlist/TransactionListSection.vue";
 import TheTypography from "./components/TheTypography.vue";
 import TransactionList from "./components/transactionlist/TransactionList.vue";
+import NewCategoryCreate from "./components/newtransaction/NewCategoryCreate.vue";
 
 export default {
   name: "App",
@@ -36,6 +47,7 @@ export default {
     TransactionForm,
     TransactionListSection,
     TransactionList,
+    NewCategoryCreate,
   },
   data() {
     return {
@@ -93,14 +105,30 @@ export default {
       };
       this.transactions.push(newTransaction);
     },
+    addNewCategory(addCategory) {
+      const name = String(addCategory).trim();
+      if (!name) return;
+
+      const exists = this.categoryOptions.some(
+        (c) => c.value.toLowerCase() === name.toLowerCase()
+      );
+      if (exists) return;
+
+      this.categoryOptions.push({ value: name, label: name });
+    },
   },
 };
 </script>
 
 <style scoped>
 .app {
-  display: flex;
   padding: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.app__top {
+  display: flex;
   gap: 20px;
 }
 </style>
