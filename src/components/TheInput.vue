@@ -1,15 +1,16 @@
 <template>
   <div class="input">
-    <label v-if="label" :for="randomId">{{ label }}</label>
+    <label :for="randomId">{{ label }}</label>
     <input
       class="input__field"
       :type="type"
       :id="randomId"
       v-model="model"
       :placeholder="placeholder"
-      :class="{ 'input__field--error': hasError }"
+      :class="{ 'input__field--error': hasError && touched }"
+      @input="touched = true"
     />
-    <p v-if="errorMessage" class="input__error-message">
+    <p v-if="errorMessage && touched" class="input__error-message">
       {{ errorMessage }}
     </p>
   </div>
@@ -22,35 +23,29 @@ export default {
   name: "TheInput",
 
   props: {
-    placeholder: {
-      type: String,
-      default: "",
-    },
+    placeholder: { type: String, default: "" },
     label: { type: String, required: false },
-    type: {
-      type: String,
-      default: "text",
-    },
-    modelValue: {
-      type: String,
-      default: "",
-    },
-    hasError: {
-      type: Boolean,
-      default: false,
-    },
-    errorMessage: {
-      type: String,
-      default: "",
-    },
+    type: { type: String, default: "text" },
+    modelValue: { type: String, default: "" },
+    hasError: { type: Boolean, default: false },
+    errorMessage: { type: String, default: "" },
   },
 
   emits: ["update:modelValue"],
 
   data() {
     return {
+      touched: false,
       randomId: generateId("input"),
     };
+  },
+
+  watch: {
+    modelValue(newValue) {
+      if (newValue === "") {
+        this.touched = false;
+      }
+    },
   },
 
   computed: {
