@@ -1,7 +1,8 @@
 <template>
-  <div class="new-transaction">
+  <form class="new-transaction" @submit.prevent="submit">
     <TheTypography variant="title">{{ title }}</TheTypography>
     <TheTypography variant="subtitle">{{ subtitle }}</TheTypography>
+
     <div class="new-transaction__input-button">
       <div class="new-transaction__input">
         <NewCategoryInput
@@ -9,15 +10,16 @@
           @error="newCategoryError = $event"
         />
       </div>
+
       <div class="new-transaction__button">
         <TheButton
+          type="submit"
           label="Add Category"
           :disabled="Boolean(newCategoryError) || !newCategoryModel.trim()"
-          @click="submit"
         />
       </div>
     </div>
-  </div>
+  </form>
 </template>
 <script>
 import TheTypography from "../TheTypography.vue";
@@ -50,9 +52,9 @@ export default {
   },
   methods: {
     submit() {
-      const addCategory = this.newCategoryModel.trim();
-      if (!addCategory || this.newCategoryError) return;
-      this.$emit("submit", addCategory);
+      const Category = this.newCategoryModel.trim();
+      if (!Category || this.newCategoryError) return;
+      this.$emit("submit", Category);
       this.newCategoryModel = "";
     },
   },

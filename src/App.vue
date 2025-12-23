@@ -105,8 +105,8 @@ export default {
       };
       this.transactions.push(newTransaction);
     },
-    addNewCategory(addCategory) {
-      const name = String(addCategory).trim();
+    addNewCategory(Category) {
+      const name = String(Category).trim();
       if (!name) return;
 
       const exists = this.categoryOptions.some(
