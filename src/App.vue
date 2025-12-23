@@ -19,7 +19,7 @@
           </TransactionListSection>
         </div>
         <div class="app__bottom">
-          <NewCategoryCreate
+          <NewCategoryForm
             title="Add new category"
             subtitle="Create a custom category for your transaction"
             @submit="addNewCategory"
@@ -37,7 +37,7 @@ import TransactionForm from "./components/TransactionForm.vue";
 import TransactionListSection from "./components/transactionlist/TransactionListSection.vue";
 import TheTypography from "./components/TheTypography.vue";
 import TransactionList from "./components/transactionlist/TransactionList.vue";
-import NewCategoryCreate from "./components/newtransaction/NewCategoryCreate.vue";
+import NewCategoryForm from "./components/newtransaction/NewCategoryForm.vue";
 
 export default {
   name: "App",
@@ -47,7 +47,7 @@ export default {
     TransactionForm,
     TransactionListSection,
     TransactionList,
-    NewCategoryCreate,
+    NewCategoryForm,
   },
   data() {
     return {
@@ -105,8 +105,8 @@ export default {
       };
       this.transactions.push(newTransaction);
     },
-    addNewCategory(Category) {
-      const name = String(Category).trim();
+    addNewCategory(trimmedCategory) {
+      const name = String(trimmedCategory).trim();
       if (!name) return;
 
       const exists = this.categoryOptions.some(

@@ -1,6 +1,6 @@
 <template>
   <div class="input">
-    <label :for="randomId">{{ label }}</label>
+    <label v-if="label" :for="randomId">{{ label }}</label>
     <input
       class="input__field"
       :type="type"

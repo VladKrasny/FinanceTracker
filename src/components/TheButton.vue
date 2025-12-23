@@ -42,13 +42,10 @@ export default {
   cursor: pointer;
   font-size: 16px;
   width: 100%;
-  height: 100%;
 }
 .button--disabled {
   background-color: #a0a0a0;
   cursor: not-allowed;
   opacity: 0.7;
-  width: 100%;
-  height: 100%;
 }
 </style>

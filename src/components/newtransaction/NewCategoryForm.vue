@@ -1,21 +1,21 @@
 <template>
-  <form class="new-transaction" @submit.prevent="submit">
+  <form class="new-category-form" @submit.prevent="submit">
     <TheTypography variant="title">{{ title }}</TheTypography>
     <TheTypography variant="subtitle">{{ subtitle }}</TheTypography>
 
-    <div class="new-transaction__input-button">
-      <div class="new-transaction__input">
+    <div class="new-category-form__input-button">
+      <div class="new-category-form__input">
         <NewCategoryInput
           v-model="newCategoryModel"
           @error="newCategoryError = $event"
         />
       </div>
 
-      <div class="new-transaction__button">
+      <div class="new-category-form__button">
         <TheButton
           type="submit"
           label="Add Category"
-          :disabled="Boolean(newCategoryError) || !newCategoryModel.trim()"
+          :disabled="Boolean(newCategoryError)"
         />
       </div>
     </div>
@@ -27,7 +27,7 @@ import TheButton from "../TheButton.vue";
 import NewCategoryInput from "./NewCategoryInput.vue";
 
 export default {
-  name: "NewCategoryCreate",
+  name: "NewCategoryForm",
   props: {
     title: {
       type: String,
@@ -52,9 +52,9 @@ export default {
   },
   methods: {
     submit() {
-      const Category = this.newCategoryModel.trim();
-      if (!Category || this.newCategoryError) return;
-      this.$emit("submit", Category);
+      const trimmedCategory = this.newCategoryModel.trim();
+      if (!trimmedCategory || this.newCategoryError) return;
+      this.$emit("submit", trimmedCategory);
       this.newCategoryModel = "";
     },
   },
@@ -62,7 +62,7 @@ export default {
 </script>
 
 <style scoped>
-.new-transaction {
+.new-category-form {
   max-width: 1420px;
   height: 200px;
   border-radius: 15px;
@@ -77,7 +77,7 @@ export default {
   min-width: 820px;
 }
 
-.new-transaction__input-button {
+.new-category-form__input-button {
   display: flex;
   flex-direction: row;
   max-width: 1370px;
@@ -85,11 +85,11 @@ export default {
   gap: 20px;
   justify-content: space-between;
 }
-.new-transaction__input {
+.new-category-form__input {
   width: 100%;
   height: 45px;
 }
-.new-transaction__button {
+.new-category-form__button {
   width: 300px;
   height: 45px;
 }
