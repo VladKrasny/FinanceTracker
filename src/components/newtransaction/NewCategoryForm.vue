@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     submit() {
-      const trimmedCategory = this.newCategoryModel.trim();
+      const trimmedCategory = this.newCategoryModel;
       if (!trimmedCategory || this.newCategoryError) return;
       this.$emit("submit", trimmedCategory);
       this.newCategoryModel = "";

@@ -13,7 +13,7 @@ import TheInput from "../TheInput.vue";
 export default {
   name: "NewCategoryInput",
   props: {
-    modelValue: { type: String, default: "" },
+    modelValue: { type: String, requiered: true },
   },
   components: {
     TheInput,
@@ -30,7 +30,7 @@ export default {
         return this.modelValue;
       },
       set(value) {
-        this.$emit("update:modelValue", value);
+        this.$emit("update:modelValue", value.trim());
       },
     },
   },
@@ -39,9 +39,7 @@ export default {
       return this.$emit("error", value);
     },
     model(value) {
-      const val = value.trim();
-
-      if (val.length === 0) {
+      if (value.length === 0) {
         this.newCategoryError = "Category cannot be empty";
         return;
       }
