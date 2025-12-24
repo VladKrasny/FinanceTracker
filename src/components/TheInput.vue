@@ -1,6 +1,6 @@
 <template>
   <div class="input">
-    <label :for="randomId">{{ label }}</label>
+    <label v-if="label" :for="randomId">{{ label }}</label>
     <input
       class="input__field"
       :type="type"
@@ -23,12 +23,27 @@ export default {
   name: "TheInput",
 
   props: {
-    placeholder: { type: String, default: "" },
+    placeholder: {
+      type: String,
+      default: "",
+    },
     label: { type: String, required: false },
-    type: { type: String, default: "text" },
-    modelValue: { type: String, default: "" },
-    hasError: { type: Boolean, default: false },
-    errorMessage: { type: String, default: "" },
+    type: {
+      type: String,
+      default: "text",
+    },
+    modelValue: {
+      type: String,
+      default: "",
+    },
+    hasError: {
+      type: Boolean,
+      default: false,
+    },
+    errorMessage: {
+      type: String,
+      default: "",
+    },
   },
 
   emits: ["update:modelValue"],
