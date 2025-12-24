@@ -3,14 +3,11 @@
     <div class="filtered-categories-item__label">
       {{ category.label }}
     </div>
-
-    <div class="filtered-categories-item__actions">
-      <TransactionAction
-        variant="delete"
-        iconSymbol="delete"
-        @click="$emit('delete', category.id)"
-      />
-    </div>
+    <TransactionAction
+      variant="delete"
+      iconSymbol="delete"
+      @click="$emit('delete', category.id)"
+    />
   </div>
 </template>
 
