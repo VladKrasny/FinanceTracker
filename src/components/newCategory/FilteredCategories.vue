@@ -6,11 +6,7 @@
     }}</TheTypography>
 
     <ul class="filtered-categories__list">
-      <li
-        class="filtered-categories__category"
-        v-for="category in categories"
-        :key="category.id"
-      >
+      <li v-for="category in categories" :key="category.id">
         <FilteredCategoriesItem
           :category="category"
           @delete="$emit('delete', $event)"
