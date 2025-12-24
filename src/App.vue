@@ -102,8 +102,6 @@ export default {
       this.transactions.push(newTransaction);
     },
     addNewCategory(category) {
-      if (!category) return;
-
       const exists = this.categoryOptions.some(
         (c) => c.value.toLowerCase() === category.toLowerCase()
       );
