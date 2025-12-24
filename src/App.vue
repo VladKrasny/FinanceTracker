@@ -101,17 +101,17 @@ export default {
       };
       this.transactions.push(newTransaction);
     },
-    addNewCategory(trimmedCategory) {
-      if (!trimmedCategory) return;
+    addNewCategory(category) {
+      if (!category) return;
 
       const exists = this.categoryOptions.some(
-        (c) => c.value.toLowerCase() === trimmedCategory.toLowerCase()
+        (c) => c.value.toLowerCase() === category.toLowerCase()
       );
       if (exists) return;
 
       this.categoryOptions.push({
-        value: trimmedCategory,
-        label: trimmedCategory,
+        value: category,
+        label: category,
       });
     },
   },

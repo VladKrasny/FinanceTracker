@@ -44,9 +44,8 @@ export default {
   },
   methods: {
     submit() {
-      const trimmedCategory = String(this.newCategoryModel);
-      if (!trimmedCategory || this.newCategoryError) return;
-      this.$emit("submit", trimmedCategory);
+      if (!this.newCategoryModel || this.newCategoryError) return;
+      this.$emit("submit", this.newCategoryModel);
       this.newCategoryModel = "";
     },
   },
