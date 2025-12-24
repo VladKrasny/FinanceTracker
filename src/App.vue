@@ -2,19 +2,25 @@
   <CSSReset>
     <TheTypography>
       <div class="app">
-        <TransactionForm
-          title="Add Transaction"
-          @submit="saveNewTransaction"
-          :categoryOptions="categoryOptions"
-        ></TransactionForm>
-        <TransactionListSection
-          title="Transaction List"
-          subtitle="Manage and filter your transactions"
-        >
-          <TransactionList
-            :transactions="transactions"
-            @delete="deleteTransaction"
-        /></TransactionListSection>
+        <div class="app__top">
+          <TransactionForm
+            title="Add Transaction"
+            @submit="saveNewTransaction"
+            :categoryOptions="categoryOptions"
+          ></TransactionForm>
+          <TransactionListSection
+            title="Transaction List"
+            subtitle="Manage and filter your transactions"
+          >
+            <TransactionList
+              :transactions="transactions"
+              @delete="deleteTransaction"
+            />
+          </TransactionListSection>
+        </div>
+        <div class="app__bottom">
+          <NewCategoryForm @submit="addNewCategory" />
+        </div>
       </div>
     </TheTypography>
   </CSSReset>
@@ -27,6 +33,7 @@ import TransactionForm from "./components/TransactionForm.vue";
 import TransactionListSection from "./components/transactionlist/TransactionListSection.vue";
 import TheTypography from "./components/TheTypography.vue";
 import TransactionList from "./components/transactionlist/TransactionList.vue";
+import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
 
 export default {
   name: "App",
@@ -36,6 +43,7 @@ export default {
     TransactionForm,
     TransactionListSection,
     TransactionList,
+    NewCategoryForm,
   },
   data() {
     return {
@@ -93,14 +101,30 @@ export default {
       };
       this.transactions.push(newTransaction);
     },
+    addNewCategory(category) {
+      const exists = this.categoryOptions.some(
+        (c) => c.value.toLowerCase() === category.toLowerCase()
+      );
+      if (exists) return;
+
+      this.categoryOptions.push({
+        value: category,
+        label: category,
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
 .app {
-  display: flex;
   padding: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.app__top {
+  display: flex;
   gap: 20px;
 }
 </style>

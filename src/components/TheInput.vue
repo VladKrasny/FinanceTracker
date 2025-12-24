@@ -1,6 +1,6 @@
 <template>
   <div class="input">
-    <label :for="randomId">{{ label }}</label>
+    <label v-if="label" :for="randomId">{{ label }}</label>
     <input
       class="input__field"
       :type="type"
@@ -26,7 +26,7 @@ export default {
       type: String,
       default: "",
     },
-    label: { type: String, required: true },
+    label: { type: String, required: false },
     type: {
       type: String,
       default: "text",

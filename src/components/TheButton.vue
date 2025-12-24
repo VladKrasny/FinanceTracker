@@ -41,6 +41,7 @@ export default {
   border-radius: 15px;
   cursor: pointer;
   font-size: 16px;
+  width: 100%;
 }
 .button--disabled {
   background-color: #a0a0a0;
