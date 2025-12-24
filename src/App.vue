@@ -19,11 +19,7 @@
           </TransactionListSection>
         </div>
         <div class="app__bottom">
-          <NewCategoryForm
-            title="Add new category"
-            subtitle="Create a custom category for your transaction"
-            @submit="addNewCategory"
-          />
+          <NewCategoryForm @submit="addNewCategory" />
         </div>
       </div>
     </TheTypography>
@@ -37,7 +33,7 @@ import TransactionForm from "./components/TransactionForm.vue";
 import TransactionListSection from "./components/transactionlist/TransactionListSection.vue";
 import TheTypography from "./components/TheTypography.vue";
 import TransactionList from "./components/transactionlist/TransactionList.vue";
-import NewCategoryForm from "./components/newtransaction/NewCategoryForm.vue";
+import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
 
 export default {
   name: "App",
@@ -106,15 +102,17 @@ export default {
       this.transactions.push(newTransaction);
     },
     addNewCategory(trimmedCategory) {
-      const name = String(trimmedCategory).trim();
-      if (!name) return;
+      if (!trimmedCategory) return;
 
       const exists = this.categoryOptions.some(
-        (c) => c.value.toLowerCase() === name.toLowerCase()
+        (c) => c.value.toLowerCase() === trimmedCategory.toLowerCase()
       );
       if (exists) return;
 
-      this.categoryOptions.push({ value: name, label: name });
+      this.categoryOptions.push({
+        value: trimmedCategory,
+        label: trimmedCategory,
+      });
     },
   },
 };

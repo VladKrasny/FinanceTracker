@@ -1,7 +1,9 @@
 <template>
   <form class="new-category-form" @submit.prevent="submit">
-    <TheTypography variant="title">{{ title }}</TheTypography>
-    <TheTypography variant="subtitle">{{ subtitle }}</TheTypography>
+    <TheTypography variant="title">Add new category</TheTypography>
+    <TheTypography variant="subtitle"
+      >Create a custom category for your transaction</TheTypography
+    >
 
     <div class="new-category-form__input-button">
       <div class="new-category-form__input">
@@ -28,16 +30,6 @@ import NewCategoryInput from "./NewCategoryInput.vue";
 
 export default {
   name: "NewCategoryForm",
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    subtitle: {
-      type: String,
-      required: true,
-    },
-  },
   emits: ["submit"],
   data() {
     return {
@@ -52,7 +44,7 @@ export default {
   },
   methods: {
     submit() {
-      const trimmedCategory = this.newCategoryModel;
+      const trimmedCategory = String(this.newCategoryModel).trim();
       if (!trimmedCategory || this.newCategoryError) return;
       this.$emit("submit", trimmedCategory);
       this.newCategoryModel = "";
@@ -87,7 +79,6 @@ export default {
 }
 .new-category-form__input {
   width: 100%;
-  height: 45px;
 }
 .new-category-form__button {
   width: 300px;
