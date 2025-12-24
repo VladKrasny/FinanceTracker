@@ -47,7 +47,5 @@ export default {
   background-color: #a0a0a0;
   cursor: not-allowed;
   opacity: 0.7;
-  width: 100%;
-  height: 100%;
 }
 </style>
