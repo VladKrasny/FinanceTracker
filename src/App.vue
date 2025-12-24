@@ -24,6 +24,18 @@
             @submit="addNewCategory"
             :transactionTypeOptions="transactionTypeOptions"
           />
+          <FilteredCategories
+            title="Income Categories"
+            subtitle="Manage income categories for your transactions"
+            :categories="incomeCategories"
+            @delete="deleteCategory"
+          />
+          <FilteredCategories
+            title="Expense Categories"
+            subtitle="Manage expense categories for your transactions"
+            :categories="expenseCategories"
+            @delete="deleteCategory"
+          />
         </div>
       </div>
     </TheTypography>
@@ -38,6 +50,7 @@ import TransactionListSection from "./components/transactionlist/TransactionList
 import TheTypography from "./components/TheTypography.vue";
 import TransactionList from "./components/transactionlist/TransactionList.vue";
 import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
+import FilteredCategories from "./components/newCategory/FilteredCategories.vue";
 
 export default {
   name: "App",
@@ -48,6 +61,7 @@ export default {
     TransactionListSection,
     TransactionList,
     NewCategoryForm,
+    FilteredCategories,
   },
   data() {
     return {
@@ -90,16 +104,29 @@ export default {
         },
       ],
       categoryOptions: [
-        { value: "Food", label: "Food", type: "expense" },
-        { value: "Salary", label: "Salary", type: "income" },
-        { value: "Transport", label: "Transport", type: "expense" },
+        { id: 1, value: "Food", label: "Food", type: "expense" },
+        { id: 2, value: "Salary", label: "Salary", type: "income" },
+        { id: 3, value: "Transport", label: "Transport", type: "expense" },
       ],
     };
+  },
+  computed: {
+    incomeCategories() {
+      return this.categoryOptions.filter((c) => c.type === "income");
+    },
+    expenseCategories() {
+      return this.categoryOptions.filter((c) => c.type === "expense");
+    },
   },
   methods: {
     deleteTransaction(id) {
       this.transactions = this.transactions.filter(
         (transaction) => transaction.id !== id
+      );
+    },
+    deleteCategory(id) {
+      this.categoryOptions = this.categoryOptions.filter(
+        (category) => category.id !== id
       );
     },
     saveNewTransaction(newEntry) {
@@ -118,6 +145,7 @@ export default {
       if (exists) return;
 
       this.categoryOptions.push({
+        id: generateId("category"),
         value: category,
         label: category,
         type: transactionType,
@@ -136,6 +164,11 @@ export default {
 }
 .app__top {
   display: flex;
+  gap: 20px;
+}
+.app__bottom {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 </style>
