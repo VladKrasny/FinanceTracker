@@ -7,9 +7,10 @@
       :id="randomId"
       v-model="model"
       :placeholder="placeholder"
-      :class="{ 'input__field--error': hasError }"
+      :class="{ 'input__field--error': hasError && touched }"
+      @input="touched = true"
     />
-    <p v-if="errorMessage" class="input__error-message">
+    <p v-if="errorMessage && touched" class="input__error-message">
       {{ errorMessage }}
     </p>
   </div>
@@ -49,8 +50,17 @@ export default {
 
   data() {
     return {
+      touched: false,
       randomId: generateId("input"),
     };
+  },
+
+  watch: {
+    modelValue(newValue) {
+      if (newValue === "") {
+        this.touched = false;
+      }
+    },
   },
 
   computed: {
