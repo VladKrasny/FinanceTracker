@@ -5,20 +5,24 @@
       >Create a custom category for your transaction</TheTypography
     >
 
-    <div class="new-category-form__input-button">
+    <div class="new-category-form__input-button-select">
       <div class="new-category-form__input">
         <NewCategoryInput
           v-model="newCategoryModel"
           @error="newCategoryError = $event"
         />
       </div>
-
-      <div class="new-category-form__button">
-        <TheButton
-          type="submit"
-          label="Add Category"
-          :disabled="Boolean(newCategoryError)"
-        />
+      <div class="new-category-form__controls">
+        <div class="new-category-form__select">
+          <TheSelect :options="typeOptions" v-model="typeModel" />
+        </div>
+        <div class="new-category-form__button">
+          <TheButton
+            type="submit"
+            label="Add Category"
+            :disabled="Boolean(newCategoryError || !typeModel)"
+          />
+        </div>
       </div>
     </div>
   </form>
@@ -27,25 +31,33 @@
 import TheTypography from "../TheTypography.vue";
 import TheButton from "../TheButton.vue";
 import NewCategoryInput from "./NewCategoryInput.vue";
+import TheSelect from "../TheSelect.vue";
 
 export default {
   name: "NewCategoryForm",
+  props: { typeOptions: { type: Array, required: true } },
+
   emits: ["submit"],
   data() {
     return {
       newCategoryModel: "",
       newCategoryError: "",
+      typeModel: "",
     };
   },
   components: {
     TheTypography,
     NewCategoryInput,
     TheButton,
+    TheSelect,
   },
   methods: {
     submit() {
       if (!this.newCategoryModel || this.newCategoryError) return;
-      this.$emit("submit", this.newCategoryModel);
+      this.$emit("submit", {
+        category: this.newCategoryModel,
+        type: this.typeModel,
+      });
       this.newCategoryModel = "";
     },
   },
@@ -68,7 +80,7 @@ export default {
   min-width: 820px;
 }
 
-.new-category-form__input-button {
+.new-category-form__input-button-select {
   display: flex;
   flex-direction: row;
   max-width: 1370px;
@@ -77,10 +89,19 @@ export default {
   justify-content: space-between;
 }
 .new-category-form__input {
-  width: 100%;
+  width: 75%;
 }
 .new-category-form__button {
-  width: 300px;
-  height: 45px;
+  width: 50%;
+}
+.new-category-form__select {
+  width: 50%;
+}
+
+.new-category-form__controls {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 25%;
 }
 </style>
