@@ -1,7 +1,11 @@
 <template>
   <form class="transaction-form" @submit.prevent="submitAndReset">
     <TheTypography variant="title">{{ title }}</TheTypography>
-    <TheSelect label="Type" :options="typeOptions" v-model="typeModel" />
+    <TheSelect
+      label="Type"
+      :options="transactionTypeOptions"
+      v-model="typeModel"
+    />
     <AmountInput v-model="amountModel" @error="amountError = $event" />
     <TheSelect
       label="Category"
@@ -33,7 +37,7 @@ export default {
       required: true,
     },
     categoryOptions: { type: Array, required: true },
-    typeOptions: { type: Array, required: true },
+    transactionTypeOptions: { type: Array, required: true },
   },
 
   emits: ["submit"],

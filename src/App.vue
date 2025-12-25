@@ -7,7 +7,7 @@
             title="Add Transaction"
             @submit="saveNewTransaction"
             :categoryOptions="categoryOptions"
-            :typeOptions="typeOptions"
+            :transactionTypeOptions="transactionTypeOptions"
           ></TransactionForm>
           <TransactionListSection
             title="Transaction List"
@@ -22,7 +22,7 @@
         <div class="app__bottom">
           <NewCategoryForm
             @submit="addNewCategory"
-            :typeOptions="typeOptions"
+            :transactionTypeOptions="transactionTypeOptions"
           />
         </div>
       </div>
@@ -51,7 +51,7 @@ export default {
   },
   data() {
     return {
-      typeOptions: [
+      transactionTypeOptions: [
         { value: "income", label: "Income" },
         { value: "expense", label: "Expense" },
       ],
@@ -109,17 +109,18 @@ export default {
       };
       this.transactions.push(newTransaction);
     },
-    addNewCategory({ category, type }) {
+    addNewCategory({ category, transactionType }) {
       const exists = this.categoryOptions.some(
         (c) =>
-          c.type === type && c.value.toLowerCase() === category.toLowerCase()
+          c.type === transactionType &&
+          c.value.toLowerCase() === category.toLowerCase()
       );
       if (exists) return;
 
       this.categoryOptions.push({
         value: category,
         label: category,
-        type: type,
+        type: transactionType,
       });
     },
   },

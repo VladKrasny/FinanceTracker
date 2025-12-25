@@ -5,7 +5,7 @@
       >Create a custom category for your transaction</TheTypography
     >
 
-    <div class="new-category-form__input-button-select">
+    <div class="new-category-form__content">
       <div class="new-category-form__input">
         <NewCategoryInput
           v-model="newCategoryModel"
@@ -14,7 +14,7 @@
       </div>
       <div class="new-category-form__controls">
         <div class="new-category-form__select">
-          <TheSelect :options="typeOptions" v-model="typeModel" />
+          <TheSelect :options="transactionTypeOptions" v-model="typeModel" />
         </div>
         <div class="new-category-form__button">
           <TheButton
@@ -35,7 +35,7 @@ import TheSelect from "../TheSelect.vue";
 
 export default {
   name: "NewCategoryForm",
-  props: { typeOptions: { type: Array, required: true } },
+  props: { transactionTypeOptions: { type: Array, required: true } },
 
   emits: ["submit"],
   data() {
@@ -56,7 +56,7 @@ export default {
       if (!this.newCategoryModel || this.newCategoryError) return;
       this.$emit("submit", {
         category: this.newCategoryModel,
-        type: this.typeModel,
+        transactionType: this.typeModel,
       });
       this.newCategoryModel = "";
     },
@@ -80,7 +80,7 @@ export default {
   min-width: 820px;
 }
 
-.new-category-form__input-button-select {
+.new-category-form__content {
   display: flex;
   flex-direction: row;
   max-width: 1370px;
