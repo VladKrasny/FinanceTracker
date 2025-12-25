@@ -15,22 +15,22 @@
         {{ formattedAmount }}
       </div>
 
-      <TransactionAction
+      <IconButton
         variant="delete"
         @click="deleteItem"
         iconSymbol="delete"
-      ></TransactionAction>
+      ></IconButton>
     </div>
   </div>
 </template>
 
 <script>
-import TransactionAction from "./TransactionAction.vue";
+import IconButton from "./IconButton.vue";
 
 export default {
   name: "TransactionItem",
   emits: ["delete"],
-  components: { TransactionAction },
+  components: { IconButton },
   props: {
     type: { type: String, required: true },
     amount: { type: Number, required: true },
