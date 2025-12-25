@@ -28,18 +28,23 @@
             @submit="addNewCategory"
             :transactionTypeOptions="transactionTypeOptions"
           />
-          <CategoryList
-            title="Income Categories"
-            subtitle="Manage income categories for your transactions"
-            :categories="incomeCategories"
-            @delete="deleteCategory"
-          />
-          <CategoryList
-            title="Expense Categories"
-            subtitle="Manage expense categories for your transactions"
-            :categories="expenseCategories"
-            @delete="deleteCategory"
-          />
+          <div class="category-section">
+            <CategoryList
+              title="Income Categories"
+              subtitle="Manage income categories for your transactions"
+              :categories="incomeCategories"
+              @delete="deleteCategory"
+            />
+          </div>
+
+          <div class="category-section">
+            <CategoryList
+              title="Expense Categories"
+              subtitle="Manage expense categories for your transactions"
+              :categories="expenseCategories"
+              @delete="deleteCategory"
+            />
+          </div>
         </div>
       </div>
     </TheTypography>
@@ -268,5 +273,13 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+.category-section {
+  max-width: 1420px;
+  min-width: 820px;
+  padding: 20px;
+  border: 1px solid rgb(229, 229, 229);
+  border-radius: 15px;
+  background-color: #fff;
 }
 </style>

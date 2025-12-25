@@ -41,18 +41,9 @@ export default {
 
 <style scoped>
 .category-list {
-  max-width: 1420px;
-  height: auto;
-  border-radius: 15px;
-  background-color: rgb(255, 255, 255);
-  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgb(229, 229, 229);
-  min-width: 820px;
 }
 
 .category-list__list {
