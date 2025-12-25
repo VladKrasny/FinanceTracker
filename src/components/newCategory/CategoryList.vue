@@ -1,39 +1,46 @@
 <template>
-  <div class="filtered-categories">
+  <div class="category-list">
     <TheTypography v-if="title" variant="title">{{ title }}</TheTypography>
     <TheTypography v-if="subtitle" variant="subtitle">{{
       subtitle
     }}</TheTypography>
 
-    <ul class="filtered-categories__list">
+    <ul v-if="!isEmpty" class="category-list__list">
       <li v-for="category in categories" :key="category.id">
-        <FilteredCategoriesItem
-          :category="category"
-          @delete="$emit('delete', $event)"
+        <CategoryItem
+          :id="category.id"
+          :label="category.label"
+          @delete="$emit('delete', { id: category.id, name: category.value })"
         />
       </li>
     </ul>
+    <div v-else>No categories yet. Add one to get started.</div>
   </div>
 </template>
 
 <script>
 import TheTypography from "../TheTypography.vue";
-import FilteredCategoriesItem from "./FilteredCategoriesItem.vue";
+import CategoryItem from "./CategoryItem.vue";
 
 export default {
-  name: "FilteredCategories",
-  components: { TheTypography, FilteredCategoriesItem },
+  name: "CategoryList",
+  components: { TheTypography, CategoryItem },
   props: {
     title: { type: String, required: false },
     subtitle: { type: String, required: false },
     categories: { type: Array, required: true },
   },
   emits: ["delete"],
+  computed: {
+    isEmpty() {
+      return this.categories.length === 0;
+    },
+  },
 };
 </script>
 
 <style scoped>
-.filtered-categories {
+.category-list {
   max-width: 1420px;
   height: auto;
   border-radius: 15px;
@@ -48,7 +55,7 @@ export default {
   min-width: 820px;
 }
 
-.filtered-categories__list {
+.category-list__list {
   display: flex;
   flex-direction: column;
   gap: 10px;

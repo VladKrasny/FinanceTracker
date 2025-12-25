@@ -24,13 +24,13 @@
             @submit="addNewCategory"
             :transactionTypeOptions="transactionTypeOptions"
           />
-          <FilteredCategories
+          <CategoryList
             title="Income Categories"
             subtitle="Manage income categories for your transactions"
             :categories="incomeCategories"
             @delete="deleteCategory"
           />
-          <FilteredCategories
+          <CategoryList
             title="Expense Categories"
             subtitle="Manage expense categories for your transactions"
             :categories="expenseCategories"
@@ -50,7 +50,7 @@ import TransactionListSection from "./components/transactionlist/TransactionList
 import TheTypography from "./components/TheTypography.vue";
 import TransactionList from "./components/transactionlist/TransactionList.vue";
 import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
-import FilteredCategories from "./components/newCategory/FilteredCategories.vue";
+import CategoryList from "./components/newCategory/CategoryList.vue";
 
 export default {
   name: "App",
@@ -61,7 +61,7 @@ export default {
     TransactionListSection,
     TransactionList,
     NewCategoryForm,
-    FilteredCategories,
+    CategoryList,
   },
   data() {
     return {
@@ -124,10 +124,9 @@ export default {
         (transaction) => transaction.id !== id
       );
     },
-    deleteCategory(id) {
-      this.categoryOptions = this.categoryOptions.filter(
-        (category) => category.id !== id
-      );
+    deleteCategory({ id, name }) {
+      this.categoryOptions = this.categoryOptions.filter((c) => c.id !== id);
+      this.transactions = this.transactions.filter((t) => t.category !== name);
     },
     saveNewTransaction(newEntry) {
       const newTransaction = {
