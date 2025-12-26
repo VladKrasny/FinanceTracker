@@ -1,16 +1,20 @@
 <template>
   <form class="transaction-form" @submit.prevent="submitAndReset">
     <TheTypography variant="title">{{ title }}</TheTypography>
-    <TheSelect label="Type" :options="typeOptions" v-model="typeModel" />
+    <TheSelect
+      label="Type"
+      :options="transactionTypeOptions"
+      v-model="typeModel"
+    />
     <AmountInput v-model="amountModel" @error="amountError = $event" />
     <TheSelect
       label="Category"
-      :options="categoryOptions"
+      :options="categoryOptionsByType"
       v-model="categoryModel"
     />
     <TheInput label="Date" type="date" v-model="dateModel" />
     <DescriptionTextArea
-      label="Discription (optional)"
+      label="Description (optional)"
       v-model="descriptionModel"
     />
     <TheButton label="Add" :disabled="isDisabled" />
@@ -33,7 +37,9 @@ export default {
       required: true,
     },
     categoryOptions: { type: Array, required: true },
+    transactionTypeOptions: { type: Array, required: true },
   },
+
   emits: ["submit"],
   components: {
     TheSelect,
@@ -45,10 +51,6 @@ export default {
   },
   data() {
     return {
-      typeOptions: [
-        { value: "income", label: "Income" },
-        { value: "expense", label: "Expense" },
-      ],
       typeModel: "expense",
       dateModel: "",
       categoryModel: "",
@@ -79,12 +81,23 @@ export default {
     },
   },
   computed: {
+    categoryOptionsByType() {
+      return this.categoryOptions.filter(
+        (category) => category.type === this.typeModel
+      );
+    },
+
     isDisabled() {
       const areFieldsValid = Boolean(this.dateModel);
 
       const hasErrors = Boolean(this.amountError);
 
       return !areFieldsValid || hasErrors;
+    },
+  },
+  watch: {
+    typeModel() {
+      this.categoryModel = "";
     },
   },
 };

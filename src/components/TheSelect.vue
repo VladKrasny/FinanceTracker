@@ -1,6 +1,6 @@
 <template>
   <div class="select">
-    <label :for="randomId">{{ label }}</label>
+    <label v-if="label" :for="randomId">{{ label }}</label>
 
     <select class="select__options" :id="randomId" v-model="model">
       <option
@@ -21,7 +21,7 @@ export default {
   name: "TheSelect",
 
   props: {
-    label: { type: String, required: true },
+    label: { type: String, required: false },
     options: {
       type: Array,
       required: true,
