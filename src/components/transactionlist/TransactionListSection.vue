@@ -10,14 +10,14 @@
           <TheSelect
             class="transaction-list-section__select"
             :options="transactionTypeOptions"
-            v-model="typeProxy"
+            v-model="typeModel"
           />
         </div>
         <div>
           <TheSelect
             class="transaction-list-section__select"
             :options="categoryOptions"
-            v-model="categoryProxy"
+            v-model="categoryModel"
           />
         </div>
       </div>
@@ -53,7 +53,7 @@ export default {
   emits: ["update:transactionType", "update:transactionCategory"],
 
   computed: {
-    typeProxy: {
+    typeModel: {
       get() {
         return this.transactionType;
       },
@@ -61,7 +61,7 @@ export default {
         this.$emit("update:transactionType", value);
       },
     },
-    categoryProxy: {
+    categoryModel: {
       get() {
         return this.transactionCategory;
       },
