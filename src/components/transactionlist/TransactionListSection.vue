@@ -5,6 +5,22 @@
       <TheTypography variant="subtitle">
         {{ subtitle }}
       </TheTypography>
+      <div class="transaction-list-section__filters">
+        <div>
+          <TheSelect
+            class="transaction-list-section__select"
+            :options="transactionTypeOptionsWithAll"
+            v-model="typeModel"
+          />
+        </div>
+        <div>
+          <TheSelect
+            class="transaction-list-section__select"
+            :options="categoryOptionsByTypeWithAll"
+            v-model="categoryModel"
+          />
+        </div>
+      </div>
     </div>
     <div class="transaction-list-section__content">
       <slot></slot>
@@ -14,6 +30,7 @@
 
 <script>
 import TheTypography from "../TheTypography.vue";
+import TheSelect from "../TheSelect.vue";
 
 export default {
   name: "TransactionListSection",
@@ -26,8 +43,34 @@ export default {
       type: String,
       required: true,
     },
+    categoryOptionsByTypeWithAll: { type: Array, required: true },
+    transactionTypeOptionsWithAll: { type: Array, required: true },
   },
-  components: { TheTypography },
+  components: { TheTypography, TheSelect },
+  data() {
+    return {
+      typeModel: "All",
+      categoryModel: "All",
+    };
+  },
+
+  emits: ["type", "category"],
+  watch: {
+    typeModel() {
+      this.categoryModel = "All";
+      this.emitFilters();
+    },
+    categoryModel() {
+      this.emitFilters();
+    },
+  },
+
+  methods: {
+    emitFilters() {
+      this.$emit("type", this.typeModel);
+      this.$emit("category", this.categoryModel);
+    },
+  },
 };
 </script>
 <style scoped>
@@ -47,7 +90,7 @@ export default {
 .transaction-list-section__header {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
 }
 
 .transaction-list-section__content {
@@ -58,5 +101,13 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+.transaction-list-section__select {
+  max-width: 150px;
+  min-width: 150px;
+}
+.transaction-list-section__filters {
+  gap: 15px;
+  display: flex;
 }
 </style>

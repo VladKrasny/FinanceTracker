@@ -31,7 +31,7 @@ export default {
       default: "",
     },
   },
-
+  emits: ["update:modelValue"],
   data() {
     return {
       randomId: generateId("select"),
