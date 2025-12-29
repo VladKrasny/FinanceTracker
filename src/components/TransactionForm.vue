@@ -11,6 +11,7 @@
       label="Category"
       :options="categoryOptionsByType"
       v-model="categoryModel"
+      valueKey="label"
     />
     <TheInput label="Date" type="date" v-model="dateModel" />
     <DescriptionTextArea

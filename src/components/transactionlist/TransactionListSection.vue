@@ -5,19 +5,38 @@
       <TheTypography variant="subtitle">
         {{ subtitle }}
       </TheTypography>
+      <div class="transaction-list-section__filters">
+        <div>
+          <TheSelect
+            class="transaction-list-section__select"
+            :options="transactionTypeOptions"
+            v-model="transactionTypeModel"
+          />
+        </div>
+        <div>
+          <TheSelect
+            class="transaction-list-section__select"
+            :options="categoryOptions"
+            v-model="categoryModel"
+          />
+        </div>
+      </div>
     </div>
     <div class="transaction-list-section__content">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
 
 <script>
 import TheTypography from "../TheTypography.vue";
+import TheSelect from "../TheSelect.vue";
 
 export default {
   name: "TransactionListSection",
   props: {
+    transactionType: { type: String, required: true },
+    transactionCategory: { type: String, required: true },
     title: {
       type: String,
       required: true,
@@ -26,8 +45,31 @@ export default {
       type: String,
       required: true,
     },
+    categoryOptions: { type: Array, required: true },
+    transactionTypeOptions: { type: Array, required: true },
   },
-  components: { TheTypography },
+  components: { TheTypography, TheSelect },
+
+  emits: ["update:transactionType", "update:transactionCategory"],
+
+  computed: {
+    transactionTypeModel: {
+      get() {
+        return this.transactionType;
+      },
+      set(value) {
+        this.$emit("update:transactionType", value);
+      },
+    },
+    categoryModel: {
+      get() {
+        return this.transactionCategory;
+      },
+      set(value) {
+        this.$emit("update:transactionCategory", value);
+      },
+    },
+  },
 };
 </script>
 <style scoped>
@@ -47,7 +89,7 @@ export default {
 .transaction-list-section__header {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
 }
 
 .transaction-list-section__content {
@@ -58,5 +100,13 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+.transaction-list-section__select {
+  max-width: 150px;
+  min-width: 150px;
+}
+.transaction-list-section__filters {
+  gap: 15px;
+  display: flex;
 }
 </style>
