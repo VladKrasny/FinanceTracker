@@ -6,11 +6,13 @@
     }}</TheTypography>
 
     <ul v-if="!isEmpty" class="category-list__list">
-      <li v-for="category in categories" :key="category.id">
+      <li v-for="category in categories" :key="category.value">
         <CategoryItem
-          :id="category.id"
+          :value="category.value"
           :label="category.label"
-          @delete="$emit('delete', { id: category.id, name: category.value })"
+          @delete="
+            $emit('delete', { value: category.value, name: category.label })
+          "
         />
       </li>
     </ul>

@@ -177,6 +177,12 @@ export default {
     };
   },
   computed: {
+    incomeCategories() {
+      return this.categoryOptions.filter((c) => c.type === "income");
+    },
+    expenseCategories() {
+      return this.categoryOptions.filter((c) => c.type === "expense");
+    },
     categoryOptionsByTypeWithAll() {
       const filtered =
         this.filterModel.transactionType !== "All"
@@ -216,21 +222,16 @@ export default {
     },
   },
 
-    incomeCategories() {
-      return this.categoryOptions.filter((c) => c.type === "income");
-    },
-    expenseCategories() {
-      return this.categoryOptions.filter((c) => c.type === "expense");
-    },
-  },
   methods: {
     deleteTransaction(id) {
       this.transactions = this.transactions.filter(
         (transaction) => transaction.id !== id
       );
     },
-    deleteCategory({ id, name }) {
-      this.categoryOptions = this.categoryOptions.filter((c) => c.id !== id);
+    deleteCategory({ value, name }) {
+      this.categoryOptions = this.categoryOptions.filter(
+        (c) => c.value !== value
+      );
       this.transactions.forEach((t) => {
         if (t.category === name) t.category = "";
       });
