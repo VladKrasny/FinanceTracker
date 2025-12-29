@@ -10,7 +10,7 @@
           <TheSelect
             class="transaction-list-section__select"
             :options="transactionTypeOptions"
-            v-model="typeModel"
+            v-model="transactionTypeModel"
           />
         </div>
         <div>
@@ -53,7 +53,7 @@ export default {
   emits: ["update:transactionType", "update:transactionCategory"],
 
   computed: {
-    typeModel: {
+    transactionTypeModel: {
       get() {
         return this.transactionType;
       },
