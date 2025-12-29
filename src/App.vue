@@ -243,13 +243,6 @@ export default {
     },
   },
 
-    incomeCategories() {
-      return this.categoryOptions.filter((c) => c.type === "income");
-    },
-    expenseCategories() {
-      return this.categoryOptions.filter((c) => c.type === "expense");
-    },
-  },
   methods: {
     deleteTransaction(id) {
       const confirmDelete = window.confirm(
