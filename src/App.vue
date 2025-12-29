@@ -14,8 +14,8 @@
             :transactionTypeOptions="transactionTypeOptionsWithAll"
             title="Transaction List"
             subtitle="Manage and filter your transactions"
-            v-model:transactionType="filterModel.typeModel"
-            v-model:transactionCategory="filterModel.categoryModel"
+            v-model:transactionType="filterModel.transactionType"
+            v-model:transactionCategory="filterModel.category"
           >
             <TransactionList
               :transactions="filteredTransactions"
@@ -55,7 +55,7 @@ export default {
   },
   data() {
     return {
-      filterModel: { typeModel: "All", categoryModel: "All" },
+      filterModel: { transactionType: "All", category: "All" },
       transactionTypeOptions: [
         { value: "income", label: "Income" },
         { value: "expense", label: "Expense" },
@@ -160,9 +160,9 @@ export default {
   computed: {
     categoryOptionsByTypeWithAll() {
       const filtered =
-        this.filterModel.typeModel !== "All"
+        this.filterModel.transactionType !== "All"
           ? this.categoryOptions.filter(
-              (c) => c.type === this.filterModel.typeModel
+              (c) => c.type === this.filterModel.transactionType
             )
           : this.categoryOptions;
 
@@ -179,20 +179,20 @@ export default {
     filteredTransactions() {
       return this.transactions.filter((t) => {
         const isTypeMatch =
-          this.filterModel.typeModel === "All" ||
-          t.type === this.filterModel.typeModel;
+          this.filterModel.transactionType === "All" ||
+          t.type === this.filterModel.transactionType;
         const isCategoryMatch =
-          this.filterModel.categoryModel === "All" ||
-          t.category === this.filterModel.categoryModel;
+          this.filterModel.category === "All" ||
+          t.category === this.filterModel.category;
         return isTypeMatch && isCategoryMatch;
       });
     },
   },
 
   watch: {
-    "filterModel.typeModel"(newType, oldType) {
+    "filterModel.transactionType"(newType, oldType) {
       if (newType !== oldType) {
-        this.filterModel.categoryModel = "All";
+        this.filterModel.category = "All";
       }
     },
   },
