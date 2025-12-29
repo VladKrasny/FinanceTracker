@@ -8,13 +8,12 @@
 </template>
 
 <script>
-import IconButton from "../transactionlist/IconButton.vue";
+import IconButton from "../IconButton.vue";
 
 export default {
   name: "CategoryItem",
   components: { IconButton },
   props: {
-    id: { type: [String, Number], required: true },
     label: { type: String, required: true },
   },
   emits: ["delete"],

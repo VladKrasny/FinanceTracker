@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import IconButton from "./IconButton.vue";
+import IconButton from "../IconButton.vue";
 
 export default {
   name: "TransactionItem",

@@ -41,6 +41,10 @@ export default {
 
 <style scoped>
 .category-list {
+  padding: 20px;
+  border: 1px solid rgb(229, 229, 229);
+  border-radius: 15px;
+  background-color: #fff;
   display: flex;
   flex-direction: column;
   gap: 10px;

@@ -279,9 +279,5 @@ export default {
 .category-section {
   max-width: 1420px;
   min-width: 820px;
-  padding: 20px;
-  border: 1px solid rgb(229, 229, 229);
-  border-radius: 15px;
-  background-color: #fff;
 }
 </style>
