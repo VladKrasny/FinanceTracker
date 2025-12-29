@@ -231,7 +231,9 @@ export default {
     },
     deleteCategory({ id, name }) {
       this.categoryOptions = this.categoryOptions.filter((c) => c.id !== id);
-      this.transactions = this.transactions.filter((t) => t.category !== name);
+      this.transactions.forEach((t) => {
+        if (t.category === name) t.category = "";
+      });
     },
     saveNewTransaction(newEntry) {
       const newTransaction = {
