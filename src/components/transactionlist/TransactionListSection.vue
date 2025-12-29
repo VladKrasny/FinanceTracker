@@ -50,7 +50,7 @@ export default {
   },
   components: { TheTypography, TheSelect },
 
-  emits: ["update:typeModel", "update:categoryModel"],
+  emits: ["update:transactionType", "update:transactionCategory"],
 
   computed: {
     typeProxy: {
