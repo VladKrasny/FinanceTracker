@@ -10,12 +10,12 @@
             :transactionTypeOptions="transactionTypeOptionsWithAll"
           ></TransactionForm>
           <TransactionListSection
-            :categoryOptionsByTypeWithAll="categoryOptionsByTypeWithAll"
-            :transactionTypeOptionsWithAll="transactionTypeOptionsWithAll"
+            :categoryOptions="categoryOptionsByTypeWithAll"
+            :transactionTypeOptions="transactionTypeOptionsWithAll"
             title="Transaction List"
             subtitle="Manage and filter your transactions"
-            @type="filters.type = $event"
-            @category="filters.category = $event"
+            v-model:typeModel="typeModel"
+            v-model:categoryModel="categoryModel"
           >
             <TransactionList
               :transactions="filteredTransactions"
@@ -55,10 +55,8 @@ export default {
   },
   data() {
     return {
-      filters: {
-        type: "All",
-        category: "All",
-      },
+      typeModel: "All",
+      categoryModel: "All",
       transactionTypeOptions: [
         { value: "income", label: "Income" },
         { value: "expense", label: "Expense" },
@@ -163,8 +161,8 @@ export default {
   computed: {
     categoryOptionsByTypeWithAll() {
       const filtered =
-        this.filters.type !== "All"
-          ? this.categoryOptions.filter((c) => c.type === this.filters.type)
+        this.typeModel !== "All"
+          ? this.categoryOptions.filter((c) => c.type === this.typeModel)
           : this.categoryOptions;
 
       const mapped = filtered.map((c) => ({
@@ -180,10 +178,9 @@ export default {
     filteredTransactions() {
       return this.transactions.filter((t) => {
         const isTypeMatch =
-          this.filters.type === "All" || t.type === this.filters.type;
+          this.typeModel === "All" || t.type === this.typeModel;
         const isCategoryMatch =
-          this.filters.category === "All" ||
-          t.category === this.filters.category;
+          this.categoryModel === "All" || t.category === this.categoryModel;
         return isTypeMatch && isCategoryMatch;
       });
     },

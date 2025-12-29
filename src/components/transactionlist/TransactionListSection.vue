@@ -9,21 +9,21 @@
         <div>
           <TheSelect
             class="transaction-list-section__select"
-            :options="transactionTypeOptionsWithAll"
-            v-model="typeModel"
+            :options="transactionTypeOptions"
+            v-model="typeProxy"
           />
         </div>
         <div>
           <TheSelect
             class="transaction-list-section__select"
-            :options="categoryOptionsByTypeWithAll"
-            v-model="categoryModel"
+            :options="categoryOptions"
+            v-model="categoryProxy"
           />
         </div>
       </div>
     </div>
     <div class="transaction-list-section__content">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
@@ -35,6 +35,8 @@ import TheSelect from "../TheSelect.vue";
 export default {
   name: "TransactionListSection",
   props: {
+    typeModel: { type: String, required: true },
+    categoryModel: { type: String, required: true },
     title: {
       type: String,
       required: true,
@@ -43,32 +45,30 @@ export default {
       type: String,
       required: true,
     },
-    categoryOptionsByTypeWithAll: { type: Array, required: true },
-    transactionTypeOptionsWithAll: { type: Array, required: true },
+    categoryOptions: { type: Array, required: true },
+    transactionTypeOptions: { type: Array, required: true },
   },
   components: { TheTypography, TheSelect },
-  data() {
-    return {
-      typeModel: "All",
-      categoryModel: "All",
-    };
-  },
 
-  emits: ["type", "category"],
-  watch: {
-    typeModel() {
-      this.categoryModel = "All";
-      this.emitFilters();
-    },
-    categoryModel() {
-      this.emitFilters();
-    },
-  },
+  emits: ["update:typeModel", "update:categoryModel"],
 
-  methods: {
-    emitFilters() {
-      this.$emit("type", this.typeModel);
-      this.$emit("category", this.categoryModel);
+  computed: {
+    typeProxy: {
+      get() {
+        return this.typeModel;
+      },
+      set(value) {
+        this.$emit("update:typeModel", value);
+        this.$emit("update:categoryModel", "All");
+      },
+    },
+    categoryProxy: {
+      get() {
+        return this.categoryModel;
+      },
+      set(value) {
+        this.$emit("update:categoryModel", value);
+      },
     },
   },
 };
