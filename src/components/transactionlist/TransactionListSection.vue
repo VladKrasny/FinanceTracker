@@ -35,8 +35,8 @@ import TheSelect from "../TheSelect.vue";
 export default {
   name: "TransactionListSection",
   props: {
-    typeModel: { type: String, required: true },
-    categoryModel: { type: String, required: true },
+    transactionType: { type: String, required: true },
+    transactionCategory: { type: String, required: true },
     title: {
       type: String,
       required: true,
@@ -55,19 +55,18 @@ export default {
   computed: {
     typeProxy: {
       get() {
-        return this.typeModel;
+        return this.transactionType;
       },
       set(value) {
-        this.$emit("update:typeModel", value);
-        this.$emit("update:categoryModel", "All");
+        this.$emit("update:transactionType", value);
       },
     },
     categoryProxy: {
       get() {
-        return this.categoryModel;
+        return this.transactionCategory;
       },
       set(value) {
-        this.$emit("update:categoryModel", value);
+        this.$emit("update:transactionCategory", value);
       },
     },
   },

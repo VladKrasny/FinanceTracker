@@ -14,8 +14,8 @@
             :transactionTypeOptions="transactionTypeOptionsWithAll"
             title="Transaction List"
             subtitle="Manage and filter your transactions"
-            v-model:typeModel="typeModel"
-            v-model:categoryModel="categoryModel"
+            v-model:transactionType="typeModel"
+            v-model:transactionCategory="categoryModel"
           >
             <TransactionList
               :transactions="filteredTransactions"
@@ -185,6 +185,15 @@ export default {
       });
     },
   },
+
+  watch: {
+    typeModel(newType, oldType) {
+      if (newType !== oldType) {
+        this.categoryModel = "All";
+      }
+    },
+  },
+
   methods: {
     deleteTransaction(id) {
       this.transactions = this.transactions.filter(
