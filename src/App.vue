@@ -6,8 +6,8 @@
           <TransactionForm
             title="Add Transaction"
             @submit="saveNewTransaction"
-            :categoryOptions="categoryOptionsByTypeWithAll"
-            :transactionTypeOptions="transactionTypeOptionsWithAll"
+            :categoryOptions="categoryOptions"
+            :transactionTypeOptions="transactionTypeOptions"
           ></TransactionForm>
           <TransactionListSection
             :categoryOptions="categoryOptionsByTypeWithAll"

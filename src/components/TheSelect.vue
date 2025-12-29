@@ -6,7 +6,7 @@
       <option
         v-for="(option, index) in options"
         :key="index"
-        :value="option.value"
+        :value="option[valueKey]"
       >
         {{ option.label }}
       </option>
@@ -21,6 +21,7 @@ export default {
   name: "TheSelect",
 
   props: {
+    valueKey: { type: String, default: "value" },
     label: { type: String, required: false },
     options: {
       type: Array,
