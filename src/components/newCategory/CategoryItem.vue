@@ -19,7 +19,7 @@ export default {
   emits: ["delete"],
   methods: {
     deleteCategory() {
-      this.$emit("delete", this.value);
+      this.$emit("delete");
     },
   },
 };

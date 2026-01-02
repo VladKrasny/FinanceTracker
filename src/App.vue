@@ -32,7 +32,7 @@
             <CategoryList
               title="Income Categories"
               subtitle="Manage income categories for your transactions"
-              :categories="incomeCategories"
+              :categoryOptions="incomeCategories"
               @delete="deleteCategory"
             />
           </div>
@@ -41,7 +41,7 @@
             <CategoryList
               title="Expense Categories"
               subtitle="Manage expense categories for your transactions"
-              :categories="expenseCategories"
+              :categoryOptions="expenseCategories"
               @delete="deleteCategory"
             />
           </div>
@@ -228,12 +228,12 @@ export default {
         (transaction) => transaction.id !== id
       );
     },
-    deleteCategory({ value, name }) {
+    deleteCategory({ value, label }) {
       this.categoryOptions = this.categoryOptions.filter(
         (c) => c.value !== value
       );
       this.transactions.forEach((t) => {
-        if (t.category === name) t.category = "";
+        if (t.category === label) t.category = "";
       });
     },
     saveNewTransaction(newEntry) {

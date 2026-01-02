@@ -6,13 +6,10 @@
     }}</TheTypography>
 
     <ul v-if="!isEmpty" class="category-list__list">
-      <li v-for="category in categories" :key="category.value">
+      <li v-for="category in categoryOptions" :key="category.value">
         <CategoryItem
-          :value="category.value"
           :label="category.label"
-          @delete="
-            $emit('delete', { value: category.value, name: category.label })
-          "
+          @delete="$emit('delete', category)"
         />
       </li>
     </ul>
@@ -30,12 +27,12 @@ export default {
   props: {
     title: { type: String, required: false },
     subtitle: { type: String, required: false },
-    categories: { type: Array, required: true },
+    categoryOptions: { type: Array, required: true },
   },
   emits: ["delete"],
   computed: {
     isEmpty() {
-      return this.categories.length === 0;
+      return this.categoryOptions.length === 0;
     },
   },
 };
