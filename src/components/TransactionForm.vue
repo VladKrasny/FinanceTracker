@@ -19,15 +19,15 @@
       v-model="descriptionModel"
     />
     <TheButton v-if="!updateMode" label="Add" :disabled="isDisabled" />
-    <div v-else class="update-mode">
+    <div v-else class="transaction-form__update-mode">
       <TheButton
-        class="update-mode__update-button"
+        class="transaction-form____update-button"
         label="Update"
         @click="updateTransaction"
         :disabled="isDisabled"
       />
       <TheButton
-        class="update-mode__cancel-button"
+        class="transaction-form____cancel-button"
         label="Cancel"
         variant="white"
         @click="cancelUpdate"
@@ -74,7 +74,6 @@ export default {
       amountModel: "",
       descriptionModel: "",
       amountError: "",
-      isUpdated: false,
     };
   },
   methods: {
@@ -176,15 +175,15 @@ export default {
   gap: 20px;
 }
 
-.update-mode {
+.transaction-form__update-mode {
   display: flex;
   gap: 10px;
 }
 
-.update-mode__update-button {
+.transaction-form____update-button {
   flex: 7;
 }
-.update-mode__cancel-button {
+.transaction-form____cancel-button {
   flex: 3;
 }
 </style>
