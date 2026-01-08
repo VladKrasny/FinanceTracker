@@ -64,6 +64,10 @@ import TheTypography from "./components/TheTypography.vue";
 import TransactionList from "./components/transactionlist/TransactionList.vue";
 import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
 import CategoryList from "./components/newCategory/CategoryList.vue";
+const LS_DATA = {
+  transactions: "finance-transactions",
+  categories: "finance-categories",
+};
 
 export default {
   name: "App",
@@ -243,7 +247,32 @@ export default {
     },
   },
 
+  created() {
+    this.restoreFromLocalStorage();
+  },
+
   methods: {
+    restoreFromLocalStorage() {
+      try {
+        const transactionsJSON = localStorage.getItem(LS_DATA.transactions);
+        if (transactionsJSON) {
+          const transactionsFromLS = JSON.parse(transactionsJSON);
+          if (Array.isArray(transactionsFromLS)) {
+            this.transactions = transactionsFromLS;
+          }
+        }
+      } catch (e) {}
+
+      try {
+        const categoriesJSON = localStorage.getItem(LS_DATA.categories);
+        if (categoriesJSON) {
+          const categoriesFromLS = JSON.parse(categoriesJSON);
+          if (Array.isArray(categoriesFromLS)) {
+            this.categoryOptions = categoriesFromLS;
+          }
+        }
+      } catch (e) {}
+    },
     deleteTransaction(id) {
       const confirmDelete = window.confirm(
         "Are you sure you want to delete this transaction? You won’t be able to undo this action later."
