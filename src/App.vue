@@ -226,6 +226,19 @@ export default {
   },
 
   watch: {
+    transactions: {
+      handler(newValue) {
+        localStorage.setItem("finance-transactions", JSON.stringify(newValue));
+      },
+      deep: true,
+    },
+    categoryOptions: {
+      handler(newValue) {
+        localStorage.setItem("finance-categories", JSON.stringify(newValue));
+      },
+      deep: true,
+    },
+
     "filterModel.transactionType"(newType, oldType) {
       if (newType !== oldType) {
         this.filterModel.category = "All";
