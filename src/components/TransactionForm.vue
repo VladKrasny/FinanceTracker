@@ -18,7 +18,21 @@
       label="Description (optional)"
       v-model="descriptionModel"
     />
-    <TheButton label="Add" :disabled="isDisabled" />
+    <TheButton v-if="!updateMode" label="Add" :disabled="isDisabled" />
+    <div v-else class="update-mode">
+      <TheButton
+        class="update-mode__update-button"
+        label="Update"
+        @click="updateTransaction"
+        :disabled="isDisabled"
+      />
+      <TheButton
+        class="update-mode__cancel-button"
+        label="Cancel"
+        variant="white"
+        @click="cancelUpdate"
+      />
+    </div>
   </form>
 </template>
 
@@ -33,6 +47,7 @@ import TheTypography from "./TheTypography.vue";
 export default {
   name: "TransactionForm",
   props: {
+    oldTransaction: { type: Object, default: null },
     title: {
       type: String,
       required: true,
@@ -41,7 +56,7 @@ export default {
     transactionTypeOptions: { type: Array, required: true },
   },
 
-  emits: ["submit"],
+  emits: ["submit", "updatedTransaction", "cancel"],
   components: {
     TheSelect,
     AmountInput,
@@ -52,15 +67,46 @@ export default {
   },
   data() {
     return {
+      updateMode: false,
       typeModel: "expense",
       dateModel: "",
       categoryModel: "",
       amountModel: "",
       descriptionModel: "",
       amountError: "",
+      isUpdated: false,
     };
   },
   methods: {
+    cancelUpdate() {
+      this.resetForm();
+      this.updateMode = false;
+      this.$emit("cancel");
+    },
+
+    fillForm(oldTransaction) {
+      this.typeModel = oldTransaction.type;
+      this.dateModel = oldTransaction.date;
+      this.categoryModel = oldTransaction.category;
+      this.amountModel = oldTransaction.amount;
+      this.descriptionModel = oldTransaction.description;
+    },
+
+    updateTransaction() {
+      if (!this.oldTransaction) return;
+      const updatedTransaction = {
+        id: this.oldTransaction.id,
+        type: this.typeModel,
+        amount: Number(this.amountModel),
+        category: this.categoryModel,
+        date: this.dateModel,
+        description: this.descriptionModel,
+      };
+      this.$emit("updatedTransaction", updatedTransaction);
+      this.updateMode = false;
+      this.resetForm();
+    },
+
     submitAndReset() {
       const newEntry = {
         type: this.typeModel,
@@ -97,7 +143,20 @@ export default {
     },
   },
   watch: {
+    oldTransaction: {
+      handler(data) {
+        if (!data) return;
+        this.updateMode = true;
+        this.typeModel = data.type;
+        this.categoryModel = data.category;
+        this.amountModel = String(data.amount);
+        this.dateModel = data.date;
+        this.descriptionModel = data.description;
+      },
+      immediate: true,
+    },
     typeModel() {
+      if (this.updateMode) return;
       this.categoryModel = "";
     },
   },
@@ -115,5 +174,17 @@ export default {
   flex-direction: column;
   border-radius: 20px;
   gap: 20px;
+}
+
+.update-mode {
+  display: flex;
+  gap: 10px;
+}
+
+.update-mode__update-button {
+  flex: 7;
+}
+.update-mode__cancel-button {
+  flex: 3;
 }
 </style>

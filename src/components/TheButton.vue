@@ -16,6 +16,7 @@
 export default {
   name: "TheButton",
   props: {
+    type: { type: String, default: "button" },
     label: {
       type: String,
       required: true,
@@ -29,6 +30,7 @@ export default {
       default: false,
     },
   },
+  emits: ["click"],
 };
 </script>
 
@@ -47,5 +49,10 @@ export default {
   background-color: #a0a0a0;
   cursor: not-allowed;
   opacity: 0.7;
+}
+
+.button--white {
+  background-color: white;
+  color: black;
 }
 </style>
