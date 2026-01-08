@@ -75,7 +75,6 @@ export default {
       amountModel: "",
       descriptionModel: "",
       amountError: "",
-      isUpdated: false,
     };
   },
   methods: {
