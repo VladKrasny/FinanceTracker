@@ -2,32 +2,67 @@
   <CSSReset>
     <TheTypography>
       <div class="app">
-        <div class="app__top">
-          <TransactionForm
-            :title="titleByMode"
-            @submit="saveNewTransaction"
-            @updatedTransaction="saveUpdatedTransaction"
-            @cancel="oldTransaction = null"
-            :oldTransaction
-            :categoryOptions="categoryOptions"
-            :transactionTypeOptions="transactionTypeOptions"
-          ></TransactionForm>
-          <TransactionListSection
-            :categoryOptions="categoryOptionsByTypeWithAll"
-            :transactionTypeOptions="transactionTypeOptionsWithAll"
-            title="Transaction List"
-            subtitle="Manage and filter your transactions"
-            v-model:transactionType="filterModel.transactionType"
-            v-model:transactionCategory="filterModel.category"
+        <div class="app__header">
+          <button
+            class="app__header-button"
+            :class="{
+              'app__header-button--active': activeTab === 'transactions',
+            }"
+            @click="activeTab = 'transactions'"
           >
-            <TransactionList
-              :transactions="filteredTransactions"
-              @delete="deleteTransaction"
-              @editTransaction="oldTransaction = $event"
-            />
-          </TransactionListSection>
+            Transactions
+          </button>
+          <button
+            class="app__header-button"
+            :class="{
+              'app__header-button--active': activeTab === 'setings',
+            }"
+            @click="activeTab = 'setings'"
+          >
+            Setings
+          </button>
         </div>
-        <div class="app__bottom">
+        <hr />
+        <div class="app__top" v-if="activeTab === 'transactions'">
+          <div>
+            <TheTypography variant="title">Transactions</TheTypography>
+            <TheTypography variant="subtitle"
+              >Add, edit, or manage your transactions</TheTypography
+            >
+          </div>
+          <div class="app__content">
+            <TransactionForm
+              :title="titleByMode"
+              @submit="saveNewTransaction"
+              @updatedTransaction="saveUpdatedTransaction"
+              @cancel="oldTransaction = null"
+              :oldTransaction
+              :categoryOptions="categoryOptions"
+              :transactionTypeOptions="transactionTypeOptions"
+            ></TransactionForm>
+            <TransactionListSection
+              :categoryOptions="categoryOptionsByTypeWithAll"
+              :transactionTypeOptions="transactionTypeOptionsWithAll"
+              title="Transaction List"
+              subtitle="Manage and filter your transactions"
+              v-model:transactionType="filterModel.transactionType"
+              v-model:transactionCategory="filterModel.category"
+            >
+              <TransactionList
+                :transactions="filteredTransactions"
+                @delete="deleteTransaction"
+                @editTransaction="oldTransaction = $event"
+              />
+            </TransactionListSection>
+          </div>
+        </div>
+        <div class="app__bottom" v-else>
+          <div>
+            <TheTypography variant="title">Setings</TheTypography>
+            <TheTypography variant="subtitle"
+              >Manage your transaction categories</TheTypography
+            >
+          </div>
           <NewCategoryForm
             @submit="addNewCategory"
             :transactionTypeOptions="transactionTypeOptions"
@@ -82,6 +117,7 @@ export default {
   },
   data() {
     return {
+      activeTab: "transactions",
       oldTransaction: null,
       filterModel: { transactionType: "All", category: "All" },
       transactionTypeOptions: [
@@ -337,8 +373,31 @@ export default {
   flex-direction: column;
   gap: 40px;
 }
+.app__content {
+  display: flex;
+  gap: 20px;
+}
+
+.app__header {
+  display: flex;
+  gap: 30px;
+}
+
+.app__header-button {
+  background-color: inherit;
+  border-width: 0;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.app__header-button--active {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 .app__top {
   display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 .app__bottom {
