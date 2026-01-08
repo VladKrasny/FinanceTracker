@@ -16,7 +16,6 @@
 export default {
   name: "TheButton",
   props: {
-    type: { type: String, default: "button" },
     label: {
       type: String,
       required: true,
