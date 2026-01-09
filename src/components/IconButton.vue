@@ -1,8 +1,8 @@
 <template>
   <button
     :class="{
-      'transaction-action': true,
-      [`transaction-action--${variant}`]: Boolean(variant),
+      'icon-button': true,
+      [`icon-button--${variant}`]: Boolean(variant),
     }"
     @click="$emit('click')"
   >
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "TransactionAction",
+  name: "IconButton",
   emits: ["click"],
   props: {
     variant: {
@@ -30,17 +30,17 @@ export default {
 </script>
 
 <style scoped>
-.transaction-action {
+.icon-button {
   color: gray;
   height: 40px;
   background-color: inherit;
   border-width: 0px;
   cursor: pointer;
 }
-.transaction-action--edit {
+.icon-button--edit {
   color: #848c95;
 }
-.transaction-action--delete {
+.icon-button--delete {
   color: #dc3545;
 }
 </style>

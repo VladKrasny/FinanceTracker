@@ -28,6 +28,23 @@
             @submit="addNewCategory"
             :transactionTypeOptions="transactionTypeOptions"
           />
+          <div class="category-section">
+            <CategoryList
+              title="Income Categories"
+              subtitle="Manage income categories for your transactions"
+              :categoryOptions="incomeCategories"
+              @delete="deleteCategory"
+            />
+          </div>
+
+          <div class="category-section">
+            <CategoryList
+              title="Expense Categories"
+              subtitle="Manage expense categories for your transactions"
+              :categoryOptions="expenseCategories"
+              @delete="deleteCategory"
+            />
+          </div>
         </div>
       </div>
     </TheTypography>
@@ -42,6 +59,7 @@ import TransactionListSection from "./components/transactionlist/TransactionList
 import TheTypography from "./components/TheTypography.vue";
 import TransactionList from "./components/transactionlist/TransactionList.vue";
 import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
+import CategoryList from "./components/newCategory/CategoryList.vue";
 
 export default {
   name: "App",
@@ -52,6 +70,7 @@ export default {
     TransactionListSection,
     TransactionList,
     NewCategoryForm,
+    CategoryList,
   },
   data() {
     return {
@@ -158,6 +177,12 @@ export default {
     };
   },
   computed: {
+    incomeCategories() {
+      return this.categoryOptions.filter((c) => c.type === "income");
+    },
+    expenseCategories() {
+      return this.categoryOptions.filter((c) => c.type === "expense");
+    },
     categoryOptionsByTypeWithAll() {
       const filtered =
         this.filterModel.transactionType !== "All"
@@ -203,6 +228,14 @@ export default {
         (transaction) => transaction.id !== id
       );
     },
+    deleteCategory({ value, label }) {
+      this.categoryOptions = this.categoryOptions.filter(
+        (c) => c.value !== value
+      );
+      this.transactions.forEach((t) => {
+        if (t.category === label) t.category = "";
+      });
+    },
     saveNewTransaction(newEntry) {
       const newTransaction = {
         id: generateId("transaction"),
@@ -238,5 +271,14 @@ export default {
 .app__top {
   display: flex;
   gap: 20px;
+}
+.app__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.category-section {
+  max-width: 1420px;
+  min-width: 820px;
 }
 </style>
