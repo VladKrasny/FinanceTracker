@@ -224,6 +224,10 @@ export default {
 
   methods: {
     deleteTransaction(id) {
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this transaction? You won’t be able to undo this action later."
+      );
+      if (!confirmDelete) return;
       this.transactions = this.transactions.filter(
         (transaction) => transaction.id !== id
       );
