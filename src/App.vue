@@ -3,88 +3,27 @@
     <TheTypography>
       <div class="app">
         <div class="app__header">
-          <button
+          <router-link
             class="app__header-button"
             :class="{
-              'app__header-button--active': activeTab === 'transactions',
+              'app__header-button--active': $route.path === '/transactions',
             }"
-            @click="activeTab = 'transactions'"
+            to="/transactions"
           >
             Transactions
-          </button>
-          <button
+          </router-link>
+          <router-link
             class="app__header-button"
             :class="{
-              'app__header-button--active': activeTab === 'setings',
+              'app__header-button--active': $route.path === '/settings',
             }"
-            @click="activeTab = 'setings'"
+            to="/settings"
           >
-            Setings
-          </button>
+            Settings
+          </router-link>
         </div>
         <hr />
-        <div class="app__top" v-if="activeTab === 'transactions'">
-          <div>
-            <TheTypography variant="title">Transactions</TheTypography>
-            <TheTypography variant="subtitle"
-              >Add, edit, or manage your transactions</TheTypography
-            >
-          </div>
-          <div class="app__content">
-            <TransactionForm
-              :title="titleByMode"
-              @submit="saveNewTransaction"
-              @updatedTransaction="saveUpdatedTransaction"
-              @cancel="oldTransaction = null"
-              :oldTransaction
-              :categoryOptions="categoryOptions"
-              :transactionTypeOptions="transactionTypeOptions"
-            ></TransactionForm>
-            <TransactionListSection
-              :categoryOptions="categoryOptionsByTypeWithAll"
-              :transactionTypeOptions="transactionTypeOptionsWithAll"
-              title="Transaction List"
-              subtitle="Manage and filter your transactions"
-              v-model:transactionType="filterModel.transactionType"
-              v-model:transactionCategory="filterModel.category"
-            >
-              <TransactionList
-                :transactions="filteredTransactions"
-                @delete="deleteTransaction"
-                @editTransaction="oldTransaction = $event"
-              />
-            </TransactionListSection>
-          </div>
-        </div>
-        <div class="app__bottom" v-else>
-          <div>
-            <TheTypography variant="title">Setings</TheTypography>
-            <TheTypography variant="subtitle"
-              >Manage your transaction categories</TheTypography
-            >
-          </div>
-          <NewCategoryForm
-            @submit="addNewCategory"
-            :transactionTypeOptions="transactionTypeOptions"
-          />
-          <div class="category-section">
-            <CategoryList
-              title="Income Categories"
-              subtitle="Manage income categories for your transactions"
-              :categoryOptions="incomeCategories"
-              @delete="deleteCategory"
-            />
-          </div>
-
-          <div class="category-section">
-            <CategoryList
-              title="Expense Categories"
-              subtitle="Manage expense categories for your transactions"
-              :categoryOptions="expenseCategories"
-              @delete="deleteCategory"
-            />
-          </div>
-        </div>
+        <router-view />
       </div>
     </TheTypography>
   </CSSReset>
@@ -93,12 +32,8 @@
 <script>
 import { generateId } from "./utils/generateId";
 import CSSReset from "./CSSReset.vue";
-import TransactionForm from "./components/TransactionForm.vue";
-import TransactionListSection from "./components/transactionlist/TransactionListSection.vue";
 import TheTypography from "./components/TheTypography.vue";
-import TransactionList from "./components/transactionlist/TransactionList.vue";
-import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
-import CategoryList from "./components/newCategory/CategoryList.vue";
+
 const LS_DATA = {
   transactions: "finance-transactions",
   categories: "finance-categories",
@@ -109,15 +44,9 @@ export default {
   components: {
     TheTypography,
     CSSReset,
-    TransactionForm,
-    TransactionListSection,
-    TransactionList,
-    NewCategoryForm,
-    CategoryList,
   },
   data() {
     return {
-      activeTab: "transactions",
       oldTransaction: null,
       filterModel: { transactionType: "All", category: "All" },
       transactionTypeOptions: [
@@ -221,6 +150,34 @@ export default {
       ],
     };
   },
+
+  provide() {
+    return {
+      getTransactions: () => this.transactions,
+      getCategoryOptions: () => this.categoryOptions,
+      filterModel: this.filterModel,
+      oldTransaction: this.oldTransaction,
+      transactionTypeOptions: this.transactionTypeOptions,
+
+      getFilteredTransactions: () => this.filteredTransactions,
+      getCategoryOptionsByTypeWithAll: () => this.categoryOptionsByTypeWithAll,
+      getTransactionTypeOptionsWithAll: () =>
+        this.transactionTypeOptionsWithAll,
+      getIncomeCategories: () => this.incomeCategories,
+      getExpenseCategories: () => this.expenseCategories,
+      getTitleByMode: () => this.titleByMode,
+
+      saveNewTransaction: this.saveNewTransaction,
+      saveUpdatedTransaction: this.saveUpdatedTransaction,
+      deleteTransaction: this.deleteTransaction,
+      addNewCategory: this.addNewCategory,
+      deleteCategory: this.deleteCategory,
+
+      cancelEdit: () => (this.oldTransaction = null),
+      setOldTransaction: (t) => (this.oldTransaction = t),
+    };
+  },
+
   computed: {
     titleByMode() {
       const title = this.oldTransaction
@@ -368,14 +325,10 @@ export default {
 
 <style scoped>
 .app {
-  padding: 100px;
+  padding: 40px 100px 100px 100px;
   display: flex;
   flex-direction: column;
   gap: 40px;
-}
-.app__content {
-  display: flex;
-  gap: 20px;
 }
 
 .app__header {
@@ -388,25 +341,12 @@ export default {
   border-width: 0;
   font-size: 20px;
   cursor: pointer;
+  color: black;
+  text-decoration: none;
 }
 
 .app__header-button--active {
   font-weight: 600;
   text-decoration: underline;
-}
-
-.app__top {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.app__bottom {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.category-section {
-  max-width: 1420px;
-  min-width: 820px;
 }
 </style>
