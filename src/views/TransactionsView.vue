@@ -17,7 +17,7 @@ export default {
     "getTitleByMode",
     "getCategoryOptions",
     "transactionTypeOptions",
-    "oldTransaction",
+    "getOldTransaction",
     "filterModel",
     "getCategoryOptionsByTypeWithAll",
     "getTransactionTypeOptionsWithAll",
@@ -43,7 +43,7 @@ export default {
     <div class="transactions__content">
       <TransactionForm
         :title="getTitleByMode()"
-        :oldTransaction="oldTransaction"
+        :oldTransaction="getOldTransaction()"
         :categoryOptions="getCategoryOptions()"
         :transactionTypeOptions="transactionTypeOptions"
         @submit="saveNewTransaction"

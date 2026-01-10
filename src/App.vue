@@ -156,7 +156,7 @@ export default {
       getTransactions: () => this.transactions,
       getCategoryOptions: () => this.categoryOptions,
       filterModel: this.filterModel,
-      oldTransaction: this.oldTransaction,
+      getOldTransaction: () => this.oldTransaction,
       transactionTypeOptions: this.transactionTypeOptions,
 
       getFilteredTransactions: () => this.filteredTransactions,
