@@ -6,7 +6,7 @@
           <TransactionForm
             :title="transactionFormTitle"
             @submit="saveNewTransaction"
-            @updatedTransaction="update"
+            @update="saveUpdateTransaction"
             @cancel="editingTransaction = null"
             :editingValues="editingTransaction"
             :categoryOptions="categoryOptions"
@@ -245,13 +245,11 @@ export default {
       });
     },
 
-    update(updatedTransaction) {
-      const item = this.transactions.find(
-        (t) => t.id === updatedTransaction.id
-      );
+    saveUpdateTransaction(update) {
+      const item = this.transactions.find((t) => t.id === update.id);
       if (!item) return;
 
-      Object.assign(item, updatedTransaction);
+      Object.assign(item, update);
       this.editingTransaction = null;
     },
     saveNewTransaction(newEntry) {

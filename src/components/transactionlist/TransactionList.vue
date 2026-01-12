@@ -6,14 +6,13 @@
       :key="transaction.id"
     >
       <TransactionItem
-        :id="transaction.id"
         :type="transaction.type"
         :amount="transaction.amount"
         :category="transaction.category"
         :date="transaction.date"
         :description="transaction.description"
         @delete="$emit('delete', transaction.id)"
-        @edit="editTransaction(transaction)"
+        @edit="$emit('edit', transaction)"
       />
     </li>
   </ul>
@@ -32,20 +31,6 @@ export default {
     transactions: {
       type: Array,
       required: true,
-    },
-  },
-
-  methods: {
-    editTransaction(transaction) {
-      const editingValues = {
-        id: transaction.id,
-        type: transaction.type,
-        category: transaction.category,
-        amount: transaction.amount,
-        date: transaction.date,
-        description: transaction.description,
-      };
-      this.$emit("edit", editingValues);
     },
   },
 

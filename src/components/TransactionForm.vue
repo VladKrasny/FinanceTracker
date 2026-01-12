@@ -56,7 +56,7 @@ export default {
     transactionTypeOptions: { type: Array, required: true },
   },
 
-  emits: ["submit", "updatedTransaction", "cancel"],
+  emits: ["submit", "update", "cancel"],
   components: {
     TheSelect,
     AmountInput,
@@ -67,6 +67,7 @@ export default {
   },
   data() {
     return {
+      isHydratingEdit: false,
       updateMode: false,
       typeModel: "expense",
       dateModel: "",
@@ -85,7 +86,7 @@ export default {
 
     updateTransaction() {
       if (!this.editingValues) return;
-      const updatedTransaction = {
+      const update = {
         id: this.editingValues.id,
         type: this.typeModel,
         amount: Number(this.amountModel),
@@ -93,7 +94,7 @@ export default {
         date: this.dateModel,
         description: this.descriptionModel,
       };
-      this.$emit("updatedTransaction", updatedTransaction);
+      this.$emit("update", update);
       this.updateMode = false;
       this.resetForm();
     },
@@ -137,18 +138,23 @@ export default {
     editingValues: {
       handler(data) {
         if (!data) return;
+        this.isHydratingEdit = true;
         this.updateMode = true;
         this.typeModel = data.type;
         this.categoryModel = data.category;
         this.amountModel = String(data.amount);
         this.dateModel = data.date;
         this.descriptionModel = data.description;
+        this.$nextTick(() => {
+          this.isHydratingEdit = false;
+        });
       },
       immediate: true,
     },
-    typeModel() {
-      if (this.updateMode) return;
-      this.categoryModel = "";
+
+    typeModel(newVal, oldVal) {
+      if (this.isHydratingEdit) return;
+      if (newVal !== oldVal) this.categoryModel = "";
     },
   },
 };
