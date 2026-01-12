@@ -33,7 +33,7 @@ import IconButton from "../IconButton.vue";
 
 export default {
   name: "TransactionItem",
-  emits: ["delete", "editTransaction"],
+  emits: ["delete", "edit"],
   components: { IconButton },
   props: {
     id: { type: [String, Number], required: true },
@@ -48,7 +48,7 @@ export default {
       this.$emit("delete");
     },
     editTransaction() {
-      const oldTransaction = {
+      const defaultValues = {
         id: this.id,
         type: this.type,
         category: this.category,
@@ -56,7 +56,7 @@ export default {
         date: this.date,
         description: this.description,
       };
-      this.$emit("editTransaction", oldTransaction);
+      this.$emit("edit", defaultValues);
     },
   },
 

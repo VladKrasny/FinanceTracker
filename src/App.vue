@@ -4,11 +4,11 @@
       <div class="app">
         <div class="app__top">
           <TransactionForm
-            :title="titleByMode"
+            :title="transactionFormTitle"
             @submit="saveNewTransaction"
             @updatedTransaction="saveUpdatedTransaction"
-            @cancel="oldTransaction = null"
-            :oldTransaction
+            @cancel="defaultValues = null"
+            :defaultValues
             :categoryOptions="categoryOptions"
             :transactionTypeOptions="transactionTypeOptions"
           ></TransactionForm>
@@ -23,7 +23,7 @@
             <TransactionList
               :transactions="filteredTransactions"
               @delete="deleteTransaction"
-              @editTransaction="oldTransaction = $event"
+              @edit="defaultValues = $event"
             />
           </TransactionListSection>
         </div>
@@ -78,7 +78,7 @@ export default {
   },
   data() {
     return {
-      oldTransaction: null,
+      defaultValues: null,
       filterModel: { transactionType: "All", category: "All" },
       transactionTypeOptions: [
         { value: "income", label: "Income" },
@@ -182,10 +182,8 @@ export default {
     };
   },
   computed: {
-    titleByMode() {
-      const title = this.oldTransaction
-        ? "Edit transaction"
-        : "Add transaction";
+    transactionFormTitle() {
+      const title = this.defaultValues ? "Edit transaction" : "Add transaction";
       return title;
     },
     incomeCategories() {
@@ -249,15 +247,13 @@ export default {
     },
 
     saveUpdatedTransaction(updatedTransaction) {
-      if (!updatedTransaction) return;
-
       const item = this.transactions.find(
         (t) => t.id === updatedTransaction.id
       );
       if (!item) return;
 
       Object.assign(item, updatedTransaction);
-      this.oldTransaction = null;
+      this.defaultValues = null;
     },
     saveNewTransaction(newEntry) {
       const newTransaction = {

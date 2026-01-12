@@ -13,7 +13,7 @@
         :date="transaction.date"
         :description="transaction.description"
         @delete="$emit('delete', transaction.id)"
-        @editTransaction="$emit('editTransaction', $event)"
+        @edit="$emit('edit', $event)"
       />
     </li>
   </ul>
@@ -26,7 +26,7 @@ export default {
   name: "TransactionList",
 
   components: { TransactionItem },
-  emits: ["delete", "editTransaction"],
+  emits: ["delete", "edit"],
 
   props: {
     transactions: {
