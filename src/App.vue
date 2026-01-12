@@ -6,9 +6,9 @@
           <TransactionForm
             :title="transactionFormTitle"
             @submit="saveNewTransaction"
-            @updatedTransaction="saveUpdatedTransaction"
-            @cancel="defaultValues = null"
-            :defaultValues
+            @updatedTransaction="update"
+            @cancel="editingTransaction = null"
+            :editingTransaction
             :categoryOptions="categoryOptions"
             :transactionTypeOptions="transactionTypeOptions"
           ></TransactionForm>
@@ -23,7 +23,7 @@
             <TransactionList
               :transactions="filteredTransactions"
               @delete="deleteTransaction"
-              @edit="defaultValues = $event"
+              @edit="editingTransaction = $event"
             />
           </TransactionListSection>
         </div>
@@ -78,7 +78,7 @@ export default {
   },
   data() {
     return {
-      defaultValues: null,
+      editingTransaction: null,
       filterModel: { transactionType: "All", category: "All" },
       transactionTypeOptions: [
         { value: "income", label: "Income" },
@@ -183,8 +183,7 @@ export default {
   },
   computed: {
     transactionFormTitle() {
-      const title = this.defaultValues ? "Edit transaction" : "Add transaction";
-      return title;
+      return this.editingTransaction ? "Edit transaction" : "Add transaction";
     },
     incomeCategories() {
       return this.categoryOptions.filter((c) => c.type === "income");
@@ -246,14 +245,14 @@ export default {
       });
     },
 
-    saveUpdatedTransaction(updatedTransaction) {
+    update(updatedTransaction) {
       const item = this.transactions.find(
         (t) => t.id === updatedTransaction.id
       );
       if (!item) return;
 
       Object.assign(item, updatedTransaction);
-      this.defaultValues = null;
+      this.editingTransaction = null;
     },
     saveNewTransaction(newEntry) {
       const newTransaction = {

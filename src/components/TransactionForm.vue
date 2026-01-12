@@ -27,7 +27,7 @@
         :disabled="isDisabled"
       />
       <TheButton
-        class="transaction-form____cancel-button"
+        class="transaction-form__cancel-button"
         label="Cancel"
         variant="white"
         @click="cancelUpdate"
@@ -47,7 +47,7 @@ import TheTypography from "./TheTypography.vue";
 export default {
   name: "TransactionForm",
   props: {
-    defaultValues: { type: Object, default: null },
+    editingTransaction: { type: Object, default: null },
     title: {
       type: String,
       required: true,
@@ -84,9 +84,9 @@ export default {
     },
 
     updateTransaction() {
-      if (!this.defaultValues) return;
+      if (!this.editingTransaction) return;
       const updatedTransaction = {
-        id: this.defaultValues.id,
+        id: this.editingTransaction.id,
         type: this.typeModel,
         amount: Number(this.amountModel),
         category: this.categoryModel,
@@ -134,7 +134,7 @@ export default {
     },
   },
   watch: {
-    defaultValues: {
+    editingTransaction: {
       handler(data) {
         if (!data) return;
         this.updateMode = true;
@@ -175,7 +175,7 @@ export default {
 .transaction-form__update-button {
   flex: 7;
 }
-.transaction-form____cancel-button {
+.transaction-form__cancel-button {
   flex: 3;
 }
 </style>
