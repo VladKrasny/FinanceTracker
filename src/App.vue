@@ -257,6 +257,9 @@ export default {
       );
     },
     deleteCategory({ value, label }) {
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this category? You won’t be able to undo this action later."
+      );
       this.categoryOptions = this.categoryOptions.filter(
         (c) => c.value !== value
       );
