@@ -13,7 +13,7 @@
         :date="transaction.date"
         :description="transaction.description"
         @delete="$emit('delete', transaction.id)"
-        @edit="$emit('edit', $event)"
+        @edit="editTransaction(transaction)"
       />
     </li>
   </ul>
@@ -32,6 +32,20 @@ export default {
     transactions: {
       type: Array,
       required: true,
+    },
+  },
+
+  methods: {
+    editTransaction(transaction) {
+      const defaultValues = {
+        id: transaction.id,
+        type: transaction.type,
+        category: transaction.category,
+        amount: transaction.amount,
+        date: transaction.date,
+        description: transaction.description,
+      };
+      this.$emit("edit", defaultValues);
     },
   },
 

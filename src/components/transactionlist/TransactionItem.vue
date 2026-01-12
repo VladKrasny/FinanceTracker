@@ -16,7 +16,7 @@
       </div>
       <IconButton
         variant="edit"
-        @click="editTransaction"
+        @click="$emit('edit')"
         iconSymbol="edit"
       ></IconButton>
       <IconButton
@@ -36,7 +36,6 @@ export default {
   emits: ["delete", "edit"],
   components: { IconButton },
   props: {
-    id: { type: [String, Number], required: true },
     type: { type: String, required: true },
     amount: { type: Number, required: true },
     category: { type: String, required: true },
@@ -46,17 +45,6 @@ export default {
   methods: {
     deleteItem() {
       this.$emit("delete");
-    },
-    editTransaction() {
-      const defaultValues = {
-        id: this.id,
-        type: this.type,
-        category: this.category,
-        amount: this.amount,
-        date: this.date,
-        description: this.description,
-      };
-      this.$emit("edit", defaultValues);
     },
   },
 
