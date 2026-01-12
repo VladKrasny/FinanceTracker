@@ -8,7 +8,7 @@
             @submit="saveNewTransaction"
             @updatedTransaction="update"
             @cancel="editingTransaction = null"
-            :defaultValues="editingTransaction"
+            :editingValues="editingTransaction"
             :categoryOptions="categoryOptions"
             :transactionTypeOptions="transactionTypeOptions"
           ></TransactionForm>

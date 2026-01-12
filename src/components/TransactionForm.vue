@@ -47,7 +47,7 @@ import TheTypography from "./TheTypography.vue";
 export default {
   name: "TransactionForm",
   props: {
-    defaultValues: { type: Object, default: null },
+    editingValues: { type: Object, default: null },
     title: {
       type: String,
       required: true,
@@ -84,9 +84,9 @@ export default {
     },
 
     updateTransaction() {
-      if (!this.defaultValues) return;
+      if (!this.editingValues) return;
       const updatedTransaction = {
-        id: this.defaultValues.id,
+        id: this.editingValues.id,
         type: this.typeModel,
         amount: Number(this.amountModel),
         category: this.categoryModel,
@@ -134,7 +134,7 @@ export default {
     },
   },
   watch: {
-    defaultValues: {
+    editingValues: {
       handler(data) {
         if (!data) return;
         this.updateMode = true;
