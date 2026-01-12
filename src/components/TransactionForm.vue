@@ -21,7 +21,7 @@
     <TheButton v-if="!updateMode" label="Add" :disabled="isDisabled" />
     <div v-else class="transaction-form__update-mode">
       <TheButton
-        class="transaction-form____update-button"
+        class="transaction-form__update-button"
         label="Update"
         @click="updateTransaction"
         :disabled="isDisabled"
@@ -47,7 +47,7 @@ import TheTypography from "./TheTypography.vue";
 export default {
   name: "TransactionForm",
   props: {
-    oldTransaction: { type: Object, default: null },
+    defaultValues: { type: Object, default: null },
     title: {
       type: String,
       required: true,
@@ -83,18 +83,10 @@ export default {
       this.$emit("cancel");
     },
 
-    fillForm(oldTransaction) {
-      this.typeModel = oldTransaction.type;
-      this.dateModel = oldTransaction.date;
-      this.categoryModel = oldTransaction.category;
-      this.amountModel = oldTransaction.amount;
-      this.descriptionModel = oldTransaction.description;
-    },
-
     updateTransaction() {
-      if (!this.oldTransaction) return;
+      if (!this.defaultValues) return;
       const updatedTransaction = {
-        id: this.oldTransaction.id,
+        id: this.defaultValues.id,
         type: this.typeModel,
         amount: Number(this.amountModel),
         category: this.categoryModel,
@@ -142,7 +134,7 @@ export default {
     },
   },
   watch: {
-    oldTransaction: {
+    defaultValues: {
       handler(data) {
         if (!data) return;
         this.updateMode = true;
@@ -180,7 +172,7 @@ export default {
   gap: 10px;
 }
 
-.transaction-form____update-button {
+.transaction-form__update-button {
   flex: 7;
 }
 .transaction-form____cancel-button {
