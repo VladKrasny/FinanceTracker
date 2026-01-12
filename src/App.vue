@@ -236,6 +236,7 @@ export default {
       const confirmDelete = window.confirm(
         "Are you sure you want to delete this category? You won’t be able to undo this action later."
       );
+      if (!confirmDelete) return;
       this.categoryOptions = this.categoryOptions.filter(
         (c) => c.value !== value
       );
