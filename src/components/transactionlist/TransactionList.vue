@@ -37,7 +37,7 @@ export default {
 
   methods: {
     editTransaction(transaction) {
-      const defaultValues = {
+      const editingValues = {
         id: transaction.id,
         type: transaction.type,
         category: transaction.category,
@@ -45,7 +45,7 @@ export default {
         date: transaction.date,
         description: transaction.description,
       };
-      this.$emit("edit", defaultValues);
+      this.$emit("edit", editingValues);
     },
   },
 
