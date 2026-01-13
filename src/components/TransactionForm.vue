@@ -5,6 +5,7 @@
       label="Type"
       :options="transactionTypeOptions"
       v-model="typeModel"
+      @change="onTypeChange"
     />
     <AmountInput v-model="amountModel" @error="amountError = $event" />
     <TheSelect
@@ -67,7 +68,6 @@ export default {
   },
   data() {
     return {
-      isHydratingEdit: false,
       updateMode: false,
       typeModel: "expense",
       dateModel: "",
@@ -78,6 +78,10 @@ export default {
     };
   },
   methods: {
+    onTypeChange() {
+      this.categoryModel = "";
+    },
+
     cancelUpdate() {
       this.resetForm();
       this.updateMode = false;
@@ -138,23 +142,13 @@ export default {
     editingValues: {
       handler(data) {
         if (!data) return;
-        this.isHydratingEdit = true;
         this.updateMode = true;
         this.typeModel = data.type;
         this.categoryModel = data.category;
         this.amountModel = String(data.amount);
         this.dateModel = data.date;
         this.descriptionModel = data.description;
-        this.$nextTick(() => {
-          this.isHydratingEdit = false;
-        });
       },
-      immediate: true,
-    },
-
-    typeModel(newVal, oldVal) {
-      if (this.isHydratingEdit) return;
-      if (newVal !== oldVal) this.categoryModel = "";
     },
   },
 };

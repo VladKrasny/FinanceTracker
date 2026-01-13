@@ -2,7 +2,12 @@
   <div class="select">
     <label v-if="label" :for="randomId">{{ label }}</label>
 
-    <select class="select__options" :id="randomId" v-model="model">
+    <select
+      class="select__options"
+      :id="randomId"
+      v-model="model"
+      @change="emitChange"
+    >
       <option
         v-for="(option, index) in options"
         :key="index"
@@ -32,11 +37,18 @@ export default {
       default: "",
     },
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "change"],
   data() {
     return {
       randomId: generateId("select"),
     };
+  },
+
+  methods: {
+    emitChange(val) {
+      const value = val.target.value;
+      this.$emit("change", value);
+    },
   },
 
   computed: {
