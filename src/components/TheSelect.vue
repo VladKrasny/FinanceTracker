@@ -32,7 +32,7 @@ export default {
       default: "",
     },
   },
-  emits: ["update:modelValue", "change"],
+  emits: ["update:modelValue"],
   data() {
     return {
       randomId: generateId("select"),
@@ -46,7 +46,6 @@ export default {
       },
       set(value) {
         this.$emit("update:modelValue", value);
-        this.$emit("change", value);
       },
     },
   },

@@ -5,7 +5,7 @@
       label="Type"
       :options="transactionTypeOptions"
       v-model="typeModel"
-      @change="onTypeChange"
+      @update:modelValue="onTypeChange"
     />
     <AmountInput v-model="amountModel" @error="amountError = $event" />
     <TheSelect
@@ -149,6 +149,7 @@ export default {
         this.dateModel = data.date;
         this.descriptionModel = data.description;
       },
+      immediate: true,
     },
   },
 };
