@@ -6,7 +6,6 @@
       :key="transaction.id"
     >
       <TransactionItem
-        :id="transaction.id"
         :type="transaction.type"
         :amount="transaction.amount"
         :category="transaction.category"
