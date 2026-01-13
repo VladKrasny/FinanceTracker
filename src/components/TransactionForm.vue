@@ -109,7 +109,7 @@ export default {
     submitAndReset() {
       const newEntry = {
         type: this.typeModel,
-        amount: this.amountModel,
+        amount: Number(this.amountModel),
         category: this.categoryModel,
         date: this.dateModel,
         description: this.descriptionModel,

@@ -26,6 +26,12 @@ export default {
   color: #333;
   font-size: 16px;
 }
+
+.typography--gray-text {
+  color: gray;
+  font-size: 15px;
+}
+
 .typography--title {
   font-size: 24px;
   font-weight: bold;

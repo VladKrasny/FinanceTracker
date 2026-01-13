@@ -21,6 +21,15 @@
           >
             Settings
           </router-link>
+          <router-link
+            class="app__header-button"
+            :class="{
+              'app__header-button--active': $route.path === '/dashboard',
+            }"
+            to="/dashboard"
+          >
+            Dashboard
+          </router-link>
         </div>
         <hr />
         <router-view />
