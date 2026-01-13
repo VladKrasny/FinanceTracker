@@ -2,54 +2,37 @@
   <CSSReset>
     <TheTypography>
       <div class="app">
-        <div class="app__top">
-          <TransactionForm
-            :title="titleByMode"
-            @submit="saveNewTransaction"
-            @updatedTransaction="saveUpdatedTransaction"
-            @cancel="oldTransaction = null"
-            :oldTransaction
-            :categoryOptions="categoryOptions"
-            :transactionTypeOptions="transactionTypeOptions"
-          ></TransactionForm>
-          <TransactionListSection
-            :categoryOptions="categoryOptionsByTypeWithAll"
-            :transactionTypeOptions="transactionTypeOptionsWithAll"
-            title="Transaction List"
-            subtitle="Manage and filter your transactions"
-            v-model:transactionType="filterModel.transactionType"
-            v-model:transactionCategory="filterModel.category"
+        <div class="app__header">
+          <router-link
+            class="app__header-button"
+            :class="{
+              'app__header-button--active': $route.path === '/transactions',
+            }"
+            to="/transactions"
           >
-            <TransactionList
-              :transactions="filteredTransactions"
-              @delete="deleteTransaction"
-              @editTransaction="oldTransaction = $event"
-            />
-          </TransactionListSection>
+            Transactions
+          </router-link>
+          <router-link
+            class="app__header-button"
+            :class="{
+              'app__header-button--active': $route.path === '/settings',
+            }"
+            to="/settings"
+          >
+            Settings
+          </router-link>
+          <router-link
+            class="app__header-button"
+            :class="{
+              'app__header-button--active': $route.path === '/dashboard',
+            }"
+            to="/dashboard"
+          >
+            Dashboard
+          </router-link>
         </div>
-        <div class="app__bottom">
-          <NewCategoryForm
-            @submit="addNewCategory"
-            :transactionTypeOptions="transactionTypeOptions"
-          />
-          <div class="category-section">
-            <CategoryList
-              title="Income Categories"
-              subtitle="Manage income categories for your transactions"
-              :categoryOptions="incomeCategories"
-              @delete="deleteCategory"
-            />
-          </div>
-
-          <div class="category-section">
-            <CategoryList
-              title="Expense Categories"
-              subtitle="Manage expense categories for your transactions"
-              :categoryOptions="expenseCategories"
-              @delete="deleteCategory"
-            />
-          </div>
-        </div>
+        <hr />
+        <router-view />
       </div>
     </TheTypography>
   </CSSReset>
@@ -58,12 +41,8 @@
 <script>
 import { generateId } from "./utils/generateId";
 import CSSReset from "./CSSReset.vue";
-import TransactionForm from "./components/TransactionForm.vue";
-import TransactionListSection from "./components/transactionlist/TransactionListSection.vue";
 import TheTypography from "./components/TheTypography.vue";
-import TransactionList from "./components/transactionlist/TransactionList.vue";
-import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
-import CategoryList from "./components/newCategory/CategoryList.vue";
+
 const LS_DATA = {
   transactions: "finance-transactions",
   categories: "finance-categories",
@@ -74,11 +53,6 @@ export default {
   components: {
     TheTypography,
     CSSReset,
-    TransactionForm,
-    TransactionListSection,
-    TransactionList,
-    NewCategoryForm,
-    CategoryList,
   },
   data() {
     return {
@@ -185,6 +159,34 @@ export default {
       ],
     };
   },
+
+  provide() {
+    return {
+      getTransactions: () => this.transactions,
+      getCategoryOptions: () => this.categoryOptions,
+      filterModel: this.filterModel,
+      getOldTransaction: () => this.oldTransaction,
+      transactionTypeOptions: this.transactionTypeOptions,
+
+      getFilteredTransactions: () => this.filteredTransactions,
+      getCategoryOptionsByTypeWithAll: () => this.categoryOptionsByTypeWithAll,
+      getTransactionTypeOptionsWithAll: () =>
+        this.transactionTypeOptionsWithAll,
+      getIncomeCategories: () => this.incomeCategories,
+      getExpenseCategories: () => this.expenseCategories,
+      getTitleByMode: () => this.titleByMode,
+
+      saveNewTransaction: this.saveNewTransaction,
+      saveUpdatedTransaction: this.saveUpdatedTransaction,
+      deleteTransaction: this.deleteTransaction,
+      addNewCategory: this.addNewCategory,
+      deleteCategory: this.deleteCategory,
+
+      cancelEdit: () => (this.oldTransaction = null),
+      setOldTransaction: (t) => (this.oldTransaction = t),
+    };
+  },
+
   computed: {
     titleByMode() {
       const title = this.oldTransaction
@@ -332,22 +334,28 @@ export default {
 
 <style scoped>
 .app {
-  padding: 100px;
+  padding: 40px 100px 100px 100px;
   display: flex;
   flex-direction: column;
   gap: 40px;
 }
-.app__top {
+
+.app__header {
   display: flex;
-  gap: 20px;
+  gap: 30px;
 }
-.app__bottom {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+
+.app__header-button {
+  background-color: inherit;
+  border-width: 0;
+  font-size: 20px;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
 }
-.category-section {
-  max-width: 1420px;
-  min-width: 820px;
+
+.app__header-button--active {
+  font-weight: 600;
+  text-decoration: underline;
 }
 </style>
