@@ -14,7 +14,11 @@
       <div class="transaction-item__amount" :class="amountClass">
         {{ formattedAmount }}
       </div>
-
+      <IconButton
+        variant="edit"
+        @click="$emit('edit')"
+        iconSymbol="edit"
+      ></IconButton>
       <IconButton
         variant="delete"
         @click="deleteItem"
@@ -29,7 +33,7 @@ import IconButton from "../IconButton.vue";
 
 export default {
   name: "TransactionItem",
-  emits: ["delete"],
+  emits: ["delete", "edit"],
   components: { IconButton },
   props: {
     type: { type: String, required: true },
@@ -40,7 +44,7 @@ export default {
   },
   methods: {
     deleteItem() {
-      this.$emit("delete", this.id);
+      this.$emit("delete");
     },
   },
 
@@ -87,7 +91,7 @@ export default {
   font-style: italic;
   color: gray;
 }
-.transaction__date {
+.transaction-item__date {
   color: gray;
 }
 
