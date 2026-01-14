@@ -1,7 +1,8 @@
 <template>
   <CSSReset>
     <TheTypography>
-      <div class="app"><div class="app__header">
+      <div class="app">
+        <div class="app__header">
           <button
             class="app__header-button"
             :class="{
@@ -11,59 +12,38 @@
           >
             Transactions
           </button>
+
           <button
             class="app__header-button"
-            :class="{
-              'app__header-button--active': activeTab === 'setings',
-            }"
+            :class="{ 'app__header-button--active': activeTab === 'setings' }"
             @click="activeTab = 'setings'"
           >
             Setings
           </button>
         </div>
-        <div class="app__top">
-          <TransactionForm
-            :title="transactionFormTitle"
-            @submit="saveNewTransaction"
-            @update="saveUpdateTransaction"
-            @cancel="editingTransaction = null"
-            :editingValues="editingTransaction"
-            :categoryOptions="categoryOptions"
-            :transactionTypeOptions="transactionTypeOptions"
-          ></TransactionForm>
-          <TransactionListSection
-            :categoryOptions="categoryOptionsByTypeWithAll"
-            :transactionTypeOptions="transactionTypeOptionsWithAll"
-            title="Transaction List"
-            subtitle="Manage and filter your transactions"
-            v-model:transactionType="filterModel.transactionType"
-            v-model:transactionCategory="filterModel.category"
-          >
-            <TransactionList
-              :transactions="filteredTransactions"
-              @delete="deleteTransaction"
-              @edit="editingTransaction = $event"
-            />
-          </TransactionListSection>
-        
+
         <hr />
+
+        <!-- TRANSACTIONS -->
         <div class="app__top" v-if="activeTab === 'transactions'">
           <div>
             <TheTypography variant="title">Transactions</TheTypography>
-            <TheTypography variant="subtitle"
-              >Add, edit, or manage your transactions</TheTypography
-            >
+            <TheTypography variant="subtitle">
+              Add, edit, or manage your transactions
+            </TheTypography>
           </div>
+
           <div class="app__content">
             <TransactionForm
-              :title="titleByMode"
+              :title="transactionFormTitle"
               @submit="saveNewTransaction"
-              @updatedTransaction="saveUpdatedTransaction"
-              @cancel="oldTransaction = null"
-              :oldTransaction
+              @update="saveUpdateTransaction"
+              @cancel="editingTransaction = null"
+              :editingValues="editingTransaction"
               :categoryOptions="categoryOptions"
               :transactionTypeOptions="transactionTypeOptions"
-            ></TransactionForm>
+            />
+
             <TransactionListSection
               :categoryOptions="categoryOptionsByTypeWithAll"
               :transactionTypeOptions="transactionTypeOptionsWithAll"
@@ -75,22 +55,26 @@
               <TransactionList
                 :transactions="filteredTransactions"
                 @delete="deleteTransaction"
-                @editTransaction="oldTransaction = $event"
+                @edit="editingTransaction = $event"
               />
             </TransactionListSection>
           </div>
         </div>
+
+        <!-- SETTINGS -->
         <div class="app__bottom" v-else>
           <div>
             <TheTypography variant="title">Setings</TheTypography>
-            <TheTypography variant="subtitle"
-              >Manage your transaction categories</TheTypography
-            >
+            <TheTypography variant="subtitle">
+              Manage your transaction categories
+            </TheTypography>
           </div>
+
           <NewCategoryForm
             @submit="addNewCategory"
             :transactionTypeOptions="transactionTypeOptions"
           />
+
           <div class="category-section">
             <CategoryList
               title="Income Categories"
@@ -100,14 +84,7 @@
             />
           </div>
 
-          <div class="category-section">
-            <CategoryList
-              title="Expense Categories"
-              subtitle="Manage expense categories for your transactions"
-              :categoryOptions="expenseCategories"
-              @delete="deleteCategory"
-            />
-          </div>
+          <!-- тут продолжай Expense Categories и т.д. -->
         </div>
       </div>
     </TheTypography>
@@ -141,6 +118,7 @@ export default {
   },
   data() {
     return {
+      activeTab: "transactions",
       editingTransaction: null,
       filterModel: { transactionType: "All", category: "All" },
       transactionTypeOptions: [

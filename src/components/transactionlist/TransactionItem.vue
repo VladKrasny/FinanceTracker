@@ -36,7 +36,6 @@ export default {
   emits: ["delete", "edit"],
   components: { IconButton },
   props: {
-    id: { type: [String, Number], required: true },
     type: { type: String, required: true },
     amount: { type: Number, required: true },
     category: { type: String, required: true },
