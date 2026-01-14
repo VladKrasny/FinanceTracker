@@ -25,7 +25,7 @@
         <hr />
 
         <!-- TRANSACTIONS -->
-        <div class="app__top" v-if="activeTab === 'transactions'">
+        <div class="app__transactions" v-if="activeTab === 'transactions'">
           <div>
             <TheTypography variant="title">Transactions</TheTypography>
             <TheTypography variant="subtitle">
@@ -62,7 +62,7 @@
         </div>
 
         <!-- SETTINGS -->
-        <div class="app__bottom" v-else>
+        <div class="app__settings" v-else>
           <div>
             <TheTypography variant="title">Settings</TheTypography>
             <TheTypography variant="subtitle">
@@ -75,7 +75,7 @@
             :transactionTypeOptions="transactionTypeOptions"
           />
 
-          <div class="category-section">
+          <div class="app__categories-section">
             <CategoryList
               title="Income Categories"
               subtitle="Manage income categories for your transactions"
@@ -411,17 +411,17 @@ export default {
   text-decoration: underline;
 }
 
-.app__top {
+.app__transactions {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.app__bottom {
+.app__settings {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.category-section {
+.app__categories-section {
   max-width: 1420px;
   min-width: 820px;
 }
