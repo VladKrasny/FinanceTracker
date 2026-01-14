@@ -15,10 +15,10 @@
 
           <button
             class="app__header-button"
-            :class="{ 'app__header-button--active': activeTab === 'setings' }"
-            @click="activeTab = 'setings'"
+            :class="{ 'app__header-button--active': activeTab === 'settings' }"
+            @click="activeTab = 'settings'"
           >
-            Setings
+            Settings
           </button>
         </div>
 
@@ -64,7 +64,7 @@
         <!-- SETTINGS -->
         <div class="app__bottom" v-else>
           <div>
-            <TheTypography variant="title">Setings</TheTypography>
+            <TheTypography variant="title">Settings</TheTypography>
             <TheTypography variant="subtitle">
               Manage your transaction categories
             </TheTypography>
@@ -82,9 +82,13 @@
               :categoryOptions="incomeCategories"
               @delete="deleteCategory"
             />
+            <CategoryList
+              title="Expense Categories"
+              subtitle="Manage expense categories for your transactions"
+              :categoryOptions="expenseCategories"
+              @delete="deleteCategory"
+            />
           </div>
-
-          <!-- тут продолжай Expense Categories и т.д. -->
         </div>
       </div>
     </TheTypography>
