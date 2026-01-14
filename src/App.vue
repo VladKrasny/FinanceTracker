@@ -4,9 +4,9 @@
       <div class="app">
         <div class="app__header">
           <button
-            class="app__header-button"
+            class="app__tabs"
             :class="{
-              'app__header-button--active': activeTab === 'transactions',
+              'app__tabs--active': activeTab === 'transactions',
             }"
             @click="activeTab = 'transactions'"
           >
@@ -14,8 +14,8 @@
           </button>
 
           <button
-            class="app__header-button"
-            :class="{ 'app__header-button--active': activeTab === 'settings' }"
+            class="app__tabs"
+            :class="{ 'app__tabs--active': activeTab === 'settings' }"
             @click="activeTab = 'settings'"
           >
             Settings
@@ -384,7 +384,7 @@ export default {
 
 <style scoped>
 .app {
-  padding: 100px;
+  padding: 50px 100px 100px 100px;
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -399,14 +399,14 @@ export default {
   gap: 30px;
 }
 
-.app__header-button {
+.app__tabs {
   background-color: inherit;
   border-width: 0;
   font-size: 20px;
   cursor: pointer;
 }
 
-.app__header-button--active {
+.app__tabs--active {
   font-weight: 600;
   text-decoration: underline;
 }
