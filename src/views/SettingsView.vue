@@ -2,18 +2,27 @@
 import TheTypography from "@/components/TheTypography.vue";
 import NewCategoryForm from "@/components/newCategory/NewCategoryForm.vue";
 import CategoryList from "@/components/newCategory/CategoryList.vue";
+import { inject } from "vue";
 
 export default {
   name: "SettingsView",
   components: { TheTypography, NewCategoryForm, CategoryList },
 
-  inject: [
-    "transactionTypeOptions",
-    "getIncomeCategories",
-    "getExpenseCategories",
-    "addNewCategory",
-    "deleteCategory",
-  ],
+  setup() {
+    const transactionTypeOptions = inject("transactionTypeOptions");
+    const getIncomeCategories = inject("getIncomeCategories");
+    const getExpenseCategories = inject("getExpenseCategories");
+    const addNewCategory = inject("addNewCategory");
+    const deleteCategory = inject("deleteCategory");
+
+    return {
+      transactionTypeOptions,
+      getIncomeCategories,
+      getExpenseCategories,
+      addNewCategory,
+      deleteCategory,
+    };
+  },
 };
 </script>
 

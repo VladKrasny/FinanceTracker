@@ -1,4 +1,6 @@
 <script>
+import { inject } from "vue";
+
 import TransactionForm from "@/components/TransactionForm.vue";
 import TransactionListSection from "@/components/transactionlist/TransactionListSection.vue";
 import TransactionList from "@/components/transactionlist/TransactionList.vue";
@@ -13,21 +15,44 @@ export default {
     TheTypography,
   },
 
-  inject: [
-    "getTitleByMode",
-    "getCategoryOptions",
-    "transactionTypeOptions",
-    "getOldTransaction",
-    "filterModel",
-    "getCategoryOptionsByTypeWithAll",
-    "getTransactionTypeOptionsWithAll",
-    "getFilteredTransactions",
-    "saveNewTransaction",
-    "saveUpdatedTransaction",
-    "deleteTransaction",
-    "cancelEdit",
-    "setOldTransaction",
-  ],
+  setup() {
+    const getTitleByMode = inject("getTitleByMode");
+    const getCategoryOptions = inject("getCategoryOptions");
+    const transactionTypeOptions = inject("transactionTypeOptions");
+    const getOldTransaction = inject("getOldTransaction");
+    const filterModel = inject("filterModel");
+
+    const getCategoryOptionsByTypeWithAll = inject(
+      "getCategoryOptionsByTypeWithAll"
+    );
+    const getTransactionTypeOptionsWithAll = inject(
+      "getTransactionTypeOptionsWithAll"
+    );
+    const getFilteredTransactions = inject("getFilteredTransactions");
+
+    const saveNewTransaction = inject("saveNewTransaction");
+    const saveUpdatedTransaction = inject("saveUpdatedTransaction");
+    const deleteTransaction = inject("deleteTransaction");
+
+    const cancelEdit = inject("cancelEdit");
+    const setOldTransaction = inject("setOldTransaction");
+
+    return {
+      getTitleByMode,
+      getCategoryOptions,
+      transactionTypeOptions,
+      getOldTransaction,
+      filterModel,
+      getCategoryOptionsByTypeWithAll,
+      getTransactionTypeOptionsWithAll,
+      getFilteredTransactions,
+      saveNewTransaction,
+      saveUpdatedTransaction,
+      deleteTransaction,
+      cancelEdit,
+      setOldTransaction,
+    };
+  },
 };
 </script>
 
