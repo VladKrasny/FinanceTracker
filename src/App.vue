@@ -229,13 +229,13 @@ export default {
   watch: {
     transactions: {
       handler(newValue) {
-        localStorage.setItem("finance-transactions", JSON.stringify(newValue));
+        localStorage.setItem(LS_DATA.transactions, JSON.stringify(newValue));
       },
       deep: true,
     },
     categoryOptions: {
       handler(newValue) {
-        localStorage.setItem("finance-categories", JSON.stringify(newValue));
+        localStorage.setItem(LS_DATA.categories, JSON.stringify(newValue));
       },
       deep: true,
     },
@@ -254,24 +254,38 @@ export default {
   methods: {
     restoreFromLocalStorage() {
       try {
-        const transactionsJSON = localStorage.getItem(LS_DATA.transactions);
-        if (transactionsJSON) {
-          const transactionsFromLS = JSON.parse(transactionsJSON);
-          if (Array.isArray(transactionsFromLS)) {
-            this.transactions = transactionsFromLS;
+        const transactionsFromLS = localStorage.getItem(LS_DATA.transactions);
+        if (transactionsFromLS) {
+          const transactionsJSON = JSON.parse(transactionsFromLS);
+          if (Array.isArray(transactionsJSON)) {
+            this.transactions = transactionsJSON;
+          } else {
+            throw new Error("invalid transactions format");
           }
         }
-      } catch (e) {}
+      } catch (e) {
+        console.warn(
+          "Failed to parse transactions from localStorage. Resetting to default."
+        );
+        localStorage.removeItem(LS_DATA.transactions);
+      }
 
       try {
-        const categoriesJSON = localStorage.getItem(LS_DATA.categories);
-        if (categoriesJSON) {
-          const categoriesFromLS = JSON.parse(categoriesJSON);
-          if (Array.isArray(categoriesFromLS)) {
-            this.categoryOptions = categoriesFromLS;
+        const categoriesFromLS = localStorage.getItem(LS_DATA.categories);
+        if (categoriesFromLS) {
+          const categoriesJSON = JSON.parse(categoriesFromLS);
+          if (Array.isArray(categoriesJSON)) {
+            this.categoryOptions = categoriesJSON;
+          } else {
+            throw new Error(" Invalid categories format");
           }
         }
-      } catch (e) {}
+      } catch (e) {
+        console.warn(
+          "Failed to parse categories from localStorage. Resetting to default."
+        );
+        localStorage.removeItem(LS_DATA.categories);
+      }
     },
     deleteTransaction(id) {
       const confirmDelete = window.confirm(
