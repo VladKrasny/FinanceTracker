@@ -4,9 +4,9 @@
       <div class="app">
         <div class="app__header">
           <button
-            class="app__tabs"
+            class="app__tab"
             :class="{
-              'app__tabs--active': activeTab === 'transactions',
+              'app__tab--active': activeTab === 'transactions',
             }"
             @click="activeTab = 'transactions'"
           >
@@ -14,18 +14,16 @@
           </button>
 
           <button
-            class="app__tabs"
-            :class="{ 'app__tabs--active': activeTab === 'settings' }"
+            class="app__tab"
+            :class="{ 'app__tab--active': activeTab === 'settings' }"
             @click="activeTab = 'settings'"
           >
             Settings
           </button>
         </div>
 
-        <hr />
-
         <!-- TRANSACTIONS -->
-        <div class="app__transactions" v-if="activeTab === 'transactions'">
+        <div class="app__view" v-if="activeTab === 'transactions'">
           <div>
             <TheTypography variant="title">Transactions</TheTypography>
             <TheTypography variant="subtitle">
@@ -62,7 +60,7 @@
         </div>
 
         <!-- SETTINGS -->
-        <div class="app__settings" v-else>
+        <div class="app__view" v-if="activeTab === 'settings'">
           <div>
             <TheTypography variant="title">Settings</TheTypography>
             <TheTypography variant="subtitle">
@@ -104,10 +102,6 @@ import TheTypography from "./components/TheTypography.vue";
 import TransactionList from "./components/transactionlist/TransactionList.vue";
 import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
 import CategoryList from "./components/newCategory/CategoryList.vue";
-const LS_DATA = {
-  transactions: "finance-transactions",
-  categories: "finance-categories",
-};
 
 export default {
   name: "App",
@@ -397,26 +391,23 @@ export default {
 .app__header {
   display: flex;
   gap: 30px;
+  border-bottom: 1px solid black;
+  padding: 0 0 10px 0;
 }
 
-.app__tabs {
+.app__tab {
   background-color: inherit;
   border-width: 0;
   font-size: 20px;
   cursor: pointer;
 }
 
-.app__tabs--active {
+.app__tab--active {
   font-weight: 600;
   text-decoration: underline;
 }
 
-.app__transactions {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.app__settings {
+.app__view {
   display: flex;
   flex-direction: column;
   gap: 20px;
