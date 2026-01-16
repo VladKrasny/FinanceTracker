@@ -282,46 +282,7 @@ export default {
     },
   },
 
-  created() {
-    this.restoreFromLocalStorage();
-  },
-
   methods: {
-    restoreFromLocalStorage() {
-      try {
-        const transactionsFromLS = localStorage.getItem(LS_DATA.transactions);
-        if (transactionsFromLS) {
-          const transactionsJSON = JSON.parse(transactionsFromLS);
-          if (Array.isArray(transactionsJSON)) {
-            this.transactions = transactionsJSON;
-          } else {
-            throw new Error("invalid transactions format");
-          }
-        }
-      } catch {
-        console.warn(
-          "Failed to parse transactions from localStorage. Resetting to default."
-        );
-        localStorage.removeItem(LS_DATA.transactions);
-      }
-
-      try {
-        const categoriesFromLS = localStorage.getItem(LS_DATA.categories);
-        if (categoriesFromLS) {
-          const categoriesJSON = JSON.parse(categoriesFromLS);
-          if (Array.isArray(categoriesJSON)) {
-            this.categoryOptions = categoriesJSON;
-          } else {
-            throw new Error(" Invalid categories format");
-          }
-        }
-      } catch {
-        console.warn(
-          "Failed to parse categories from localStorage. Resetting to default."
-        );
-        localStorage.removeItem(LS_DATA.categories);
-      }
-    },
     deleteTransaction(id) {
       const confirmDelete = window.confirm(
         "Are you sure you want to delete this transaction? You won’t be able to undo this action later."
