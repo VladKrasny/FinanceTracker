@@ -263,7 +263,7 @@ export default {
             throw new Error("invalid transactions format");
           }
         }
-      } catch (e) {
+      } catch {
         console.warn(
           "Failed to parse transactions from localStorage. Resetting to default."
         );
@@ -280,7 +280,7 @@ export default {
             throw new Error(" Invalid categories format");
           }
         }
-      } catch (e) {
+      } catch {
         console.warn(
           "Failed to parse categories from localStorage. Resetting to default."
         );
