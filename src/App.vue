@@ -64,6 +64,10 @@ import TheTypography from "./components/TheTypography.vue";
 import TransactionList from "./components/transactionlist/TransactionList.vue";
 import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
 import CategoryList from "./components/newCategory/CategoryList.vue";
+const LS_DATA = {
+  transactions: "finance-transactions",
+  categories: "finance-categories",
+};
 
 export default {
   name: "App",
@@ -225,13 +229,13 @@ export default {
   watch: {
     transactions: {
       handler(newValue) {
-        localStorage.setItem("finance-transactions", JSON.stringify(newValue));
+        localStorage.setItem(LS_DATA.transactions, JSON.stringify(newValue));
       },
       deep: true,
     },
     categoryOptions: {
       handler(newValue) {
-        localStorage.setItem("finance-categories", JSON.stringify(newValue));
+        localStorage.setItem(LS_DATA.categories, JSON.stringify(newValue));
       },
       deep: true,
     },
@@ -243,7 +247,46 @@ export default {
     },
   },
 
+  created() {
+    this.restoreFromLocalStorage();
+  },
+
   methods: {
+    restoreFromLocalStorage() {
+      try {
+        const transactionsFromLS = localStorage.getItem(LS_DATA.transactions);
+        if (transactionsFromLS) {
+          const transactionsJSON = JSON.parse(transactionsFromLS);
+          if (Array.isArray(transactionsJSON)) {
+            this.transactions = transactionsJSON;
+          } else {
+            throw new Error("invalid transactions format");
+          }
+        }
+      } catch {
+        console.warn(
+          "Failed to parse transactions from localStorage. Resetting to default."
+        );
+        localStorage.removeItem(LS_DATA.transactions);
+      }
+
+      try {
+        const categoriesFromLS = localStorage.getItem(LS_DATA.categories);
+        if (categoriesFromLS) {
+          const categoriesJSON = JSON.parse(categoriesFromLS);
+          if (Array.isArray(categoriesJSON)) {
+            this.categoryOptions = categoriesJSON;
+          } else {
+            throw new Error(" Invalid categories format");
+          }
+        }
+      } catch {
+        console.warn(
+          "Failed to parse categories from localStorage. Resetting to default."
+        );
+        localStorage.removeItem(LS_DATA.categories);
+      }
+    },
     deleteTransaction(id) {
       const confirmDelete = window.confirm(
         "Are you sure you want to delete this transaction? You won’t be able to undo this action later."
