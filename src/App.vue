@@ -103,6 +103,11 @@ import TransactionList from "./components/transactionlist/TransactionList.vue";
 import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
 import CategoryList from "./components/newCategory/CategoryList.vue";
 
+const LS_DATA = {
+  transactions: "finance-transactions",
+  categories: "finance-categories",
+};
+
 export default {
   name: "App",
   components: {
@@ -281,7 +286,9 @@ export default {
       }
     },
   },
-
+  created() {
+    this.restoreFromLocalStorage();
+  },
   methods: {
     restoreFromLocalStorage() {
       try {
