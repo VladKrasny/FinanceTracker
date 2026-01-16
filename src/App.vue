@@ -2,46 +2,84 @@
   <CSSReset>
     <TheTypography>
       <div class="app">
-        <div class="app__top">
-          <TransactionForm
-            :title="transactionFormTitle"
-            @submit="saveNewTransaction"
-            @update="saveUpdateTransaction"
-            @cancel="editingTransaction = null"
-            :editingValues="editingTransaction"
-            :categoryOptions="categoryOptions"
-            :transactionTypeOptions="transactionTypeOptions"
-          ></TransactionForm>
-          <TransactionListSection
-            :categoryOptions="categoryOptionsByTypeWithAll"
-            :transactionTypeOptions="transactionTypeOptionsWithAll"
-            title="Transaction List"
-            subtitle="Manage and filter your transactions"
-            v-model:transactionType="filterModel.transactionType"
-            v-model:transactionCategory="filterModel.category"
+        <div class="app__header">
+          <button
+            class="app__tab"
+            :class="{
+              'app__tab--active': activeTab === 'transactions',
+            }"
+            @click="activeTab = 'transactions'"
           >
-            <TransactionList
-              :transactions="filteredTransactions"
-              @delete="deleteTransaction"
-              @edit="editingTransaction = $event"
-            />
-          </TransactionListSection>
+            Transactions
+          </button>
+
+          <button
+            class="app__tab"
+            :class="{ 'app__tab--active': activeTab === 'settings' }"
+            @click="activeTab = 'settings'"
+          >
+            Settings
+          </button>
         </div>
-        <div class="app__bottom">
+
+        <!-- TRANSACTIONS -->
+        <div class="app__view" v-if="activeTab === 'transactions'">
+          <div>
+            <TheTypography variant="title">Transactions</TheTypography>
+            <TheTypography variant="subtitle">
+              Add, edit, or manage your transactions
+            </TheTypography>
+          </div>
+
+          <div class="app__content">
+            <TransactionForm
+              :title="transactionFormTitle"
+              @submit="saveNewTransaction"
+              @update="saveUpdateTransaction"
+              @cancel="editingTransaction = null"
+              :editingValues="editingTransaction"
+              :categoryOptions="categoryOptions"
+              :transactionTypeOptions="transactionTypeOptions"
+            />
+
+            <TransactionListSection
+              :categoryOptions="categoryOptionsByTypeWithAll"
+              :transactionTypeOptions="transactionTypeOptionsWithAll"
+              title="Transaction List"
+              subtitle="Manage and filter your transactions"
+              v-model:transactionType="filterModel.transactionType"
+              v-model:transactionCategory="filterModel.category"
+            >
+              <TransactionList
+                :transactions="filteredTransactions"
+                @delete="deleteTransaction"
+                @edit="editingTransaction = $event"
+              />
+            </TransactionListSection>
+          </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="app__view" v-if="activeTab === 'settings'">
+          <div>
+            <TheTypography variant="title">Settings</TheTypography>
+            <TheTypography variant="subtitle">
+              Manage your transaction categories
+            </TheTypography>
+          </div>
+
           <NewCategoryForm
             @submit="addNewCategory"
             :transactionTypeOptions="transactionTypeOptions"
           />
-          <div class="category-section">
+
+          <div class="app__categories-section">
             <CategoryList
               title="Income Categories"
               subtitle="Manage income categories for your transactions"
               :categoryOptions="incomeCategories"
               @delete="deleteCategory"
             />
-          </div>
-
-          <div class="category-section">
             <CategoryList
               title="Expense Categories"
               subtitle="Manage expense categories for your transactions"
@@ -64,6 +102,7 @@ import TheTypography from "./components/TheTypography.vue";
 import TransactionList from "./components/transactionlist/TransactionList.vue";
 import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
 import CategoryList from "./components/newCategory/CategoryList.vue";
+
 const LS_DATA = {
   transactions: "finance-transactions",
   categories: "finance-categories",
@@ -82,6 +121,7 @@ export default {
   },
   data() {
     return {
+      activeTab: "transactions",
       editingTransaction: null,
       filterModel: { transactionType: "All", category: "All" },
       transactionTypeOptions: [
@@ -246,11 +286,9 @@ export default {
       }
     },
   },
-
   created() {
     this.restoreFromLocalStorage();
   },
-
   methods: {
     restoreFromLocalStorage() {
       try {
@@ -343,21 +381,41 @@ export default {
 
 <style scoped>
 .app {
-  padding: 100px;
+  padding: 50px 100px 100px 100px;
   display: flex;
   flex-direction: column;
   gap: 40px;
 }
-.app__top {
+.app__content {
   display: flex;
   gap: 20px;
 }
-.app__bottom {
+
+.app__header {
+  display: flex;
+  gap: 30px;
+  border-bottom: 1px solid black;
+  padding: 0 0 10px 0;
+}
+
+.app__tab {
+  background-color: inherit;
+  border-width: 0;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.app__tab--active {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.app__view {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.category-section {
+.app__categories-section {
   max-width: 1420px;
   min-width: 820px;
 }
