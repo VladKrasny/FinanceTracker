@@ -346,32 +346,8 @@ export default {
   gap: 40px;
 }
 
-.app__header {
-  display: flex;
-  gap: 30px;
-  border-bottom: 1px solid black;
-  padding: 0 0 10px 0;
-}
-
-.app__tab {
-  background-color: inherit;
-  border-width: 0;
-  font-size: 20px;
-  cursor: pointer;
-}
-
 .app__router--active {
   font-weight: 600;
   text-decoration: underline;
-}
-
-.app__view {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.app__categories-section {
-  max-width: 1420px;
-  min-width: 820px;
 }
 </style>
