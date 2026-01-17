@@ -2,106 +2,31 @@
   <CSSReset>
     <TheTypography>
       <div class="app">
-        <div class="app__header">
-          <button
-            class="app__tab"
-            :class="{
-              'app__tab--active': activeTab === 'transactions',
-            }"
-            @click="activeTab = 'transactions'"
+        <nav class="app__nav">
+          <RouterLink
+            to="/transactions"
+            class="app__router"
+            :class="{ 'app__router--active': $route.path === '/transactions' }"
+            >Transaction</RouterLink
           >
-            Transactions
-          </button>
-
-          <button
-            class="app__tab"
-            :class="{ 'app__tab--active': activeTab === 'settings' }"
-            @click="activeTab = 'settings'"
+          <RouterLink
+            to="/settings"
+            class="app__router"
+            :class="{ 'app__router--active': $route.path === '/settings' }"
+            >Settings</RouterLink
           >
-            Settings
-          </button>
-        </div>
-
-        <!-- TRANSACTIONS -->
-        <div class="app__view" v-if="activeTab === 'transactions'">
-          <div>
-            <TheTypography variant="title">Transactions</TheTypography>
-            <TheTypography variant="subtitle">
-              Add, edit, or manage your transactions
-            </TheTypography>
-          </div>
-
-          <div class="app__content">
-            <TransactionForm
-              :title="transactionFormTitle"
-              @submit="saveNewTransaction"
-              @update="saveUpdateTransaction"
-              @cancel="editingTransaction = null"
-              :editingValues="editingTransaction"
-              :categoryOptions="categoryOptions"
-              :transactionTypeOptions="transactionTypeOptions"
-            />
-
-            <TransactionListSection
-              :categoryOptions="categoryOptionsByTypeWithAll"
-              :transactionTypeOptions="transactionTypeOptionsWithAll"
-              title="Transaction List"
-              subtitle="Manage and filter your transactions"
-              v-model:transactionType="filterModel.transactionType"
-              v-model:transactionCategory="filterModel.category"
-            >
-              <TransactionList
-                :transactions="filteredTransactions"
-                @delete="deleteTransaction"
-                @edit="editingTransaction = $event"
-              />
-            </TransactionListSection>
-          </div>
-        </div>
-
-        <!-- SETTINGS -->
-        <div class="app__view" v-if="activeTab === 'settings'">
-          <div>
-            <TheTypography variant="title">Settings</TheTypography>
-            <TheTypography variant="subtitle">
-              Manage your transaction categories
-            </TheTypography>
-          </div>
-
-          <NewCategoryForm
-            @submit="addNewCategory"
-            :transactionTypeOptions="transactionTypeOptions"
-          />
-
-          <div class="app__categories-section">
-            <CategoryList
-              title="Income Categories"
-              subtitle="Manage income categories for your transactions"
-              :categoryOptions="incomeCategories"
-              @delete="deleteCategory"
-            />
-            <CategoryList
-              title="Expense Categories"
-              subtitle="Manage expense categories for your transactions"
-              :categoryOptions="expenseCategories"
-              @delete="deleteCategory"
-            />
-          </div>
-        </div>
+        </nav>
+        <router-view />
       </div>
     </TheTypography>
   </CSSReset>
 </template>
 
 <script>
+import { computed, ref, reactive, watch, provide, onMounted } from "vue";
 import { generateId } from "./utils/generateId";
 import CSSReset from "./CSSReset.vue";
-import TransactionForm from "./components/TransactionForm.vue";
-import TransactionListSection from "./components/transactionlist/TransactionListSection.vue";
 import TheTypography from "./components/TheTypography.vue";
-import TransactionList from "./components/transactionlist/TransactionList.vue";
-import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
-import CategoryList from "./components/newCategory/CategoryList.vue";
 
 const LS_DATA = {
   transactions: "finance-transactions",
@@ -113,282 +38,312 @@ export default {
   components: {
     TheTypography,
     CSSReset,
-    TransactionForm,
-    TransactionListSection,
-    TransactionList,
-    NewCategoryForm,
-    CategoryList,
   },
-  data() {
-    return {
-      activeTab: "transactions",
-      editingTransaction: null,
-      filterModel: { transactionType: "All", category: "All" },
-      transactionTypeOptions: [
-        { value: "income", label: "Income" },
-        { value: "expense", label: "Expense" },
-      ],
-      transactions: [
-        {
-          id: 1,
-          type: "income",
-          amount: 100.0,
-          category: "Salary",
-          date: "2025-11-01",
-          description: "Monthly salary",
-        },
-        {
-          id: 2,
-          type: "expense",
-          amount: 25.5,
-          category: "Food",
-          date: "2025-11-02",
-          description: "Groceries",
-        },
-        {
-          id: 3,
-          type: "expense",
-          amount: 12.0,
-          category: "Transport",
-          date: "2025-11-03",
-          description: "Bus ticket",
-        },
-        {
-          id: 4,
-          type: "expense",
-          amount: 45.0,
-          category: "Entertainment",
-          date: "2025-11-04",
-          description: "Cinema",
-        },
-        {
-          id: 5,
-          type: "income",
-          amount: 300.0,
-          category: "Freelance",
-          date: "2025-11-05",
-          description: "Side project payment",
-        },
-        {
-          id: 6,
-          type: "expense",
-          amount: 60.0,
-          category: "Utilities",
-          date: "2025-11-06",
-          description: "Electricity bill",
-        },
-        {
-          id: 7,
-          type: "expense",
-          amount: 18.75,
-          category: "Food",
-          date: "2025-11-07",
-          description: "Lunch with friends",
-        },
-        {
-          id: 8,
-          type: "income",
-          amount: 50.0,
-          category: "Gift",
-          date: "2025-11-08",
-          description: "Birthday gift",
-        },
-        {
-          id: 9,
-          type: "expense",
-          amount: 120.0,
-          category: "Shopping",
-          date: "2025-11-09",
-          description: "Clothes",
-        },
-        {
-          id: 10,
-          type: "expense",
-          amount: 30.0,
-          category: "Health",
-          date: "2025-11-10",
-          description: "Pharmacy",
-        },
-      ],
 
-      categoryOptions: [
-        { value: 1, label: "Food", type: "expense" },
-        { value: 2, label: "Transport", type: "expense" },
-        { value: 3, label: "Entertainment", type: "expense" },
-        { value: 4, label: "Utilities", type: "expense" },
-        { value: 5, label: "Shopping", type: "expense" },
-        { value: 6, label: "Health", type: "expense" },
+  setup() {
+    const editingTransaction = ref(null);
 
-        { value: 7, label: "Salary", type: "income" },
-        { value: 8, label: "Freelance", type: "income" },
-        { value: 9, label: "Gift", type: "income" },
-      ],
-    };
-  },
-  computed: {
-    transactionFormTitle() {
-      return this.editingTransaction ? "Edit transaction" : "Add transaction";
-    },
-    incomeCategories() {
-      return this.categoryOptions.filter((c) => c.type === "income");
-    },
-    expenseCategories() {
-      return this.categoryOptions.filter((c) => c.type === "expense");
-    },
-    categoryOptionsByTypeWithAll() {
+    const filterModel = reactive({
+      transactionType: "All",
+      category: "All",
+    });
+
+    const transactionTypeOptions = [
+      { value: "income", label: "Income" },
+      { value: "expense", label: "Expense" },
+    ];
+
+    const transactions = ref([
+      {
+        id: 1,
+        type: "income",
+        amount: 100.0,
+        category: "Salary",
+        date: "2025-11-01",
+        description: "Monthly salary",
+      },
+      {
+        id: 2,
+        type: "expense",
+        amount: 25.5,
+        category: "Food",
+        date: "2025-11-02",
+        description: "Groceries",
+      },
+      {
+        id: 3,
+        type: "expense",
+        amount: 12.0,
+        category: "Transport",
+        date: "2025-11-03",
+        description: "Bus ticket",
+      },
+      {
+        id: 4,
+        type: "expense",
+        amount: 45.0,
+        category: "Entertainment",
+        date: "2025-11-04",
+        description: "Cinema",
+      },
+      {
+        id: 5,
+        type: "income",
+        amount: 300.0,
+        category: "Freelance",
+        date: "2025-11-05",
+        description: "Side project payment",
+      },
+      {
+        id: 6,
+        type: "expense",
+        amount: 60.0,
+        category: "Utilities",
+        date: "2025-11-06",
+        description: "Electricity bill",
+      },
+      {
+        id: 7,
+        type: "expense",
+        amount: 18.75,
+        category: "Food",
+        date: "2025-11-07",
+        description: "Lunch with friends",
+      },
+      {
+        id: 8,
+        type: "income",
+        amount: 50.0,
+        category: "Gift",
+        date: "2025-11-08",
+        description: "Birthday gift",
+      },
+      {
+        id: 9,
+        type: "expense",
+        amount: 120.0,
+        category: "Shopping",
+        date: "2025-11-09",
+        description: "Clothes",
+      },
+      {
+        id: 10,
+        type: "expense",
+        amount: 30.0,
+        category: "Health",
+        date: "2025-11-10",
+        description: "Pharmacy",
+      },
+    ]);
+
+    const categoryOptions = ref([
+      { value: 1, label: "Food", type: "expense" },
+      { value: 2, label: "Transport", type: "expense" },
+      { value: 3, label: "Entertainment", type: "expense" },
+      { value: 4, label: "Utilities", type: "expense" },
+      { value: 5, label: "Shopping", type: "expense" },
+      { value: 6, label: "Health", type: "expense" },
+
+      { value: 7, label: "Salary", type: "income" },
+      { value: 8, label: "Freelance", type: "income" },
+      { value: 9, label: "Gift", type: "income" },
+    ]);
+
+    const transactionFormTitle = computed(() =>
+      editingTransaction.value ? "Edit transaction" : "Add transaction"
+    );
+
+    const incomeCategories = computed(() =>
+      categoryOptions.value.filter((c) => c.type === "income")
+    );
+
+    const expenseCategories = computed(() =>
+      categoryOptions.value.filter((c) => c.type === "expense")
+    );
+
+    const categoryOptionsByTypeWithAll = computed(() => {
       const filtered =
-        this.filterModel.transactionType !== "All"
-          ? this.categoryOptions.filter(
-              (c) => c.type === this.filterModel.transactionType
+        filterModel.transactionType !== "All"
+          ? categoryOptions.value.filter(
+              (c) => c.type === filterModel.transactionType
             )
-          : this.categoryOptions;
+          : categoryOptions.value;
 
-      const mapped = filtered.map((c) => ({
-        value: c.label,
-        label: c.label,
-      }));
-
+      const mapped = filtered.map((c) => ({ value: c.label, label: c.label }));
       return [{ value: "All", label: "All" }, ...mapped];
-    },
-    transactionTypeOptionsWithAll() {
-      return [{ value: "All", label: "All" }, ...this.transactionTypeOptions];
-    },
-    filteredTransactions() {
-      return this.transactions.filter((t) => {
+    });
+
+    const transactionTypeOptionsWithAll = computed(() => [
+      { value: "All", label: "All" },
+      ...transactionTypeOptions,
+    ]);
+
+    const filteredTransactions = computed(() =>
+      transactions.value.filter((t) => {
         const isTypeMatch =
-          this.filterModel.transactionType === "All" ||
-          t.type === this.filterModel.transactionType;
+          filterModel.transactionType === "All" ||
+          t.type === filterModel.transactionType;
+
         const isCategoryMatch =
-          this.filterModel.category === "All" ||
-          t.category === this.filterModel.category;
+          filterModel.category === "All" || t.category === filterModel.category;
+
         return isTypeMatch && isCategoryMatch;
-      });
-    },
-  },
+      })
+    );
 
-  watch: {
-    transactions: {
-      handler(newValue) {
-        localStorage.setItem(LS_DATA.transactions, JSON.stringify(newValue));
-      },
-      deep: true,
-    },
-    categoryOptions: {
-      handler(newValue) {
-        localStorage.setItem(LS_DATA.categories, JSON.stringify(newValue));
-      },
-      deep: true,
-    },
-
-    "filterModel.transactionType"(newType, oldType) {
-      if (newType !== oldType) {
-        this.filterModel.category = "All";
-      }
-    },
-  },
-  created() {
-    this.restoreFromLocalStorage();
-  },
-  methods: {
-    restoreFromLocalStorage() {
+    function restoreFromLocalStorage() {
       try {
-        const transactionsFromLS = localStorage.getItem(LS_DATA.transactions);
-        if (transactionsFromLS) {
-          const transactionsJSON = JSON.parse(transactionsFromLS);
-          if (Array.isArray(transactionsJSON)) {
-            this.transactions = transactionsJSON;
-          } else {
-            throw new Error("invalid transactions format");
-          }
+        const json = localStorage.getItem(LS_DATA.transactions);
+        if (json) {
+          const parsed = JSON.parse(json);
+          if (Array.isArray(parsed)) transactions.value = parsed;
+          else localStorage.removeItem(LS_DATA.transactions);
         }
       } catch {
-        console.warn(
-          "Failed to parse transactions from localStorage. Resetting to default."
-        );
         localStorage.removeItem(LS_DATA.transactions);
       }
 
       try {
-        const categoriesFromLS = localStorage.getItem(LS_DATA.categories);
-        if (categoriesFromLS) {
-          const categoriesJSON = JSON.parse(categoriesFromLS);
-          if (Array.isArray(categoriesJSON)) {
-            this.categoryOptions = categoriesJSON;
-          } else {
-            throw new Error(" Invalid categories format");
-          }
+        const json = localStorage.getItem(LS_DATA.categories);
+        if (json) {
+          const parsed = JSON.parse(json);
+          if (Array.isArray(parsed)) categoryOptions.value = parsed;
+          else localStorage.removeItem(LS_DATA.categories);
         }
       } catch {
-        console.warn(
-          "Failed to parse categories from localStorage. Resetting to default."
-        );
         localStorage.removeItem(LS_DATA.categories);
       }
-    },
-    deleteTransaction(id) {
-      const confirmDelete = window.confirm(
+    }
+
+    function deleteTransaction(id) {
+      const ok = window.confirm(
         "Are you sure you want to delete this transaction? You won’t be able to undo this action later."
       );
-      if (!confirmDelete) return;
-      this.transactions = this.transactions.filter(
-        (transaction) => transaction.id !== id
-      );
-    },
-    deleteCategory({ value, label }) {
-      const confirmDelete = window.confirm(
+      if (!ok) return;
+      transactions.value = transactions.value.filter((t) => t.id !== id);
+    }
+
+    function deleteCategory({ value, label }) {
+      const ok = window.confirm(
         "Are you sure you want to delete this category? You won’t be able to undo this action later."
       );
-      if (!confirmDelete) return;
-      this.categoryOptions = this.categoryOptions.filter(
+      if (!ok) return;
+
+      categoryOptions.value = categoryOptions.value.filter(
         (c) => c.value !== value
       );
-      this.transactions.forEach((t) => {
-        if (t.category === label) t.category = "";
-      });
-    },
+      transactions.value = transactions.value.map((t) =>
+        t.category === label ? { ...t, category: "" } : t
+      );
+    }
 
-    saveUpdateTransaction(update) {
-      const item = this.transactions.find((t) => t.id === update.id);
+    function saveUpdateTransaction(update) {
+      if (!update) return;
+      const item = transactions.value.find((t) => t.id === update.id);
       if (!item) return;
 
       Object.assign(item, update);
-      this.editingTransaction = null;
-    },
-    saveNewTransaction(newEntry) {
-      const newTransaction = {
+      editingTransaction.value = null;
+    }
+
+    function saveNewTransaction(newEntry) {
+      transactions.value.push({
         id: generateId("transaction"),
         ...newEntry,
-      };
-      this.transactions.push(newTransaction);
-    },
-    addNewCategory({ category, transactionType }) {
-      const exists = this.categoryOptions.some(
+      });
+    }
+
+    function addNewCategory({ category, transactionType }) {
+      const exists = categoryOptions.value.some(
         (c) =>
           c.type === transactionType &&
           c.label.toLowerCase() === category.toLowerCase()
       );
       if (exists) return;
 
-      this.categoryOptions.push({
+      categoryOptions.value.push({
         value: generateId(category),
         label: category,
         type: transactionType,
       });
-    },
+    }
+
+    function setEditingTransaction(t) {
+      editingTransaction.value = t;
+    }
+
+    function cancelEdit() {
+      editingTransaction.value = null;
+    }
+
+    watch(
+      transactions,
+      (v) => localStorage.setItem(LS_DATA.transactions, JSON.stringify(v)),
+      { deep: true }
+    );
+
+    watch(
+      categoryOptions,
+      (v) => localStorage.setItem(LS_DATA.categories, JSON.stringify(v)),
+      { deep: true }
+    );
+
+    watch(
+      () => filterModel.transactionType,
+      (newType, oldType) => {
+        if (newType !== oldType) filterModel.category = "All";
+      }
+    );
+
+    onMounted(restoreFromLocalStorage);
+
+    provide("transactions", transactions);
+    provide("categoryOptions", categoryOptions);
+    provide("filterModel", filterModel);
+    provide("editingTransaction", editingTransaction);
+
+    provide("transactionTypeOptions", transactionTypeOptions);
+    provide("transactionTypeOptionsWithAll", transactionTypeOptionsWithAll);
+    provide("categoryOptionsByTypeWithAll", categoryOptionsByTypeWithAll);
+    provide("incomeCategories", incomeCategories);
+    provide("expenseCategories", expenseCategories);
+    provide("filteredTransactions", filteredTransactions);
+    provide("transactionFormTitle", transactionFormTitle);
+
+    provide("restoreFromLocalStorage", restoreFromLocalStorage);
+    provide("deleteTransaction", deleteTransaction);
+    provide("deleteCategory", deleteCategory);
+    provide("saveUpdateTransaction", saveUpdateTransaction);
+    provide("saveNewTransaction", saveNewTransaction);
+    provide("addNewCategory", addNewCategory);
+    provide("setEditingTransaction", setEditingTransaction);
+    provide("cancelEdit", cancelEdit);
+
+    return {};
   },
 };
 </script>
 
 <style scoped>
+.app__nav {
+  display: flex;
+  gap: 30px;
+}
+
+.app__router {
+  background-color: inherit;
+  border-width: 0;
+  font-size: 20px;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+}
+
 .app {
   padding: 50px 100px 100px 100px;
   display: flex;
   flex-direction: column;
   gap: 40px;
-}
-.app__content {
-  display: flex;
-  gap: 20px;
 }
 
 .app__header {
@@ -405,7 +360,7 @@ export default {
   cursor: pointer;
 }
 
-.app__tab--active {
+.app__router--active {
   font-weight: 600;
   text-decoration: underline;
 }
