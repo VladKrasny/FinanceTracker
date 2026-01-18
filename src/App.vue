@@ -21,73 +21,10 @@
             Settings
           </button>
         </div>
-
         <!-- TRANSACTIONS -->
-        <div class="app__view" v-if="activeTab === 'transactions'">
-          <div>
-            <TheTypography variant="title">Transactions</TheTypography>
-            <TheTypography variant="subtitle">
-              Add, edit, or manage your transactions
-            </TheTypography>
-          </div>
-
-          <div class="app__content">
-            <TransactionForm
-              :title="transactionFormTitle"
-              @submit="saveNewTransaction"
-              @update="saveUpdateTransaction"
-              @cancel="editingTransaction = null"
-              :editingValues="editingTransaction"
-              :categoryOptions="categoryOptions"
-              :transactionTypeOptions="transactionTypeOptions"
-            />
-
-            <TransactionListSection
-              :categoryOptions="categoryOptionsByTypeWithAll"
-              :transactionTypeOptions="transactionTypeOptionsWithAll"
-              title="Transaction List"
-              subtitle="Manage and filter your transactions"
-              v-model:transactionType="filterModel.transactionType"
-              v-model:transactionCategory="filterModel.category"
-            >
-              <TransactionList
-                :transactions="filteredTransactions"
-                @delete="deleteTransaction"
-                @edit="editingTransaction = $event"
-              />
-            </TransactionListSection>
-          </div>
-        </div>
-
+        <TransactionsView v-if="activeTab === 'transactions'" />
         <!-- SETTINGS -->
-        <div class="app__view" v-if="activeTab === 'settings'">
-          <div>
-            <TheTypography variant="title">Settings</TheTypography>
-            <TheTypography variant="subtitle">
-              Manage your transaction categories
-            </TheTypography>
-          </div>
-
-          <NewCategoryForm
-            @submit="addNewCategory"
-            :transactionTypeOptions="transactionTypeOptions"
-          />
-
-          <div class="app__categories-section">
-            <CategoryList
-              title="Income Categories"
-              subtitle="Manage income categories for your transactions"
-              :categoryOptions="incomeCategories"
-              @delete="deleteCategory"
-            />
-            <CategoryList
-              title="Expense Categories"
-              subtitle="Manage expense categories for your transactions"
-              :categoryOptions="expenseCategories"
-              @delete="deleteCategory"
-            />
-          </div>
-        </div>
+        <SettingsView v-if="activeTab === 'settings'" />
       </div>
     </TheTypography>
   </CSSReset>
@@ -96,12 +33,10 @@
 <script>
 import { generateId } from "./utils/generateId";
 import CSSReset from "./CSSReset.vue";
-import TransactionForm from "./components/TransactionForm.vue";
-import TransactionListSection from "./components/transactionlist/TransactionListSection.vue";
 import TheTypography from "./components/TheTypography.vue";
-import TransactionList from "./components/transactionlist/TransactionList.vue";
-import NewCategoryForm from "./components/newCategory/NewCategoryForm.vue";
-import CategoryList from "./components/newCategory/CategoryList.vue";
+import SettingsView from "./components/views/SettingsView.vue";
+import TransactionsView from "./components/views/TransactionsView.vue";
+import { ref, computed, onMounted, provide, watch } from "vue";
 
 const LS_DATA = {
   transactions: "finance-transactions",
@@ -113,135 +48,130 @@ export default {
   components: {
     TheTypography,
     CSSReset,
-    TransactionForm,
-    TransactionListSection,
-    TransactionList,
-    NewCategoryForm,
-    CategoryList,
+    SettingsView,
+    TransactionsView,
   },
-  data() {
-    return {
-      activeTab: "transactions",
-      editingTransaction: null,
-      filterModel: { transactionType: "All", category: "All" },
-      transactionTypeOptions: [
-        { value: "income", label: "Income" },
-        { value: "expense", label: "Expense" },
-      ],
-      transactions: [
-        {
-          id: 1,
-          type: "income",
-          amount: 100.0,
-          category: "Salary",
-          date: "2025-11-01",
-          description: "Monthly salary",
-        },
-        {
-          id: 2,
-          type: "expense",
-          amount: 25.5,
-          category: "Food",
-          date: "2025-11-02",
-          description: "Groceries",
-        },
-        {
-          id: 3,
-          type: "expense",
-          amount: 12.0,
-          category: "Transport",
-          date: "2025-11-03",
-          description: "Bus ticket",
-        },
-        {
-          id: 4,
-          type: "expense",
-          amount: 45.0,
-          category: "Entertainment",
-          date: "2025-11-04",
-          description: "Cinema",
-        },
-        {
-          id: 5,
-          type: "income",
-          amount: 300.0,
-          category: "Freelance",
-          date: "2025-11-05",
-          description: "Side project payment",
-        },
-        {
-          id: 6,
-          type: "expense",
-          amount: 60.0,
-          category: "Utilities",
-          date: "2025-11-06",
-          description: "Electricity bill",
-        },
-        {
-          id: 7,
-          type: "expense",
-          amount: 18.75,
-          category: "Food",
-          date: "2025-11-07",
-          description: "Lunch with friends",
-        },
-        {
-          id: 8,
-          type: "income",
-          amount: 50.0,
-          category: "Gift",
-          date: "2025-11-08",
-          description: "Birthday gift",
-        },
-        {
-          id: 9,
-          type: "expense",
-          amount: 120.0,
-          category: "Shopping",
-          date: "2025-11-09",
-          description: "Clothes",
-        },
-        {
-          id: 10,
-          type: "expense",
-          amount: 30.0,
-          category: "Health",
-          date: "2025-11-10",
-          description: "Pharmacy",
-        },
-      ],
 
-      categoryOptions: [
-        { value: 1, label: "Food", type: "expense" },
-        { value: 2, label: "Transport", type: "expense" },
-        { value: 3, label: "Entertainment", type: "expense" },
-        { value: 4, label: "Utilities", type: "expense" },
-        { value: 5, label: "Shopping", type: "expense" },
-        { value: 6, label: "Health", type: "expense" },
+  setup() {
+    const activeTab = ref("transactions");
+    const editingTransaction = ref(null);
+    const filterModel = ref({ transactionType: "All", category: "All" });
+    const transactionTypeOptions = [
+      { value: "income", label: "Income" },
+      { value: "expense", label: "Expense" },
+    ];
+    const transactions = ref([
+      {
+        id: 1,
+        type: "income",
+        amount: 100.0,
+        category: "Salary",
+        date: "2025-11-01",
+        description: "Monthly salary",
+      },
+      {
+        id: 2,
+        type: "expense",
+        amount: 25.5,
+        category: "Food",
+        date: "2025-11-02",
+        description: "Groceries",
+      },
+      {
+        id: 3,
+        type: "expense",
+        amount: 12.0,
+        category: "Transport",
+        date: "2025-11-03",
+        description: "Bus ticket",
+      },
+      {
+        id: 4,
+        type: "expense",
+        amount: 45.0,
+        category: "Entertainment",
+        date: "2025-11-04",
+        description: "Cinema",
+      },
+      {
+        id: 5,
+        type: "income",
+        amount: 300.0,
+        category: "Freelance",
+        date: "2025-11-05",
+        description: "Side project payment",
+      },
+      {
+        id: 6,
+        type: "expense",
+        amount: 60.0,
+        category: "Utilities",
+        date: "2025-11-06",
+        description: "Electricity bill",
+      },
+      {
+        id: 7,
+        type: "expense",
+        amount: 18.75,
+        category: "Food",
+        date: "2025-11-07",
+        description: "Lunch with friends",
+      },
+      {
+        id: 8,
+        type: "income",
+        amount: 50.0,
+        category: "Gift",
+        date: "2025-11-08",
+        description: "Birthday gift",
+      },
+      {
+        id: 9,
+        type: "expense",
+        amount: 120.0,
+        category: "Shopping",
+        date: "2025-11-09",
+        description: "Clothes",
+      },
+      {
+        id: 10,
+        type: "expense",
+        amount: 30.0,
+        category: "Health",
+        date: "2025-11-10",
+        description: "Pharmacy",
+      },
+    ]);
 
-        { value: 7, label: "Salary", type: "income" },
-        { value: 8, label: "Freelance", type: "income" },
-        { value: 9, label: "Gift", type: "income" },
-      ],
-    };
-  },
-  computed: {
-    transactionFormTitle() {
-      return this.editingTransaction ? "Edit transaction" : "Add transaction";
-    },
-    incomeCategories() {
-      return this.categoryOptions.filter((c) => c.type === "income");
-    },
-    expenseCategories() {
-      return this.categoryOptions.filter((c) => c.type === "expense");
-    },
-    categoryOptionsByTypeWithAll() {
+    const categoryOptions = ref([
+      { value: 1, label: "Food", type: "expense" },
+      { value: 2, label: "Transport", type: "expense" },
+      { value: 3, label: "Entertainment", type: "expense" },
+      { value: 4, label: "Utilities", type: "expense" },
+      { value: 5, label: "Shopping", type: "expense" },
+      { value: 6, label: "Health", type: "expense" },
+
+      { value: 7, label: "Salary", type: "income" },
+      { value: 8, label: "Freelance", type: "income" },
+      { value: 9, label: "Gift", type: "income" },
+    ]);
+
+    const transactionFormTitle = computed(() => {
+      return editingTransaction.value ? "Edit transaction" : "Add transaction";
+    });
+    const incomeCategories = computed(() => {
+      return categoryOptions.value.filter((c) => c.type === "income");
+    });
+    const expenseCategories = computed(() => {
+      return categoryOptions.value.filter((c) => c.type === "expense");
+    });
+    const categoryOptionsByTypeWithAll = computed(() => {
       const filtered =
-        this.filterModel.transactionType !== "All"
-          ? this.categoryOptions.filter(
-              (c) => c.type === this.filterModel.transactionType
+        filterModel.value.transactionType !== "All"
+          ? categoryOptions.value.filter(
+              (c) => c.type === filterModel.value.transactionType,
             )
-          : this.categoryOptions;
+          : categoryOptions.value;
 
       const mapped = filtered.map((c) => ({
         value: c.label,
@@ -249,61 +179,60 @@ export default {
       }));
 
       return [{ value: "All", label: "All" }, ...mapped];
-    },
-    transactionTypeOptionsWithAll() {
-      return [{ value: "All", label: "All" }, ...this.transactionTypeOptions];
-    },
-    filteredTransactions() {
-      return this.transactions.filter((t) => {
+    });
+    const transactionTypeOptionsWithAll = computed(() => {
+      return [{ value: "All", label: "All" }, ...transactionTypeOptions];
+    });
+    const filteredTransactions = computed(() => {
+      return transactions.value.filter((t) => {
         const isTypeMatch =
-          this.filterModel.transactionType === "All" ||
-          t.type === this.filterModel.transactionType;
+          filterModel.value.transactionType === "All" ||
+          t.type === filterModel.value.transactionType;
         const isCategoryMatch =
-          this.filterModel.category === "All" ||
-          t.category === this.filterModel.category;
+          filterModel.value.category === "All" ||
+          t.category === filterModel.value.category;
         return isTypeMatch && isCategoryMatch;
       });
-    },
-  },
+    });
 
-  watch: {
-    transactions: {
-      handler(newValue) {
+    watch(
+      transactions,
+      (newValue) => {
         localStorage.setItem(LS_DATA.transactions, JSON.stringify(newValue));
       },
-      deep: true,
-    },
-    categoryOptions: {
-      handler(newValue) {
+      { deep: true },
+    );
+    watch(
+      categoryOptions,
+      (newValue) => {
         localStorage.setItem(LS_DATA.categories, JSON.stringify(newValue));
       },
-      deep: true,
-    },
+      { deep: true },
+    );
 
-    "filterModel.transactionType"(newType, oldType) {
-      if (newType !== oldType) {
-        this.filterModel.category = "All";
-      }
-    },
-  },
-  created() {
-    this.restoreFromLocalStorage();
-  },
-  methods: {
-    restoreFromLocalStorage() {
+    watch(
+      () => filterModel.value.transactionType,
+      (newType, oldType) => {
+        if (newType !== oldType) {
+          filterModel.value.category = "All";
+        }
+      },
+    );
+
+    function restoreFromLocalStorage() {
       try {
         const transactionsFromLS = localStorage.getItem(LS_DATA.transactions);
         if (transactionsFromLS) {
           const transactionsJSON = JSON.parse(transactionsFromLS);
           if (Array.isArray(transactionsJSON)) {
-            this.transactions = transactionsJSON;
+            transactions.value = transactionsJSON;
           } else {
             throw new Error("invalid transactions format");
           }
         }
       } catch {
         console.warn(
-          "Failed to parse transactions from localStorage. Resetting to default."
+          "Failed to parse transactions from localStorage. Resetting to default.",
         );
         localStorage.removeItem(LS_DATA.transactions);
       }
@@ -313,68 +242,92 @@ export default {
         if (categoriesFromLS) {
           const categoriesJSON = JSON.parse(categoriesFromLS);
           if (Array.isArray(categoriesJSON)) {
-            this.categoryOptions = categoriesJSON;
+            categoryOptions.value = categoriesJSON;
           } else {
             throw new Error(" Invalid categories format");
           }
         }
       } catch {
         console.warn(
-          "Failed to parse categories from localStorage. Resetting to default."
+          "Failed to parse categories from localStorage. Resetting to default.",
         );
         localStorage.removeItem(LS_DATA.categories);
       }
-    },
-    deleteTransaction(id) {
+    }
+    function deleteTransaction(id) {
       const confirmDelete = window.confirm(
-        "Are you sure you want to delete this transaction? You won’t be able to undo this action later."
+        "Are you sure you want to delete this transaction? You won’t be able to undo this action later.",
       );
       if (!confirmDelete) return;
-      this.transactions = this.transactions.filter(
-        (transaction) => transaction.id !== id
+      transactions.value = transactions.value.filter(
+        (transaction) => transaction.id !== id,
       );
-    },
-    deleteCategory({ value, label }) {
+    }
+    function deleteCategory({ value, label }) {
       const confirmDelete = window.confirm(
-        "Are you sure you want to delete this category? You won’t be able to undo this action later."
+        "Are you sure you want to delete this category? You won’t be able to undo this action later.",
       );
       if (!confirmDelete) return;
-      this.categoryOptions = this.categoryOptions.filter(
-        (c) => c.value !== value
+      categoryOptions.value = categoryOptions.value.filter(
+        (c) => c.value !== value,
       );
-      this.transactions.forEach((t) => {
+      transactions.value.forEach((t) => {
         if (t.category === label) t.category = "";
       });
-    },
+    }
 
-    saveUpdateTransaction(update) {
-      const item = this.transactions.find((t) => t.id === update.id);
+    function saveUpdateTransaction(update) {
+      const item = transactions.value.find((t) => t.id === update.id);
       if (!item) return;
 
       Object.assign(item, update);
-      this.editingTransaction = null;
-    },
-    saveNewTransaction(newEntry) {
+      editingTransaction.value = null;
+    }
+    function saveNewTransaction(newEntry) {
       const newTransaction = {
         id: generateId("transaction"),
         ...newEntry,
       };
-      this.transactions.push(newTransaction);
-    },
-    addNewCategory({ category, transactionType }) {
-      const exists = this.categoryOptions.some(
+      transactions.value.push(newTransaction);
+    }
+    function addNewCategory({ category, transactionType }) {
+      const exists = categoryOptions.value.some(
         (c) =>
           c.type === transactionType &&
-          c.label.toLowerCase() === category.toLowerCase()
+          c.label.toLowerCase() === category.toLowerCase(),
       );
       if (exists) return;
 
-      this.categoryOptions.push({
+      categoryOptions.value.push({
         value: generateId(category),
         label: category,
         type: transactionType,
       });
-    },
+    }
+    onMounted(restoreFromLocalStorage);
+
+    provide("activeTab", activeTab);
+    provide("transactions", transactions);
+    provide("categoryOptions", categoryOptions);
+    provide("filterModel", filterModel);
+    provide("editingTransaction", editingTransaction);
+
+    provide("transactionTypeOptions", transactionTypeOptions);
+    provide("transactionTypeOptionsWithAll", transactionTypeOptionsWithAll);
+    provide("categoryOptionsByTypeWithAll", categoryOptionsByTypeWithAll);
+    provide("incomeCategories", incomeCategories);
+    provide("expenseCategories", expenseCategories);
+    provide("filteredTransactions", filteredTransactions);
+    provide("transactionFormTitle", transactionFormTitle);
+
+    provide("restoreFromLocalStorage", restoreFromLocalStorage);
+    provide("deleteTransaction", deleteTransaction);
+    provide("deleteCategory", deleteCategory);
+    provide("saveUpdateTransaction", saveUpdateTransaction);
+    provide("saveNewTransaction", saveNewTransaction);
+    provide("addNewCategory", addNewCategory);
+
+    return { activeTab };
   },
 };
 </script>
@@ -385,10 +338,6 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 40px;
-}
-.app__content {
-  display: flex;
-  gap: 20px;
 }
 
 .app__header {
@@ -408,15 +357,5 @@ export default {
 .app__tab--active {
   font-weight: 600;
   text-decoration: underline;
-}
-
-.app__view {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.app__categories-section {
-  max-width: 1420px;
-  min-width: 820px;
 }
 </style>
