@@ -1,5 +1,4 @@
 import { createMemoryHistory, createRouter } from "vue-router";
-
 import TransactionsView from "@/components/views/TransactionsView.vue";
 import SettingsView from "@/components/views/SettingsView.vue";
 
