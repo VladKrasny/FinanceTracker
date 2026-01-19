@@ -2,29 +2,21 @@
   <CSSReset>
     <TheTypography>
       <div class="app">
-        <div class="app__header">
-          <button
-            class="app__tab"
-            :class="{
-              'app__tab--active': activeTab === 'transactions',
-            }"
-            @click="activeTab = 'transactions'"
+        <nav class="app__nav">
+          <RouterLink
+            to="/transactions"
+            class="app__router"
+            :class="{ 'app__router--active': $route.path === '/transactions' }"
+            >Transactions</RouterLink
           >
-            Transactions
-          </button>
-
-          <button
-            class="app__tab"
-            :class="{ 'app__tab--active': activeTab === 'settings' }"
-            @click="activeTab = 'settings'"
+          <RouterLink
+            class="app__router"
+            to="/settings"
+            :class="{ 'app__router--active': $route.path === '/settings' }"
+            >Settings</RouterLink
           >
-            Settings
-          </button>
-        </div>
-        <!-- TRANSACTIONS -->
-        <TransactionsView v-if="activeTab === 'transactions'" />
-        <!-- SETTINGS -->
-        <SettingsView v-if="activeTab === 'settings'" />
+        </nav>
+        <router-view />
       </div>
     </TheTypography>
   </CSSReset>
@@ -53,7 +45,6 @@ export default {
   },
 
   setup() {
-    const activeTab = ref("transactions");
     const editingTransaction = ref(null);
     const filterModel = ref({ transactionType: "All", category: "All" });
     const transactionTypeOptions = [
@@ -214,7 +205,6 @@ export default {
     }
     onMounted(restoreFromLocalStorage);
 
-    provide("activeTab", activeTab);
     provide("transactions", transactions);
     provide("categoryOptions", categoryOptions);
     provide("filterModel", filterModel);
@@ -235,12 +225,26 @@ export default {
     provide("saveNewTransaction", saveNewTransaction);
     provide("addNewCategory", addNewCategory);
 
-    return { activeTab };
+    return {};
   },
 };
 </script>
 
 <style scoped>
+.app__router {
+  background-color: inherit;
+  border-width: 0;
+  font-size: 20px;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+}
+
+.app__nav {
+  display: flex;
+  gap: 30px;
+}
+
 .app {
   padding: 50px 100px 100px 100px;
   display: flex;
@@ -248,23 +252,7 @@ export default {
   gap: 40px;
 }
 
-.app__header {
-  display: flex;
-  gap: 30px;
-  border-bottom: 1px solid black;
-  padding: 0 0 10px 0;
-  max-width: 1420px;
-  min-width: 820px;
-}
-
-.app__tab {
-  background-color: inherit;
-  border-width: 0;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.app__tab--active {
+.app__router--active {
   font-weight: 600;
   text-decoration: underline;
 }
