@@ -77,14 +77,10 @@ export default {
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 10px;
-  height: 650px;
-  max-height: 650px;
-  max-width: 1000px;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  min-width: 400px;
 }
 .transaction-list-section__header {
   display: flex;

@@ -66,8 +66,6 @@ export default {
 
 <style scoped>
 .new-category-form {
-  max-width: 1420px;
-  height: 200px;
   border-radius: 15px;
   background-color: rgb(255, 255, 255);
   padding: 20px;
@@ -77,7 +75,6 @@ export default {
   border-width: 1px;
   border-style: solid;
   border-color: rgb(229, 229, 229);
-  min-width: 820px;
 }
 
 .new-category-form__content {

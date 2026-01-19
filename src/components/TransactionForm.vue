@@ -126,7 +126,7 @@ export default {
   computed: {
     categoryOptionsByType() {
       return this.categoryOptions.filter(
-        (category) => category.type === this.typeModel
+        (category) => category.type === this.typeModel,
       );
     },
 
@@ -159,9 +159,6 @@ export default {
 .transaction-form {
   padding: 20px;
   background-color: rgb(210, 209, 209);
-  width: 400px;
-  min-width: 400px;
-  height: auto;
   display: flex;
   flex-direction: column;
   border-radius: 20px;
