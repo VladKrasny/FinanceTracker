@@ -238,6 +238,7 @@ export default {
   display: flex;
   gap: 30px;
 }
+
 .app__tab {
   background-color: inherit;
   border-width: 0;
@@ -246,6 +247,7 @@ export default {
   color: black;
   text-decoration: none;
 }
+
 .app__tab--active {
   font-weight: 600;
   text-decoration: underline;
