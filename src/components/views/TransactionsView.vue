@@ -20,6 +20,7 @@
       />
 
       <TransactionListSection
+        class="transactions-view__transactions-list-section"
         :categoryOptions="categoryOptionsByTypeWithAll"
         :transactionTypeOptions="transactionTypeOptionsWithAll"
         title="Transaction List"
@@ -100,5 +101,12 @@ export default {
 .transactions-view__content {
   display: flex;
   gap: 20px;
+}
+
+.transactions-view__transactions-list-section {
+  height: 650px;
+  max-height: 650px;
+  max-width: 1000px;
+  min-width: 400px;
 }
 </style>

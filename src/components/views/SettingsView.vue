@@ -6,29 +6,22 @@
         Manage your transaction categories
       </TheTypography>
     </div>
-    <div class="settings-view__container">
-      <NewCategoryForm
-        @submit="addNewCategory"
-        :transactionTypeOptions="transactionTypeOptions"
-      />
-    </div>
-
-    <div class="settings-view__container">
-      <CategoryList
-        title="Income Categories"
-        subtitle="Manage income categories for your transactions"
-        :categoryOptions="incomeCategories"
-        @delete="deleteCategory"
-      />
-    </div>
-    <div class="settings-view__container">
-      <CategoryList
-        title="Expense Categories"
-        subtitle="Manage expense categories for your transactions"
-        :categoryOptions="expenseCategories"
-        @delete="deleteCategory"
-      />
-    </div>
+    <NewCategoryForm
+      @submit="addNewCategory"
+      :transactionTypeOptions="transactionTypeOptions"
+    />
+    <CategoryList
+      title="Income Categories"
+      subtitle="Manage income categories for your transactions"
+      :categoryOptions="incomeCategories"
+      @delete="deleteCategory"
+    />
+    <CategoryList
+      title="Expense Categories"
+      subtitle="Manage expense categories for your transactions"
+      :categoryOptions="expenseCategories"
+      @delete="deleteCategory"
+    />
   </div>
 </template>
 
@@ -63,10 +56,6 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  max-width: 1420px;
-  min-width: 820px;
-}
-.settings-view__container {
   max-width: 1420px;
   min-width: 820px;
 }
