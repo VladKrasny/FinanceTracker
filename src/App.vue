@@ -5,16 +5,22 @@
         <nav class="app__header">
           <RouterLink
             class="app__tab"
-            :class="{ 'app__tab--active': $route.path === '/transactions' }"
+            :class="{
+              'app__tab--active': $route.path === '/transactions',
+            }"
             to="/transactions"
-            >Transactions</RouterLink
           >
+            Transactions
+          </RouterLink>
           <RouterLink
             class="app__tab"
-            :class="{ 'app__tab--active': $route.path === '/settings' }"
+            :class="{
+              'app__tab--active': $route.path === '/settings',
+            }"
             to="/settings"
-            >Settings</RouterLink
           >
+            Settings
+          </RouterLink>
         </nav>
         <router-view />
       </div>
