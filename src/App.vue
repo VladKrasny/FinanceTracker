@@ -2,15 +2,15 @@
   <CSSReset>
     <TheTypography>
       <div class="app">
-        <nav class="app__nav">
+        <nav class="app__header">
           <RouterLink
             to="/transactions"
-            class="app__router"
+            class="app__tab"
             :class="{ 'app__router--active': $route.path === '/transactions' }"
             >Transactions</RouterLink
           >
           <RouterLink
-            class="app__router"
+            class="app__tab"
             to="/settings"
             :class="{ 'app__router--active': $route.path === '/settings' }"
             >Settings</RouterLink
@@ -231,7 +231,7 @@ export default {
 </script>
 
 <style scoped>
-.app__router {
+.app__tab {
   background-color: inherit;
   border-width: 0;
   font-size: 20px;
@@ -240,7 +240,7 @@ export default {
   text-decoration: none;
 }
 
-.app__nav {
+.app__header {
   display: flex;
   gap: 30px;
 }
