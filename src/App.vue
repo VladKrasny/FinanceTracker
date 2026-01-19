@@ -26,8 +26,6 @@
 import { generateId } from "./utils/generateId";
 import CSSReset from "./CSSReset.vue";
 import TheTypography from "./components/TheTypography.vue";
-import SettingsView from "./components/views/SettingsView.vue";
-import TransactionsView from "./components/views/TransactionsView.vue";
 import { ref, computed, onMounted, provide, watch } from "vue";
 
 const LS_DATA = {
@@ -40,8 +38,6 @@ export default {
   components: {
     TheTypography,
     CSSReset,
-    SettingsView,
-    TransactionsView,
   },
 
   setup() {
