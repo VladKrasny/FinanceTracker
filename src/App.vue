@@ -6,13 +6,13 @@
           <RouterLink
             to="/transactions"
             class="app__tab"
-            :class="{ 'app__router--active': $route.path === '/transactions' }"
+            :class="{ 'app__tab--active': $route.path === '/transactions' }"
             >Transactions</RouterLink
           >
           <RouterLink
             class="app__tab"
             to="/settings"
-            :class="{ 'app__router--active': $route.path === '/settings' }"
+            :class="{ 'app__tab--active': $route.path === '/settings' }"
             >Settings</RouterLink
           >
         </nav>
@@ -252,7 +252,7 @@ export default {
   gap: 40px;
 }
 
-.app__router--active {
+.app__tab--active {
   font-weight: 600;
   text-decoration: underline;
 }
