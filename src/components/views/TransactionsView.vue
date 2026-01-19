@@ -1,5 +1,5 @@
 <template>
-  <div class="transactions">
+  <div class="transactions-view">
     <div>
       <TheTypography variant="title">Transactions</TheTypography>
       <TheTypography variant="subtitle">
@@ -7,8 +7,9 @@
       </TheTypography>
     </div>
 
-    <div class="transactions__content">
+    <div class="transactions-view__content">
       <TransactionForm
+        class="transactions-view__transaction-form"
         :title="transactionFormTitle"
         @submit="saveNewTransaction"
         @update="saveUpdateTransaction"
@@ -85,13 +86,18 @@ export default {
 </script>
 
 <style scoped>
-.transactions {
+.transactions-view__transaction-form {
+  width: 400px;
+  min-width: 400px;
+}
+
+.transactions-view {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.transactions__content {
+.transactions-view__content {
   display: flex;
   gap: 20px;
 }

@@ -1,24 +1,27 @@
 <template>
-  <div class="settings">
+  <div class="settings-view">
     <div>
       <TheTypography variant="title">Settings</TheTypography>
       <TheTypography variant="subtitle">
         Manage your transaction categories
       </TheTypography>
     </div>
+    <div class="settings-view__container">
+      <NewCategoryForm
+        @submit="addNewCategory"
+        :transactionTypeOptions="transactionTypeOptions"
+      />
+    </div>
 
-    <NewCategoryForm
-      @submit="addNewCategory"
-      :transactionTypeOptions="transactionTypeOptions"
-    />
-
-    <div class="settings__categories-section">
+    <div class="settings-view__container">
       <CategoryList
         title="Income Categories"
         subtitle="Manage income categories for your transactions"
         :categoryOptions="incomeCategories"
         @delete="deleteCategory"
       />
+    </div>
+    <div class="settings-view__container">
       <CategoryList
         title="Expense Categories"
         subtitle="Manage expense categories for your transactions"
@@ -56,15 +59,14 @@ export default {
 </script>
 
 <style scoped>
-.settings {
+.settings-view {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  max-width: 1420px;
+  min-width: 820px;
 }
-.settings__categories-section {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.settings-view__container {
   max-width: 1420px;
   min-width: 820px;
 }

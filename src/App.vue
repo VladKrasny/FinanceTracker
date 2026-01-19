@@ -60,101 +60,9 @@ export default {
       { value: "income", label: "Income" },
       { value: "expense", label: "Expense" },
     ];
-    const transactions = ref([
-      {
-        id: 1,
-        type: "income",
-        amount: 100.0,
-        category: "Salary",
-        date: "2025-11-01",
-        description: "Monthly salary",
-      },
-      {
-        id: 2,
-        type: "expense",
-        amount: 25.5,
-        category: "Food",
-        date: "2025-11-02",
-        description: "Groceries",
-      },
-      {
-        id: 3,
-        type: "expense",
-        amount: 12.0,
-        category: "Transport",
-        date: "2025-11-03",
-        description: "Bus ticket",
-      },
-      {
-        id: 4,
-        type: "expense",
-        amount: 45.0,
-        category: "Entertainment",
-        date: "2025-11-04",
-        description: "Cinema",
-      },
-      {
-        id: 5,
-        type: "income",
-        amount: 300.0,
-        category: "Freelance",
-        date: "2025-11-05",
-        description: "Side project payment",
-      },
-      {
-        id: 6,
-        type: "expense",
-        amount: 60.0,
-        category: "Utilities",
-        date: "2025-11-06",
-        description: "Electricity bill",
-      },
-      {
-        id: 7,
-        type: "expense",
-        amount: 18.75,
-        category: "Food",
-        date: "2025-11-07",
-        description: "Lunch with friends",
-      },
-      {
-        id: 8,
-        type: "income",
-        amount: 50.0,
-        category: "Gift",
-        date: "2025-11-08",
-        description: "Birthday gift",
-      },
-      {
-        id: 9,
-        type: "expense",
-        amount: 120.0,
-        category: "Shopping",
-        date: "2025-11-09",
-        description: "Clothes",
-      },
-      {
-        id: 10,
-        type: "expense",
-        amount: 30.0,
-        category: "Health",
-        date: "2025-11-10",
-        description: "Pharmacy",
-      },
-    ]);
+    const transactions = ref([]);
 
-    const categoryOptions = ref([
-      { value: 1, label: "Food", type: "expense" },
-      { value: 2, label: "Transport", type: "expense" },
-      { value: 3, label: "Entertainment", type: "expense" },
-      { value: 4, label: "Utilities", type: "expense" },
-      { value: 5, label: "Shopping", type: "expense" },
-      { value: 6, label: "Health", type: "expense" },
-
-      { value: 7, label: "Salary", type: "income" },
-      { value: 8, label: "Freelance", type: "income" },
-      { value: 9, label: "Gift", type: "income" },
-    ]);
+    const categoryOptions = ref([]);
 
     const transactionFormTitle = computed(() => {
       return editingTransaction.value ? "Edit transaction" : "Add transaction";
@@ -345,6 +253,8 @@ export default {
   gap: 30px;
   border-bottom: 1px solid black;
   padding: 0 0 10px 0;
+  max-width: 1420px;
+  min-width: 820px;
 }
 
 .app__tab {
