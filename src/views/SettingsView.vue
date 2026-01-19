@@ -27,9 +27,9 @@
 
 <script>
 import { inject } from "vue";
-import TheTypography from "../TheTypography.vue";
-import NewCategoryForm from "../newCategory/NewCategoryForm.vue";
-import CategoryList from "../newCategory/CategoryList.vue";
+import TheTypography from "@/components/TheTypography.vue";
+import NewCategoryForm from "@/components/newCategory/NewCategoryForm.vue";
+import CategoryList from "@/components/newCategory/CategoryList.vue";
 
 export default {
   name: "SettingsView",

@@ -2,29 +2,25 @@
   <CSSReset>
     <TheTypography>
       <div class="app">
-        <div class="app__header">
-          <button
+        <nav class="app__header">
+          <RouterLink
             class="app__tab"
             :class="{
-              'app__tab--active': activeTab === 'transactions',
+              'app__tab--active': $route.path === '/transactions',
             }"
-            @click="activeTab = 'transactions'"
+            to="/transactions"
           >
             Transactions
-          </button>
-
-          <button
+          </RouterLink>
+          <RouterLink
             class="app__tab"
-            :class="{ 'app__tab--active': activeTab === 'settings' }"
-            @click="activeTab = 'settings'"
+            :class="{ 'app__tab--active': $route.path === '/settings' }"
+            to="/settings"
           >
             Settings
-          </button>
-        </div>
-        <!-- TRANSACTIONS -->
-        <TransactionsView v-if="activeTab === 'transactions'" />
-        <!-- SETTINGS -->
-        <SettingsView v-if="activeTab === 'settings'" />
+          </RouterLink>
+        </nav>
+        <router-view />
       </div>
     </TheTypography>
   </CSSReset>
@@ -34,8 +30,6 @@
 import { generateId } from "./utils/generateId";
 import CSSReset from "./CSSReset.vue";
 import TheTypography from "./components/TheTypography.vue";
-import SettingsView from "./components/views/SettingsView.vue";
-import TransactionsView from "./components/views/TransactionsView.vue";
 import { ref, computed, onMounted, provide, watch } from "vue";
 
 const LS_DATA = {
@@ -48,12 +42,9 @@ export default {
   components: {
     TheTypography,
     CSSReset,
-    SettingsView,
-    TransactionsView,
   },
 
   setup() {
-    const activeTab = ref("transactions");
     const editingTransaction = ref(null);
     const filterModel = ref({ transactionType: "All", category: "All" });
     const transactionTypeOptions = [
@@ -214,7 +205,6 @@ export default {
     }
     onMounted(restoreFromLocalStorage);
 
-    provide("activeTab", activeTab);
     provide("transactions", transactions);
     provide("categoryOptions", categoryOptions);
     provide("filterModel", filterModel);
@@ -235,7 +225,7 @@ export default {
     provide("saveNewTransaction", saveNewTransaction);
     provide("addNewCategory", addNewCategory);
 
-    return { activeTab };
+    return {};
   },
 };
 </script>
@@ -253,8 +243,6 @@ export default {
   gap: 30px;
   border-bottom: 1px solid black;
   padding: 0 0 10px 0;
-  max-width: 1420px;
-  min-width: 820px;
 }
 
 .app__tab {
@@ -262,6 +250,8 @@ export default {
   border-width: 0;
   font-size: 20px;
   cursor: pointer;
+  color: black;
+  text-decoration: none;
 }
 
 .app__tab--active {
