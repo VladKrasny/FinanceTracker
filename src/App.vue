@@ -4,15 +4,15 @@
       <div class="app">
         <nav class="app__header">
           <RouterLink
-            to="/transactions"
             class="app__tab"
             :class="{ 'app__tab--active': $route.path === '/transactions' }"
+            to="/transactions"
             >Transactions</RouterLink
           >
           <RouterLink
             class="app__tab"
-            to="/settings"
             :class="{ 'app__tab--active': $route.path === '/settings' }"
+            to="/settings"
             >Settings</RouterLink
           >
         </nav>
@@ -227,6 +227,17 @@ export default {
 </script>
 
 <style scoped>
+.app {
+  padding: 50px 100px 100px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.app__header {
+  display: flex;
+  gap: 30px;
+}
 .app__tab {
   background-color: inherit;
   border-width: 0;
@@ -235,19 +246,6 @@ export default {
   color: black;
   text-decoration: none;
 }
-
-.app__header {
-  display: flex;
-  gap: 30px;
-}
-
-.app {
-  padding: 50px 100px 100px 100px;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
 .app__tab--active {
   font-weight: 600;
   text-decoration: underline;
