@@ -242,6 +242,7 @@ export default {
   display: flex;
   gap: 30px;
   border-bottom: 1px solid black;
+  padding: 0 0 10px 0;
 }
 
 .app__tab {
