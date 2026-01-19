@@ -241,6 +241,7 @@ export default {
 .app__header {
   display: flex;
   gap: 30px;
+  border-bottom: 1px solid black;
 }
 
 .app__tab {
