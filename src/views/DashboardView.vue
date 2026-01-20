@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { inject } from "vue";
+import { inject, computed } from "vue";
 import TheTypography from "@/components/TheTypography.vue";
 import TheButton from "@/components/TheButton.vue";
 import DashboardCard from "@/components/dashboard/DashboardCard.vue";

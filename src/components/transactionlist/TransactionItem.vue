@@ -5,7 +5,7 @@
         {{ category }}
       </div>
       <div class="transaction-item__date">{{ date }}</div>
-      <div v-if="isFull" class="transaction-item__description">
+      <div v-if="!isReadOnly" class="transaction-item__description">
         {{ description }}
       </div>
     </div>
