@@ -101,7 +101,7 @@ export default {
       });
     });
 
-    const dashboardFilteredTransactions = computed(() => {
+    const dashboardRecentTransactions = computed(() => {
       return transactions.value.slice(0, 5);
     });
 
@@ -235,7 +235,7 @@ export default {
     provide("saveUpdateTransaction", saveUpdateTransaction);
     provide("saveNewTransaction", saveNewTransaction);
     provide("addNewCategory", addNewCategory);
-    provide("dashboardFilteredTransactions", dashboardFilteredTransactions);
+    provide("dashboardRecentTransactions", dashboardRecentTransactions);
 
     return {};
   },

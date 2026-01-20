@@ -15,19 +15,22 @@
     </div>
     <div class="dashboard-view__cards">
       <DashboardCard
-        type="income"
         title="Total income"
-        :transactions="transactions"
+        :cardClass="incomeCardClass"
+        :amount="incomeAmount"
+        :statusText="incomeStatus"
       />
       <DashboardCard
-        type="expense"
         title="Total expense"
-        :transactions="transactions"
+        :cardClass="expenseCardClass"
+        :amount="expenseAmount"
+        :statusText="expenseStatus"
       />
       <DashboardCard
-        type="balance"
         title="Balance"
-        :transactions="transactions"
+        :cardClass="balanceCardClass"
+        :amount="balanceAmount"
+        :statusText="balanceStatus"
       />
     </div>
     <div class="dashboard-view__transactions">
@@ -39,15 +42,15 @@
       </div>
 
       <TransactionList
-        :isFull="false"
-        :transactions="dashboardFilteredTransactions"
+        :isReadOnly="true"
+        :transactions="dashboardRecentTransactions"
       />
     </div>
   </div>
 </template>
 
 <script>
-import { inject } from "vue";
+import { inject, computed } from "vue";
 import TheTypography from "@/components/TheTypography.vue";
 import TheButton from "@/components/TheButton.vue";
 import DashboardCard from "@/components/dashboard/DashboardCard.vue";
@@ -57,14 +60,71 @@ export default {
   name: "DashboardView",
   components: { TheTypography, TheButton, DashboardCard, TransactionList },
   setup() {
-    const dashboardFilteredTransactions = inject(
-      "dashboardFilteredTransactions",
-    );
-
     const transactions = inject("transactions");
+    const dashboardRecentTransactions = inject("dashboardRecentTransactions");
+
+    const cardTotalsByType = computed(() => {
+      return transactions.value.reduce(
+        (acc, t) => {
+          const value = Number(t.amount || 0);
+          if (t.type === "income") acc.income += value;
+          if (t.type === "expense") acc.expense += value;
+          return acc;
+        },
+        { income: 0, expense: 0 },
+      );
+    });
+
+    const incomeAmount = computed(() => {
+      return cardTotalsByType.value.income;
+    });
+
+    const expenseAmount = computed(() => {
+      return cardTotalsByType.value.expense;
+    });
+
+    const balanceAmount = computed(() => {
+      return cardTotalsByType.value.income - cardTotalsByType.value.expense;
+    });
+
+    const incomeStatus = computed(() => {
+      const count = transactions.value.filter(
+        (t) => t.type === "income",
+      ).length;
+      return `${count} transactions`;
+    });
+
+    const expenseStatus = computed(() => {
+      const count = transactions.value.filter(
+        (t) => t.type === "expense",
+      ).length;
+      return `${count} transactions`;
+    });
+
+    const balanceStatus = computed(() => {
+      if (balanceAmount.value > 0) return "You are in the positive";
+      if (balanceAmount.value < 0) return "You are in the negative";
+      return "You are breaking even";
+    });
+
+    const incomeCardClass = "dashboard-card--income";
+    const expenseCardClass = "dashboard-card--expense";
+    const balanceCardClass = "dashboard-card--balance";
+
     return {
-      transactions,
-      dashboardFilteredTransactions,
+      dashboardRecentTransactions,
+
+      incomeAmount,
+      expenseAmount,
+      balanceAmount,
+
+      incomeStatus,
+      expenseStatus,
+      balanceStatus,
+
+      incomeCardClass,
+      expenseCardClass,
+      balanceCardClass,
     };
   },
 };
@@ -101,5 +161,6 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 660px;
 }
 </style>

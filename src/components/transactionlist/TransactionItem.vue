@@ -5,7 +5,7 @@
         {{ category }}
       </div>
       <div class="transaction-item__date">{{ date }}</div>
-      <div v-if="isFull" class="transaction-item__description">
+      <div v-if="!isReadOnly" class="transaction-item__description">
         {{ description }}
       </div>
     </div>
@@ -15,13 +15,13 @@
         {{ formattedAmount }}
       </div>
       <IconButton
-        v-if="isFull"
+        v-if="!isReadOnly"
         variant="edit"
         @click="$emit('edit')"
         iconSymbol="edit"
       ></IconButton>
       <IconButton
-        v-if="isFull"
+        v-if="!isReadOnly"
         variant="delete"
         @click="deleteItem"
         iconSymbol="delete"
@@ -38,7 +38,7 @@ export default {
   emits: ["delete", "edit"],
   components: { IconButton },
   props: {
-    isFull: { type: Boolean, required: true },
+    isReadOnly: { type: Boolean, required: true },
     type: { type: String, required: true },
     amount: { type: Number, required: true },
     category: { type: String, required: true },
