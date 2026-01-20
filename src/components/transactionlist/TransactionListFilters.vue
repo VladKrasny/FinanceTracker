@@ -1,23 +1,23 @@
 <template>
-  <div class="filters">
+  <div class="transaction-list-filters">
     <TheSelect
-      class="filters__select"
+      class="transaction-list-filters__select"
       :options="transactionTypeOptions"
       v-model="transactionsTypeModel"
     />
     <TheSelect
-      class="filters__select"
+      class="transaction-list-filters__select"
       :options="categoryOptions"
       v-model="transactionCategoryModel"
     />
   </div>
 </template>
 <script>
-import TheSelect from "./TheSelect.vue";
+import TheSelect from "@/components/TheSelect.vue";
 import { computed } from "vue";
 
 export default {
-  name: "TheFilters",
+  name: "TransactionListFilters",
   components: {
     TheSelect,
   },
@@ -47,11 +47,11 @@ export default {
 </script>
 
 <style scoped>
-.filters {
+.transaction-list-filters {
   display: flex;
   gap: 20px;
 }
-.filters__select {
+.transaction-list-filters__select {
   width: 150px;
   min-width: 150px;
 }

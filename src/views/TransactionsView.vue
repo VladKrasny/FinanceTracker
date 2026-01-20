@@ -27,7 +27,7 @@
           </TheTypography>
         </div>
 
-        <TheFilters
+        <TransactionListFilters
           :transactionTypeOptions="transactionTypeOptionsWithAll"
           :categoryOptions="categoryOptionsByTypeWithAll"
           v-model:transactionType="filterModel.transactionType"
@@ -50,7 +50,7 @@ import { inject } from "vue";
 import TransactionForm from "@/components/TransactionForm.vue";
 import TransactionList from "@/components/transactionlist/TransactionList.vue";
 import TheTypography from "@/components/TheTypography.vue";
-import TheFilters from "@/components/TheFilters.vue";
+import TransactionListFilters from "@/components/transactionlist/TransactionListFilters.vue";
 
 export default {
   name: "TransactionsView",
@@ -58,7 +58,7 @@ export default {
     TransactionForm,
     TransactionList,
     TheTypography,
-    TheFilters,
+    TransactionListFilters,
   },
 
   setup() {
