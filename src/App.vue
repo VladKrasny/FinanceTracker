@@ -101,6 +101,10 @@ export default {
       });
     });
 
+    const dashboardFilteredTransactions = computed(() => {
+      return transactions.value.slice(0, 5);
+    });
+
     watch(
       transactions,
       (newValue) => {
@@ -231,6 +235,7 @@ export default {
     provide("saveUpdateTransaction", saveUpdateTransaction);
     provide("saveNewTransaction", saveNewTransaction);
     provide("addNewCategory", addNewCategory);
+    provide("dashboardFilteredTransactions", dashboardFilteredTransactions);
 
     return {};
   },

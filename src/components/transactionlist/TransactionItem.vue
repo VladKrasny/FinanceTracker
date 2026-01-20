@@ -5,7 +5,7 @@
         {{ category }}
       </div>
       <div class="transaction-item__date">{{ date }}</div>
-      <div class="transaction-item__description">
+      <div v-if="isFull" class="transaction-item__description">
         {{ description }}
       </div>
     </div>
@@ -43,7 +43,7 @@ export default {
     amount: { type: Number, required: true },
     category: { type: String, required: true },
     date: { type: [String, Number], required: true },
-    description: { type: String, required: true },
+    description: { type: String, required: false },
   },
   methods: {
     deleteItem() {
