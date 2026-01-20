@@ -19,21 +19,28 @@
         :transactionTypeOptions="transactionTypeOptions"
       />
 
-      <TransactionListSection
-        class="transactions-view__transactions-list-section"
-        :categoryOptions="categoryOptionsByTypeWithAll"
-        :transactionTypeOptions="transactionTypeOptionsWithAll"
-        title="Transaction List"
-        subtitle="Manage and filter your transactions"
-        v-model:transactionType="filterModel.transactionType"
-        v-model:transactionCategory="filterModel.category"
-      >
+      <div class="transactions-view__transactions-section">
+        <div class="transactions-view__transactions-header">
+          <TheTypography variant="title">Transaction List</TheTypography>
+          <TheTypography variant="subtitle">
+            Manage and filter your transactions
+          </TheTypography>
+        </div>
+
+        <TheFilters
+          :transactionTypeOptions="transactionTypeOptionsWithAll"
+          :categoryOptions="categoryOptionsByTypeWithAll"
+          v-model:transactionType="filterModel.transactionType"
+          v-model:transactionCategory="filterModel.category"
+        />
+
         <TransactionList
+          class="transactions-view__transactions-content"
           :transactions="filteredTransactions"
           @delete="deleteTransaction"
           @edit="editingTransaction = $event"
         />
-      </TransactionListSection>
+      </div>
     </div>
   </div>
 </template>
@@ -41,17 +48,17 @@
 <script>
 import { inject } from "vue";
 import TransactionForm from "@/components/TransactionForm.vue";
-import TransactionListSection from "@/components/transactionlist/TransactionListSection.vue";
 import TransactionList from "@/components/transactionlist/TransactionList.vue";
 import TheTypography from "@/components/TheTypography.vue";
+import TheFilters from "@/components/TheFilters.vue";
 
 export default {
   name: "TransactionsView",
   components: {
     TransactionForm,
-    TransactionListSection,
     TransactionList,
     TheTypography,
+    TheFilters,
   },
 
   setup() {
@@ -103,10 +110,25 @@ export default {
   gap: 20px;
 }
 
-.transactions-view__transactions-list-section {
-  height: 650px;
-  max-height: 650px;
-  max-width: 1000px;
+.transactions-view__transactions-section {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  width: 100%;
   min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.transactions-view__transactions-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.transactions-view__transactions-content {
+  height: 450px;
+  max-height: 550px;
+  overflow-y: auto;
 }
 </style>
