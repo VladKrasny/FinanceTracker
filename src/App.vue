@@ -19,6 +19,13 @@
           >
             Settings
           </RouterLink>
+          <RouterLink
+            class="app__tab"
+            :class="{ 'app__tab--active': $route.path === '/dashboard' }"
+            to="/dashboard"
+          >
+            Dashboard
+          </RouterLink>
         </nav>
         <router-view />
       </div>
@@ -92,6 +99,10 @@ export default {
           t.category === filterModel.value.category;
         return isTypeMatch && isCategoryMatch;
       });
+    });
+
+    const dashboardFilteredTransactions = computed(() => {
+      return transactions.value.slice(0, 5);
     });
 
     watch(
@@ -224,6 +235,7 @@ export default {
     provide("saveUpdateTransaction", saveUpdateTransaction);
     provide("saveNewTransaction", saveNewTransaction);
     provide("addNewCategory", addNewCategory);
+    provide("dashboardFilteredTransactions", dashboardFilteredTransactions);
 
     return {};
   },

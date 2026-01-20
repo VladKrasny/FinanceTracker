@@ -35,6 +35,7 @@
         />
 
         <TransactionList
+          :isFull="true"
           class="transactions-view__transactions-content"
           :transactions="filteredTransactions"
           @delete="deleteTransaction"
