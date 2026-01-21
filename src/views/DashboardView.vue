@@ -61,7 +61,10 @@ export default {
   components: { TheTypography, TheButton, DashboardCard, TransactionList },
   setup() {
     const transactions = inject("transactions");
-    const dashboardRecentTransactions = inject("dashboardRecentTransactions");
+
+    const dashboardRecentTransactions = computed(() => {
+      return transactions.value.slice(0, 5);
+    });
 
     const cardTotalsByType = computed(() => {
       return transactions.value.reduce(
