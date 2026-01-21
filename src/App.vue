@@ -101,10 +101,6 @@ export default {
       });
     });
 
-    const dashboardRecentTransactions = computed(() => {
-      return transactions.value.slice(0, 5);
-    });
-
     watch(
       transactions,
       (newValue) => {
@@ -235,7 +231,6 @@ export default {
     provide("saveUpdateTransaction", saveUpdateTransaction);
     provide("saveNewTransaction", saveNewTransaction);
     provide("addNewCategory", addNewCategory);
-    provide("dashboardRecentTransactions", dashboardRecentTransactions);
 
     return {};
   },
