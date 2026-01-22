@@ -4,7 +4,7 @@
       'icon-button': true,
       [`icon-button--${variant}`]: Boolean(variant),
     }"
-    @click="$emit('click')"
+    @click="emit('click')"
   >
     <span class="material-symbols-outlined">
       {{ iconSymbol }}
@@ -12,21 +12,18 @@
   </button>
 </template>
 
-<script>
-export default {
-  name: "IconButton",
-  emits: ["click"],
-  props: {
-    variant: {
-      type: String,
-      default: "",
-    },
-    iconSymbol: {
-      type: String,
-      required: true,
-    },
+<script setup>
+const emit = defineEmits(["click"]);
+const props = defineProps({
+  variant: {
+    type: String,
+    default: "",
   },
-};
+  iconSymbol: {
+    type: String,
+    required: true,
+  },
+});
 </script>
 
 <style scoped>

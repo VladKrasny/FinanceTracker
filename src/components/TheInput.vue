@@ -16,64 +16,53 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { generateId } from "../utils/generateId.js";
+import { watch, ref, computed } from "vue";
 
-export default {
-  name: "TheInput",
-
-  props: {
-    placeholder: {
-      type: String,
-      default: "",
-    },
-    label: { type: String, required: false },
-    type: {
-      type: String,
-      default: "text",
-    },
-    modelValue: {
-      type: String,
-      default: "",
-    },
-    hasError: {
-      type: Boolean,
-      default: false,
-    },
-    errorMessage: {
-      type: String,
-      default: "",
-    },
+const props = defineProps({
+  placeholder: {
+    type: String,
+    default: "",
   },
-
-  emits: ["update:modelValue"],
-
-  data() {
-    return {
-      touched: false,
-      randomId: generateId("input"),
-    };
+  label: { type: String, required: false },
+  type: {
+    type: String,
+    default: "text",
   },
-
-  watch: {
-    modelValue(newValue) {
-      if (newValue === "") {
-        this.touched = false;
-      }
-    },
+  modelValue: {
+    type: String,
+    default: "",
   },
-
-  computed: {
-    model: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit("update:modelValue", value);
-      },
-    },
+  hasError: {
+    type: Boolean,
+    default: false,
   },
-};
+  errorMessage: {
+    type: String,
+    default: "",
+  },
+});
+
+const emit = defineEmits(["update:modelValue"]);
+
+const touched = ref(false);
+const randomId = generateId("input");
+
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (newValue === "") {
+      touched.value = false;
+    }
+  },
+);
+
+const model = computed({
+  get: () => props.modelValue,
+
+  set: (value) => emit("update:modelValue", value),
+});
 </script>
 
 <style scoped>

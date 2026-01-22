@@ -13,7 +13,7 @@
         :title="transactionFormTitle"
         @submit="saveNewTransaction"
         @update="saveUpdateTransaction"
-        @cancel="editingTransaction = null"
+        @cancel="clearEditingTransaction"
         :editingValues="editingTransaction"
         :categoryOptions="categoryOptions"
         :transactionTypeOptions="transactionTypeOptions"
@@ -35,62 +35,45 @@
         />
 
         <TransactionList
+          :isReadOnly="false"
           class="transactions-view__transactions-content"
           :transactions="filteredTransactions"
           @delete="deleteTransaction"
-          @edit="editingTransaction = $event"
+          @edit="setEditingTransaction"
         />
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import { inject } from "vue";
+<script setup>
 import TransactionForm from "@/components/TransactionForm.vue";
 import TransactionList from "@/components/transactionlist/TransactionList.vue";
 import TheTypography from "@/components/TheTypography.vue";
 import TransactionListFilters from "@/components/transactionlist/TransactionListFilters.vue";
+import { useTransactionsStore } from "@/stores/transactionsStore";
+import { storeToRefs } from "pinia";
 
-export default {
-  name: "TransactionsView",
-  components: {
-    TransactionForm,
-    TransactionList,
-    TheTypography,
-    TransactionListFilters,
-  },
+const TransactionsStore = useTransactionsStore();
 
-  setup() {
-    const transactionFormTitle = inject("transactionFormTitle");
-    const saveNewTransaction = inject("saveNewTransaction");
-    const saveUpdateTransaction = inject("saveUpdateTransaction");
-    const editingTransaction = inject("editingTransaction");
-    const categoryOptions = inject("categoryOptions");
-    const transactionTypeOptions = inject("transactionTypeOptions");
-    const categoryOptionsByTypeWithAll = inject("categoryOptionsByTypeWithAll");
-    const transactionTypeOptionsWithAll = inject(
-      "transactionTypeOptionsWithAll",
-    );
-    const filterModel = inject("filterModel");
-    const filteredTransactions = inject("filteredTransactions");
-    const deleteTransaction = inject("deleteTransaction");
+const {
+  transactionFormTitle,
+  editingTransaction,
+  categoryOptions,
+  transactionTypeOptions,
+  categoryOptionsByTypeWithAll,
+  transactionTypeOptionsWithAll,
+  filterModel,
+  filteredTransactions,
+} = storeToRefs(TransactionsStore);
 
-    return {
-      transactionFormTitle,
-      saveNewTransaction,
-      saveUpdateTransaction,
-      editingTransaction,
-      categoryOptions,
-      transactionTypeOptions,
-      categoryOptionsByTypeWithAll,
-      transactionTypeOptionsWithAll,
-      filterModel,
-      filteredTransactions,
-      deleteTransaction,
-    };
-  },
-};
+const {
+  saveNewTransaction,
+  saveUpdateTransaction,
+  deleteTransaction,
+  clearEditingTransaction,
+  setEditingTransaction,
+} = TransactionsStore;
 </script>
 
 <style scoped>

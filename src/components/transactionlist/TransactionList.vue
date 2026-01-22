@@ -6,42 +6,38 @@
       :key="transaction.id"
     >
       <TransactionItem
+        :isReadOnly
         :type="transaction.type"
         :amount="transaction.amount"
         :category="transaction.category"
         :date="transaction.date"
         :description="transaction.description"
-        @delete="$emit('delete', transaction.id)"
-        @edit="$emit('edit', transaction)"
+        @delete="emit('delete', transaction.id)"
+        @edit="emit('edit', transaction)"
       />
     </li>
   </ul>
 </template>
 
-<script>
+<script setup>
 import TransactionItem from "./TransactionItem.vue";
+import { computed } from "vue";
 
-export default {
-  name: "TransactionList",
+const emit = defineEmits(["delete", "edit"]);
 
-  components: { TransactionItem },
-  emits: ["delete", "edit"],
-
-  props: {
-    transactions: {
-      type: Array,
-      required: true,
-    },
+const props = defineProps({
+  isReadOnly: { type: Boolean, required: true },
+  transactions: {
+    type: Array,
+    required: true,
   },
+});
 
-  computed: {
-    sortedTransactions() {
-      return [...this.transactions].sort((a, b) => {
-        return new Date(b.date) - new Date(a.date);
-      });
-    },
-  },
-};
+const sortedTransactions = computed(() => {
+  return [...props.transactions].sort((a, b) => {
+    return new Date(b.date) - new Date(a.date);
+  });
+});
 </script>
 
 <style scoped>

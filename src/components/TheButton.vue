@@ -6,31 +6,28 @@
       'button--disabled': disabled,
     }"
     :disabled="disabled"
-    @click="$emit('click')"
+    @click="emit('click')"
   >
     {{ label }}
   </button>
 </template>
 
-<script>
-export default {
-  name: "TheButton",
-  props: {
-    label: {
-      type: String,
-      required: true,
-    },
-    variant: {
-      type: String,
-      default: "",
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+<script setup>
+const props = defineProps({
+  label: {
+    type: String,
+    required: true,
   },
-  emits: ["click"],
-};
+  variant: {
+    type: String,
+    default: "",
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+});
+const emit = defineEmits(["click"]);
 </script>
 
 <style scoped>
