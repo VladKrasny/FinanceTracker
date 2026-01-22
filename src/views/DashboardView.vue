@@ -49,7 +49,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import TheTypography from "@/components/TheTypography.vue";
 import TheButton from "@/components/TheButton.vue";
 import DashboardCard from "@/components/dashboard/DashboardCard.vue";
@@ -57,45 +57,23 @@ import TransactionList from "@/components/transactionlist/TransactionList.vue";
 import { useDashboardStore } from "@/stores/dashboardStore";
 import { storeToRefs } from "pinia";
 
-export default {
-  name: "DashboardView",
-  components: { TheTypography, TheButton, DashboardCard, TransactionList },
-  setup() {
-    const dashboardStore = useDashboardStore();
+const dashboardStore = useDashboardStore();
 
-    const {
-      dashboardRecentTransactions,
+const {
+  dashboardRecentTransactions,
 
-      incomeAmount,
-      expenseAmount,
-      balanceAmount,
+  incomeAmount,
+  expenseAmount,
+  balanceAmount,
 
-      incomeStatus,
-      expenseStatus,
-      balanceStatus,
+  incomeStatus,
+  expenseStatus,
+  balanceStatus,
 
-      incomeCardClass,
-      expenseCardClass,
-      balanceCardClass,
-    } = storeToRefs(dashboardStore);
-
-    return {
-      dashboardRecentTransactions,
-
-      incomeAmount,
-      expenseAmount,
-      balanceAmount,
-
-      incomeStatus,
-      expenseStatus,
-      balanceStatus,
-
-      incomeCardClass,
-      expenseCardClass,
-      balanceCardClass,
-    };
-  },
-};
+  incomeCardClass,
+  expenseCardClass,
+  balanceCardClass,
+} = storeToRefs(dashboardStore);
 </script>
 
 <style scoped>

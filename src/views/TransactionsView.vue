@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import TransactionForm from "@/components/TransactionForm.vue";
 import TransactionList from "@/components/transactionlist/TransactionList.vue";
 import TheTypography from "@/components/TheTypography.vue";
@@ -54,54 +54,26 @@ import TransactionListFilters from "@/components/transactionlist/TransactionList
 import { useTransactionsStore } from "@/stores/transactionsStore";
 import { storeToRefs } from "pinia";
 
-export default {
-  name: "TransactionsView",
-  components: {
-    TransactionForm,
-    TransactionList,
-    TheTypography,
-    TransactionListFilters,
-  },
+const TransactionsStore = useTransactionsStore();
 
-  setup() {
-    const TransactionsStore = useTransactionsStore();
+const {
+  transactionFormTitle,
+  editingTransaction,
+  categoryOptions,
+  transactionTypeOptions,
+  categoryOptionsByTypeWithAll,
+  transactionTypeOptionsWithAll,
+  filterModel,
+  filteredTransactions,
+} = storeToRefs(TransactionsStore);
 
-    const {
-      transactionFormTitle,
-      editingTransaction,
-      categoryOptions,
-      transactionTypeOptions,
-      categoryOptionsByTypeWithAll,
-      transactionTypeOptionsWithAll,
-      filterModel,
-      filteredTransactions,
-    } = storeToRefs(TransactionsStore);
-
-    const {
-      saveNewTransaction,
-      saveUpdateTransaction,
-      deleteTransaction,
-      clearEditingTransaction,
-      setEditingTransaction,
-    } = TransactionsStore;
-
-    return {
-      clearEditingTransaction,
-      setEditingTransaction,
-      transactionFormTitle,
-      saveNewTransaction,
-      saveUpdateTransaction,
-      editingTransaction,
-      categoryOptions,
-      transactionTypeOptions,
-      categoryOptionsByTypeWithAll,
-      transactionTypeOptionsWithAll,
-      filterModel,
-      filteredTransactions,
-      deleteTransaction,
-    };
-  },
-};
+const {
+  saveNewTransaction,
+  saveUpdateTransaction,
+  deleteTransaction,
+  clearEditingTransaction,
+  setEditingTransaction,
+} = TransactionsStore;
 </script>
 
 <style scoped>

@@ -8,16 +8,13 @@
     <slot></slot>
   </div>
 </template>
-<script>
-export default {
-  name: "TheTypography",
-  props: {
-    variant: {
-      type: String,
-      default: "",
-    },
+<script setup>
+const props = defineProps({
+  variant: {
+    type: String,
+    default: "",
   },
-};
+});
 </script>
 
 <style scoped>

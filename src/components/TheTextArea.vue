@@ -15,79 +15,65 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { generateId } from "../utils/generateId.js";
+import { computed, ref, watch } from "vue";
 
-export default {
-  name: "TheTextArea",
-
-  props: {
-    placeholder: {
-      type: String,
-      default: "",
-    },
-    label: {
-      type: String,
-      required: true,
-    },
-
-    modelValue: {
-      type: String,
-      default: "",
-    },
-    hasError: {
-      type: Boolean,
-      default: false,
-    },
-    errorMessage: {
-      type: String,
-      default: "",
-    },
-    maxHeight: {
-      type: Number,
-      required: true,
-    },
+const props = defineProps({
+  placeholder: {
+    type: String,
+    default: "",
   },
-  emits: ["update:modelValue"],
-
-  data() {
-    return {
-      randomId: generateId("textarea"),
-    };
-  },
-  computed: {
-    model: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit("update:modelValue", value);
-      },
-    },
+  label: {
+    type: String,
+    required: true,
   },
 
-  methods: {
-    sizeCheck() {
-      const el = this.$refs.textArea;
-      if (!el) return;
-      el.style.height = "auto";
-      const nextHeight = el.scrollHeight;
-      const clamped = Math.min(nextHeight, this.maxHeight);
-      el.style.height = `${clamped}px`;
-      el.style.overflowY = nextHeight > this.maxHeight ? "auto" : "hidden";
-    },
+  modelValue: {
+    type: String,
+    default: "",
   },
+  hasError: {
+    type: Boolean,
+    default: false,
+  },
+  errorMessage: {
+    type: String,
+    default: "",
+  },
+  maxHeight: {
+    type: Number,
+    required: true,
+  },
+});
 
-  watch: {
-    model: {
-      handler() {
-        this.sizeCheck();
-      },
-      immediate: true,
-      flush: "post",
-    },
+const emit = defineEmits(["update:modelValue"]);
+const textArea = ref(null);
+
+const randomId = generateId("textarea");
+
+const model = computed({
+  get: () => props.modelValue,
+  set: (value) => emit("update:modelValue", value),
+});
+
+function sizeCheck() {
+  const el = textArea.value;
+  if (!el) return;
+  el.style.height = "auto";
+  const nextHeight = el.scrollHeight;
+  const clamped = Math.min(nextHeight, props.maxHeight);
+  el.style.height = `${clamped}px`;
+  el.style.overflowY = nextHeight > props.maxHeight ? "auto" : "hidden";
+}
+
+watch(
+  () => model.value,
+  async () => {
+    sizeCheck();
   },
-};
+  { immediate: true, flush: "post" },
+);
 </script>
 
 <style scoped>

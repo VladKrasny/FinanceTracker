@@ -14,42 +14,30 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { generateId } from "../utils/generateId.js";
+import { computed } from "vue";
 
-export default {
-  name: "TheSelect",
+const props = defineProps({
+  valueKey: { type: String, default: "value" },
+  label: { type: String, required: false },
+  options: {
+    type: Array,
+    required: true,
+  },
+  modelValue: {
+    type: String,
+    default: "",
+  },
+});
+const emit = defineEmits(["update:modelValue"]);
 
-  props: {
-    valueKey: { type: String, default: "value" },
-    label: { type: String, required: false },
-    options: {
-      type: Array,
-      required: true,
-    },
-    modelValue: {
-      type: String,
-      default: "",
-    },
-  },
-  emits: ["update:modelValue"],
-  data() {
-    return {
-      randomId: generateId("select"),
-    };
-  },
+const randomId = generateId("select");
 
-  computed: {
-    model: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit("update:modelValue", value);
-      },
-    },
-  },
-};
+const model = computed({
+  get: () => props.modelValue,
+  set: (value) => emit("update:modelValue", value),
+});
 </script>
 
 <style scoped>

@@ -37,122 +37,108 @@
   </form>
 </template>
 
-<script>
+<script setup>
 import TheSelect from "./TheSelect.vue";
 import AmountInput from "./AmountInput.vue";
 import TheInput from "./TheInput.vue";
 import DescriptionTextArea from "./DescriptionTextArea.vue";
 import TheButton from "./TheButton.vue";
 import TheTypography from "./TheTypography.vue";
+import { ref, computed, watch } from "vue";
 
-export default {
-  name: "TransactionForm",
-  props: {
-    editingValues: { type: Object, default: null },
-    title: {
-      type: String,
-      required: true,
-    },
-    categoryOptions: { type: Array, required: true },
-    transactionTypeOptions: { type: Array, required: true },
+const props = defineProps({
+  editingValues: { type: Object, default: null },
+  title: {
+    type: String,
+    required: true,
   },
+  categoryOptions: { type: Array, required: true },
+  transactionTypeOptions: { type: Array, required: true },
+});
 
-  emits: ["submit", "update", "cancel"],
-  components: {
-    TheSelect,
-    AmountInput,
-    TheInput,
-    DescriptionTextArea,
-    TheButton,
-    TheTypography,
+const emit = defineEmits(["submit", "update", "cancel"]);
+
+const updateMode = ref(false);
+const typeModel = ref("expense");
+const dateModel = ref("");
+const categoryModel = ref("");
+const amountModel = ref("");
+const descriptionModel = ref("");
+const amountError = ref("");
+
+function onTypeChange() {
+  categoryModel.value = "";
+}
+
+function cancelUpdate() {
+  resetForm();
+  updateMode.value = false;
+  emit("cancel");
+}
+
+function updateTransaction() {
+  if (!props.editingValues) return;
+  const update = {
+    id: props.editingValues.id,
+    amount: Number(amountModel.value),
+    type: typeModel.value,
+    category: categoryModel.value,
+    date: dateModel.value,
+    description: descriptionModel.value,
+  };
+  emit("update", update);
+  updateMode.value = false;
+  resetForm();
+}
+
+function submitAndReset() {
+  const newEntry = {
+    type: typeModel.value,
+    amount: Number(amountModel.value),
+    category: categoryModel.value,
+    date: dateModel.value,
+    description: descriptionModel.value,
+  };
+
+  emit("submit", newEntry);
+  resetForm();
+}
+function resetForm() {
+  typeModel.value = "expense";
+  amountModel.value = "";
+  categoryModel.value = "";
+  dateModel.value = "";
+  descriptionModel.value = "";
+}
+
+const categoryOptionsByType = computed(() => {
+  return props.categoryOptions.filter(
+    (category) => category.type === typeModel.value,
+  );
+});
+
+const isDisabled = computed(() => {
+  const areFieldsValid = Boolean(dateModel.value);
+
+  const hasErrors = Boolean(amountError.value);
+
+  return !areFieldsValid || hasErrors;
+});
+watch(
+  () => props.editingValues,
+  (data) => {
+    if (!data) return;
+    updateMode.value = true;
+    typeModel.value = data.type;
+    categoryModel.value = data.category;
+    amountModel.value = String(data.amount);
+    dateModel.value = data.date;
+    descriptionModel.value = data.description;
   },
-  data() {
-    return {
-      updateMode: false,
-      typeModel: "expense",
-      dateModel: "",
-      categoryModel: "",
-      amountModel: "",
-      descriptionModel: "",
-      amountError: "",
-    };
+  {
+    immediate: true,
   },
-  methods: {
-    onTypeChange() {
-      this.categoryModel = "";
-    },
-
-    cancelUpdate() {
-      this.resetForm();
-      this.updateMode = false;
-      this.$emit("cancel");
-    },
-
-    updateTransaction() {
-      if (!this.editingValues) return;
-      const update = {
-        id: this.editingValues.id,
-        type: this.typeModel,
-        amount: Number(this.amountModel),
-        category: this.categoryModel,
-        date: this.dateModel,
-        description: this.descriptionModel,
-      };
-      this.$emit("update", update);
-      this.updateMode = false;
-      this.resetForm();
-    },
-
-    submitAndReset() {
-      const newEntry = {
-        type: this.typeModel,
-        amount: Number(this.amountModel),
-        category: this.categoryModel,
-        date: this.dateModel,
-        description: this.descriptionModel,
-      };
-
-      this.$emit("submit", newEntry);
-      this.resetForm();
-    },
-    resetForm() {
-      this.typeModel = "expense";
-      this.amountModel = "";
-      this.categoryModel = "";
-      this.dateModel = "";
-      this.descriptionModel = "";
-    },
-  },
-  computed: {
-    categoryOptionsByType() {
-      return this.categoryOptions.filter(
-        (category) => category.type === this.typeModel,
-      );
-    },
-
-    isDisabled() {
-      const areFieldsValid = Boolean(this.dateModel);
-
-      const hasErrors = Boolean(this.amountError);
-
-      return !areFieldsValid || hasErrors;
-    },
-  },
-  watch: {
-    editingValues: {
-      handler(data) {
-        if (!data) return;
-        this.updateMode = true;
-        this.typeModel = data.type;
-        this.categoryModel = data.category;
-        this.amountModel = String(data.amount);
-        this.dateModel = data.date;
-        this.descriptionModel = data.description;
-      },
-      immediate: true,
-    },
-  },
-};
+);
 </script>
 
 <style scoped>

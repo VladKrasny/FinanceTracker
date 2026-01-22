@@ -9,7 +9,7 @@
       <li v-for="category in categoryOptions" :key="category.value">
         <CategoryItem
           :label="category.label"
-          @delete="$emit('delete', category)"
+          @delete="emit('delete', category)"
         />
       </li>
     </ul>
@@ -17,25 +17,21 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import TheTypography from "../TheTypography.vue";
 import CategoryItem from "./CategoryItem.vue";
+import { computed } from "vue";
 
-export default {
-  name: "CategoryList",
-  components: { TheTypography, CategoryItem },
-  props: {
-    title: { type: String, required: false },
-    subtitle: { type: String, required: false },
-    categoryOptions: { type: Array, required: true },
-  },
-  emits: ["delete"],
-  computed: {
-    isEmpty() {
-      return this.categoryOptions.length === 0;
-    },
-  },
-};
+const props = defineProps({
+  title: { type: String, required: false },
+  subtitle: { type: String, required: false },
+  categoryOptions: { type: Array, required: true },
+});
+const emit = defineEmits(["delete"]);
+
+const isEmpty = computed(() => {
+  return props.categoryOptions.length === 0;
+});
 </script>
 
 <style scoped>
