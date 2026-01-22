@@ -26,20 +26,22 @@
 </template>
 
 <script>
-import { inject } from "vue";
 import TheTypography from "@/components/TheTypography.vue";
 import NewCategoryForm from "@/components/newCategory/NewCategoryForm.vue";
 import CategoryList from "@/components/newCategory/CategoryList.vue";
+import { useSettingsStore } from "@/stores/settingsStore";
+import { storeToRefs } from "pinia";
 
 export default {
   name: "SettingsView",
   components: { TheTypography, NewCategoryForm, CategoryList },
   setup() {
-    const addNewCategory = inject("addNewCategory");
-    const transactionTypeOptions = inject("transactionTypeOptions");
-    const incomeCategories = inject("incomeCategories");
-    const expenseCategories = inject("expenseCategories");
-    const deleteCategory = inject("deleteCategory");
+    const SettingsStore = useSettingsStore();
+
+    const { incomeCategories, expenseCategories } = storeToRefs(SettingsStore);
+    const { addNewCategory, deleteCategory, transactionTypeOptions } =
+      SettingsStore;
+
     return {
       addNewCategory,
       transactionTypeOptions,

@@ -50,69 +50,34 @@
 </template>
 
 <script>
-import { inject, computed } from "vue";
 import TheTypography from "@/components/TheTypography.vue";
 import TheButton from "@/components/TheButton.vue";
 import DashboardCard from "@/components/dashboard/DashboardCard.vue";
 import TransactionList from "@/components/transactionlist/TransactionList.vue";
+import { useDashboardStore } from "@/stores/dashboardStore";
+import { storeToRefs } from "pinia";
 
 export default {
   name: "DashboardView",
   components: { TheTypography, TheButton, DashboardCard, TransactionList },
   setup() {
-    const transactions = inject("transactions");
+    const dashboardStore = useDashboardStore();
 
-    const dashboardRecentTransactions = computed(() => {
-      return transactions.value.slice(0, 5);
-    });
+    const {
+      dashboardRecentTransactions,
 
-    const cardTotalsByType = computed(() => {
-      return transactions.value.reduce(
-        (acc, t) => {
-          const value = Number(t.amount || 0);
-          if (t.type === "income") acc.income += value;
-          if (t.type === "expense") acc.expense += value;
-          return acc;
-        },
-        { income: 0, expense: 0 },
-      );
-    });
+      incomeAmount,
+      expenseAmount,
+      balanceAmount,
 
-    const incomeAmount = computed(() => {
-      return cardTotalsByType.value.income;
-    });
+      incomeStatus,
+      expenseStatus,
+      balanceStatus,
 
-    const expenseAmount = computed(() => {
-      return cardTotalsByType.value.expense;
-    });
-
-    const balanceAmount = computed(() => {
-      return cardTotalsByType.value.income - cardTotalsByType.value.expense;
-    });
-
-    const incomeStatus = computed(() => {
-      const count = transactions.value.filter(
-        (t) => t.type === "income",
-      ).length;
-      return `${count} transactions`;
-    });
-
-    const expenseStatus = computed(() => {
-      const count = transactions.value.filter(
-        (t) => t.type === "expense",
-      ).length;
-      return `${count} transactions`;
-    });
-
-    const balanceStatus = computed(() => {
-      if (balanceAmount.value > 0) return "You are in the positive";
-      if (balanceAmount.value < 0) return "You are in the negative";
-      return "You are breaking even";
-    });
-
-    const incomeCardClass = "dashboard-card--income";
-    const expenseCardClass = "dashboard-card--expense";
-    const balanceCardClass = "dashboard-card--balance";
+      incomeCardClass,
+      expenseCardClass,
+      balanceCardClass,
+    } = storeToRefs(dashboardStore);
 
     return {
       dashboardRecentTransactions,
