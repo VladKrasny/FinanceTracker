@@ -53,6 +53,7 @@ import DashboardCard from "@/components/dashboard/DashboardCard.vue";
 import TransactionList from "@/components/transactionlist/TransactionList.vue";
 import { useDashboardStore } from "@/stores/dashboardStore";
 import { storeToRefs } from "pinia";
+import { computed } from "vue";
 
 export default {
   name: "DashboardView",
@@ -65,6 +66,7 @@ export default {
     });
 
     const {
+      transactions,
       incomeAmount,
       expenseAmount,
       balanceAmount,
