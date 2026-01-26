@@ -240,7 +240,6 @@ export const useAppStore = defineStore("appStore", () => {
 
   return {
     transactionFormTitle,
-    categoryOptionsByTypeWithAll,
     transactionTypeOptionsWithAll,
     filteredTransactions,
     setEditingTransaction,
@@ -249,17 +248,21 @@ export const useAppStore = defineStore("appStore", () => {
     saveUpdateTransaction,
     deleteTransaction,
     editingTransaction,
-    filterModel,
     transactionTypeOptions,
     transactions,
+    recentTransactions,
+
+    categoryOptionsByTypeWithAll,
     categoryOptions,
-    initWatchers,
-    restoreFromLocalStorage,
     incomeCategories,
     expenseCategories,
     addNewCategory,
     deleteCategory,
-    recentTransactions,
+
+    filterModel,
+    initWatchers,
+    restoreFromLocalStorage,
+
     cardTotalsByType,
     incomeAmount,
     expenseAmount,
