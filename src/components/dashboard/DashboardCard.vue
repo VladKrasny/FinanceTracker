@@ -2,8 +2,9 @@
   <div
     class="dashboard-card"
     :class="{
-      'dashboard-card__amount': true,
-      [`dashboard-card--${variant}`]: Boolean(variant),
+      'dashboard-card--income': variant === 'income',
+      'dashboard-card--expense': variant === 'expense',
+      'dashboard-card--balance': variant === 'balance',
     }"
   >
     <TheTypography variant="subtitle">{{ title }}</TheTypography>
