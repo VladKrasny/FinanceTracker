@@ -47,20 +47,19 @@
 </template>
 
 <script>
+import { computed } from "vue";
 import TheTypography from "@/components/TheTypography.vue";
 import TheButton from "@/components/TheButton.vue";
 import DashboardCard from "@/components/dashboard/DashboardCard.vue";
 import TransactionList from "@/components/transactionlist/TransactionList.vue";
 import { useDashboardStore } from "@/stores/dashboardStore";
 import { storeToRefs } from "pinia";
-import { computed } from "vue";
 
 export default {
   name: "DashboardView",
   components: { TheTypography, TheButton, DashboardCard, TransactionList },
   setup() {
     const dashboardStore = useDashboardStore();
-
     const recentTransactions = computed(() => {
       return transactions.value.slice(0, 5);
     });
