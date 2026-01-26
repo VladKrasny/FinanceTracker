@@ -2,7 +2,7 @@
   <button
     class="button"
     :class="{
-      'button--disabled': variant === 'disabled',
+      'button--disabled': disabled,
       'button--white': variant === 'white',
     }"
     :disabled="disabled"
