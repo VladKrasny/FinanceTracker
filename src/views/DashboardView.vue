@@ -16,19 +16,19 @@
     <div class="dashboard-view__cards">
       <DashboardCard
         title="Total income"
-        :cardClass="incomeCardClass"
+        variant="income"
         :amount="incomeAmount"
         :statusText="incomeStatus"
       />
       <DashboardCard
         title="Total expense"
-        :cardClass="expenseCardClass"
+        variant="expense"
         :amount="expenseAmount"
         :statusText="expenseStatus"
       />
       <DashboardCard
         title="Balance"
-        :cardClass="balanceCardClass"
+        variant="balance"
         :amount="balanceAmount"
         :statusText="balanceStatus"
       />
@@ -41,10 +41,7 @@
         >
       </div>
 
-      <TransactionList
-        :isReadOnly="true"
-        :transactions="dashboardRecentTransactions"
-      />
+      <TransactionList :isReadOnly="true" :transactions="recentTransactions" />
     </div>
   </div>
 </template>
@@ -62,7 +59,7 @@ export default {
   setup() {
     const transactions = inject("transactions");
 
-    const dashboardRecentTransactions = computed(() => {
+    const recentTransactions = computed(() => {
       return transactions.value.slice(0, 5);
     });
 
@@ -110,12 +107,8 @@ export default {
       return "You are breaking even";
     });
 
-    const incomeCardClass = "dashboard-card--income";
-    const expenseCardClass = "dashboard-card--expense";
-    const balanceCardClass = "dashboard-card--balance";
-
     return {
-      dashboardRecentTransactions,
+      recentTransactions,
 
       incomeAmount,
       expenseAmount,
@@ -124,10 +117,6 @@ export default {
       incomeStatus,
       expenseStatus,
       balanceStatus,
-
-      incomeCardClass,
-      expenseCardClass,
-      balanceCardClass,
     };
   },
 };

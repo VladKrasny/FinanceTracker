@@ -1,5 +1,11 @@
 <template>
-  <div class="dashboard-card" :class="cardClass">
+  <div
+    class="dashboard-card"
+    :class="{
+      'dashboard-card__amount': true,
+      [`dashboard-card--${variant}`]: Boolean(variant),
+    }"
+  >
     <TheTypography variant="subtitle">{{ title }}</TheTypography>
     <div class="dashboard-card__amount">${{ amount }}</div>
     <TheTypography variant="subtitle">{{ statusText }}</TheTypography>
@@ -16,7 +22,7 @@ export default {
   },
   props: {
     title: { type: String, required: true },
-    cardClass: { type: String, required: true },
+    variant: { type: String, required: true },
     amount: { type: Number, required: true },
     statusText: { type: String, required: true },
   },
