@@ -35,6 +35,7 @@
         />
 
         <TransactionList
+          :isReadOnly="false"
           class="transactions-view__transactions-content"
           :transactions="filteredTransactions"
           @delete="deleteTransaction"

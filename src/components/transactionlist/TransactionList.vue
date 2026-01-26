@@ -6,6 +6,7 @@
       :key="transaction.id"
     >
       <TransactionItem
+        :isReadOnly
         :type="transaction.type"
         :amount="transaction.amount"
         :category="transaction.category"
@@ -28,6 +29,7 @@ export default {
   emits: ["delete", "edit"],
 
   props: {
+    isReadOnly: { type: Boolean, required: true },
     transactions: {
       type: Array,
       required: true,

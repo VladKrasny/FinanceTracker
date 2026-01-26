@@ -1,8 +1,9 @@
 <template>
   <div
+    class="typography"
     :class="{
-      typography: true,
-      [`typography--${variant}`]: Boolean(variant),
+      'typography--title': variant === 'title',
+      'typography--subtitle': variant === 'subtitle',
     }"
   >
     <slot></slot>

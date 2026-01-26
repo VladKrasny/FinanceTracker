@@ -19,6 +19,13 @@
           >
             Settings
           </RouterLink>
+          <RouterLink
+            class="app__tab"
+            :class="{ 'app__tab--active': $route.path === '/dashboard' }"
+            to="/dashboard"
+          >
+            Dashboard
+          </RouterLink>
         </nav>
         <router-view />
       </div>

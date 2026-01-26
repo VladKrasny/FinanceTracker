@@ -15,11 +15,13 @@
         {{ formattedAmount }}
       </div>
       <IconButton
+        v-if="!isReadOnly"
         variant="edit"
         @click="$emit('edit')"
         iconSymbol="edit"
       ></IconButton>
       <IconButton
+        v-if="!isReadOnly"
         variant="delete"
         @click="deleteItem"
         iconSymbol="delete"
@@ -36,6 +38,7 @@ export default {
   emits: ["delete", "edit"],
   components: { IconButton },
   props: {
+    isReadOnly: { type: Boolean, required: true },
     type: { type: String, required: true },
     amount: { type: Number, required: true },
     category: { type: String, required: true },
