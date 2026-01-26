@@ -1,9 +1,9 @@
 <template>
   <button
+    class="button"
     :class="{
-      button: true,
-      [`button--${variant}`]: Boolean(variant),
-      'button--disabled': disabled,
+      'button--disabled': variant === 'disabled',
+      'button--white': variant === 'white',
     }"
     :disabled="disabled"
     @click="$emit('click')"
