@@ -51,8 +51,8 @@ import TransactionForm from "@/components/TransactionForm.vue";
 import TransactionList from "@/components/transactionlist/TransactionList.vue";
 import TheTypography from "@/components/TheTypography.vue";
 import TransactionListFilters from "@/components/transactionlist/TransactionListFilters.vue";
-import { useTransactionsStore } from "@/stores/transactionsStore";
 import { storeToRefs } from "pinia";
+import { useAppStore } from "@/stores/appStore";
 
 export default {
   name: "TransactionsView",
@@ -64,26 +64,26 @@ export default {
   },
 
   setup() {
-    const transactionsStore = useTransactionsStore();
+    const appStore = useAppStore();
 
     const {
       transactionFormTitle,
       editingTransaction,
       categoryOptions,
-      transactionTypeOptions,
       categoryOptionsByTypeWithAll,
       transactionTypeOptionsWithAll,
       filterModel,
       filteredTransactions,
-    } = storeToRefs(transactionsStore);
+    } = storeToRefs(appStore);
 
     const {
+      transactionTypeOptions,
       saveNewTransaction,
       saveUpdateTransaction,
       deleteTransaction,
       clearEditingTransaction,
       setEditingTransaction,
-    } = transactionsStore;
+    } = appStore;
 
     return {
       clearEditingTransaction,

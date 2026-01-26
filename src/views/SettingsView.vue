@@ -29,18 +29,18 @@
 import TheTypography from "@/components/TheTypography.vue";
 import NewCategoryForm from "@/components/newCategory/NewCategoryForm.vue";
 import CategoryList from "@/components/newCategory/CategoryList.vue";
-import { useSettingsStore } from "@/stores/settingsStore";
+import { useAppStore } from "@/stores/appStore";
 import { storeToRefs } from "pinia";
 
 export default {
   name: "SettingsView",
   components: { TheTypography, NewCategoryForm, CategoryList },
   setup() {
-    const SettingsStore = useSettingsStore();
+    const appStore = useAppStore();
 
-    const { incomeCategories, expenseCategories } = storeToRefs(SettingsStore);
-    const { addNewCategory, deleteCategory, transactionTypeOptions } =
-      SettingsStore;
+    const { incomeCategories, expenseCategories } = storeToRefs(appStore);
+
+    const { addNewCategory, deleteCategory, transactionTypeOptions } = appStore;
 
     return {
       addNewCategory,
