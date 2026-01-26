@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { useAppStore } from "./appStore";
 import { generateId } from "@/utils/generateId";
 
-export const useTransactionsStore = defineStore("TransactionsStore", {
+export const useTransactionsStore = defineStore("transactionsStore", {
   getters: {
     transactions() {
       return useAppStore().transactions;

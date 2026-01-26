@@ -38,7 +38,7 @@ export const useSettingsStore = defineStore("settingsStore", {
       });
     },
 
-    deleteCategory({ value, label }) {
+    deleteCategory(value) {
       const appStore = useAppStore();
 
       const confirmDelete = window.confirm(
@@ -49,7 +49,7 @@ export const useSettingsStore = defineStore("settingsStore", {
         (c) => c.value !== value,
       );
       appStore.transactions.forEach((t) => {
-        if (t.category === label) t.category = "";
+        if (t.category === value) t.category = "";
       });
     },
   },

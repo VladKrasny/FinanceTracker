@@ -64,7 +64,7 @@ export default {
   },
 
   setup() {
-    const TransactionsStore = useTransactionsStore();
+    const transactionsStore = useTransactionsStore();
 
     const {
       transactionFormTitle,
@@ -75,7 +75,7 @@ export default {
       transactionTypeOptionsWithAll,
       filterModel,
       filteredTransactions,
-    } = storeToRefs(TransactionsStore);
+    } = storeToRefs(transactionsStore);
 
     const {
       saveNewTransaction,
@@ -83,7 +83,7 @@ export default {
       deleteTransaction,
       clearEditingTransaction,
       setEditingTransaction,
-    } = TransactionsStore;
+    } = transactionsStore;
 
     return {
       clearEditingTransaction,

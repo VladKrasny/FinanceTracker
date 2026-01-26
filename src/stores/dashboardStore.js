@@ -2,19 +2,11 @@ import { defineStore } from "pinia";
 import { useAppStore } from "./appStore";
 
 export const useDashboardStore = defineStore("dashboardStore", {
-  state: () => ({
-    incomeCardClass: "dashboard-card--income",
-    expenseCardClass: "dashboard-card--expense",
-    balanceCardClass: "dashboard-card--balance",
-  }),
   getters: {
-    transactions() {
-      const appStore = useAppStore();
-      return appStore.transactions;
-    },
+    transactions: () => useAppStore().transactions,
 
-    dashboardRecentTransactions() {
-      return this.transactions.slice(0, 5);
+    recentTransactions() {
+      return [...this.transactions].reverse().slice(0, 5);
     },
 
     cardTotalsByType() {
