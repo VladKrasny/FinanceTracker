@@ -33,29 +33,9 @@
   </CSSReset>
 </template>
 
-<script>
+<script setup>
 import CSSReset from "./CSSReset.vue";
 import TheTypography from "./components/TheTypography.vue";
-import { onMounted } from "vue";
-import { useAppStore } from "./stores/appStore";
-
-export default {
-  name: "App",
-  components: {
-    TheTypography,
-    CSSReset,
-  },
-
-  setup() {
-    const appStore = useAppStore();
-
-    onMounted(() => {
-      appStore.restoreFromLocalStorage();
-      appStore.initWatchers();
-    });
-    return {};
-  },
-};
 </script>
 
 <style scoped>

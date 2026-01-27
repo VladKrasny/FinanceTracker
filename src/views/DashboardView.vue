@@ -46,42 +46,61 @@
   </div>
 </template>
 
-<script>
-import { computed } from "vue";
+<script setup>
 import TheTypography from "@/components/TheTypography.vue";
 import TheButton from "@/components/TheButton.vue";
 import DashboardCard from "@/components/dashboard/DashboardCard.vue";
 import TransactionList from "@/components/transactionlist/TransactionList.vue";
 import { useAppStore } from "@/stores/appStore";
 import { storeToRefs } from "pinia";
+import { computed } from "vue";
 
-export default {
-  name: "DashboardView",
-  components: { TheTypography, TheButton, DashboardCard, TransactionList },
-  setup() {
-    const appStore = useAppStore();
+const appStore = useAppStore();
+const { transactions } = storeToRefs(appStore);
 
-    const {
-      incomeAmount,
-      expenseAmount,
-      balanceAmount,
-      recentTransactions,
-      incomeStatus,
-      expenseStatus,
-      balanceStatus,
-    } = storeToRefs(appStore);
+const recentTransactions = computed(() => {
+  return [...transactions.value].reverse().slice(0, 5);
+});
 
-    return {
-      recentTransactions,
-      incomeAmount,
-      expenseAmount,
-      balanceAmount,
-      incomeStatus,
-      expenseStatus,
-      balanceStatus,
-    };
-  },
-};
+const cardTotalsByType = computed(() => {
+  return transactions.value.reduce(
+    (acc, t) => {
+      const value = Number(t.amount || 0);
+      if (t.type === "income") acc.income += value;
+      else if (t.type === "expense") acc.expense += value;
+      return acc;
+    },
+    { income: 0, expense: 0 },
+  );
+});
+
+const incomeAmount = computed(() => {
+  return cardTotalsByType.value.income;
+});
+
+const expenseAmount = computed(() => {
+  return cardTotalsByType.value.expense;
+});
+
+const balanceAmount = computed(() => {
+  return cardTotalsByType.value.income - cardTotalsByType.value.expense;
+});
+
+const incomeStatus = computed(() => {
+  const count = transactions.value.filter((t) => t.type === "income").length;
+  return `${count} transactions`;
+});
+
+const expenseStatus = computed(() => {
+  const count = transactions.value.filter((t) => t.type === "expense").length;
+  return `${count} transactions`;
+});
+
+const balanceStatus = computed(() => {
+  if (balanceAmount.value > 0) return "You are in the positive";
+  if (balanceAmount.value < 0) return "You are in the negative";
+  return "You are breaking even";
+});
 </script>
 
 <style scoped>
