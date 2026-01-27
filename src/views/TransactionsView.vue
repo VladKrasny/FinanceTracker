@@ -53,7 +53,7 @@ import TheTypography from "@/components/TheTypography.vue";
 import TransactionListFilters from "@/components/transactionlist/TransactionListFilters.vue";
 import { storeToRefs } from "pinia";
 import { useAppStore } from "@/stores/appStore";
-import { computed, watch, ref } from "vue";
+import { computed, watch, ref, reactive } from "vue";
 import { generateId } from "@/utils/generateId";
 
 export default {
@@ -68,10 +68,10 @@ export default {
   setup() {
     const appStore = useAppStore();
     const editingTransaction = ref(null);
-    const { categoryOptions, transactions, filteredTransactions } =
+    const filterModel = reactive({ transactionType: "All", category: "All" });
+    const { categoryOptions, transactions, sortedTransactions } =
       storeToRefs(appStore);
     const { transactionTypeOptions } = appStore;
-    const filterModel = appStore.filterModel;
 
     const transactionFormTitle = computed(() => {
       return editingTransaction.value ? "Edit transaction" : "Add transaction";
@@ -93,6 +93,17 @@ export default {
 
     const transactionTypeOptionsWithAll = computed(() => {
       return [{ value: "All", label: "All" }, ...transactionTypeOptions];
+    });
+
+    const filteredTransactions = computed(() => {
+      return sortedTransactions.value.filter((t) => {
+        const isTypeMatch =
+          filterModel.transactionType === "All" ||
+          t.type === filterModel.transactionType;
+        const isCategoryMatch =
+          filterModel.category === "All" || t.category === filterModel.category;
+        return isTypeMatch && isCategoryMatch;
+      });
     });
 
     function saveNewTransaction(newEntry) {

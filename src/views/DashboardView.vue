@@ -60,10 +60,10 @@ export default {
   components: { TheTypography, TheButton, DashboardCard, TransactionList },
   setup() {
     const appStore = useAppStore();
-    const { transactions, filteredTransactions } = storeToRefs(appStore);
+    const { transactions, sortedTransactions } = storeToRefs(appStore);
 
     const recentTransactions = computed(() => {
-      return [...filteredTransactions.value].slice(0, 5);
+      return [...sortedTransactions.value].slice(0, 5);
     });
 
     const cardTotalsByType = computed(() => {

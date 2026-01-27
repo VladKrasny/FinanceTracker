@@ -2,7 +2,7 @@
   <ul class="transaction-list">
     <li
       class="transaction-list__item"
-      v-for="transaction in sortedTransactions"
+      v-for="transaction in transactions"
       :key="transaction.id"
     >
       <TransactionItem
@@ -33,14 +33,6 @@ export default {
     transactions: {
       type: Array,
       required: true,
-    },
-  },
-
-  computed: {
-    sortedTransactions() {
-      return [...this.transactions].sort((a, b) => {
-        return new Date(b.date) - new Date(a.date);
-      });
     },
   },
 };
