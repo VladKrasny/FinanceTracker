@@ -58,7 +58,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  max-width: 1420px;
+  max-width: 1620px;
   min-width: 820px;
 }
 </style>
