@@ -78,7 +78,6 @@ export default {
     }
 
     return {
-      categoryOptions,
       addNewCategory,
       transactionTypeOptions,
       incomeCategories,

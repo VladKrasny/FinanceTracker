@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref, watch } from "vue";
+import { ref, watch, reactive, computed } from "vue";
 import { readFromLocalStorage } from "@/utils/readFromLocalStorage";
 
 const LS_DATA = {
@@ -17,6 +17,20 @@ export const useAppStore = defineStore("appStore", () => {
   const transactions = ref([]);
 
   const categoryOptions = ref([]);
+
+  const filterModel = reactive({ transactionType: "All", category: "All" });
+
+  ////computed
+  const filteredTransactions = computed(() => {
+    return transactions.value.filter((t) => {
+      const isTypeMatch =
+        filterModel.transactionType === "All" ||
+        t.type === filterModel.transactionType;
+      const isCategoryMatch =
+        filterModel.category === "All" || t.category === filterModel.category;
+      return isTypeMatch && isCategoryMatch;
+    });
+  });
 
   ////watchers
   watch(
@@ -45,7 +59,8 @@ export const useAppStore = defineStore("appStore", () => {
   const categoriesLS = readFromLocalStorage(LS_DATA.categories, Array.isArray);
   if (categoriesLS) categoryOptions.value = categoriesLS;
   return {
-    readFromLocalStorage,
+    filterModel,
+    filteredTransactions,
     transactionTypeOptions,
     transactions,
     categoryOptions,
