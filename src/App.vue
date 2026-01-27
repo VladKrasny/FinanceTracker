@@ -33,9 +33,17 @@
   </CSSReset>
 </template>
 
-<script setup>
+<script>
 import CSSReset from "./CSSReset.vue";
 import TheTypography from "./components/TheTypography.vue";
+
+export default {
+  name: "App",
+  components: {
+    TheTypography,
+    CSSReset,
+  },
+};
 </script>
 
 <style scoped>
