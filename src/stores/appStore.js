@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, watch } from "vue";
+import { readFromLocalStorage } from "@/utils/readFromLocalStorage";
 
 const LS_DATA = {
   transactions: "finance-transactions",
@@ -35,32 +36,18 @@ export const useAppStore = defineStore("appStore", () => {
   );
 
   ////localStorage
-  function restoreFromLocalStorage(key, target) {
-    try {
-      const dataFromLS = localStorage.getItem(LS_DATA[key]);
-      if (dataFromLS) {
-        const dataJSON = JSON.parse(dataFromLS);
-        if (Array.isArray(dataJSON)) {
-          target.value = dataJSON;
-        } else {
-          throw new Error(`invalid ${key} format`);
-        }
-      }
-    } catch {
-      console.warn(
-        `Failed to parse ${key} from localStorage. Resetting to default.`,
-      );
-      localStorage.removeItem(LS_DATA[key]);
-    }
-  }
+  const transactionsLS = readFromLocalStorage(
+    LS_DATA.transactions,
+    Array.isArray,
+  );
+  if (transactionsLS) transactions.value = transactionsLS;
 
-  restoreFromLocalStorage("transactions", transactions);
-  restoreFromLocalStorage("categories", categoryOptions);
-
+  const categoriesLS = readFromLocalStorage(LS_DATA.categories, Array.isArray);
+  if (categoriesLS) categoryOptions.value = categoriesLS;
   return {
+    readFromLocalStorage,
     transactionTypeOptions,
     transactions,
     categoryOptions,
-    restoreFromLocalStorage,
   };
 });
