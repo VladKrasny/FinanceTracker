@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
-import { reactive, ref, watch, computed } from "vue";
-import { generateId } from "@/utils/generateId";
+import { ref, watch } from "vue";
 
 const LS_DATA = {
   transactions: "finance-transactions",
@@ -9,10 +8,6 @@ const LS_DATA = {
 
 export const useAppStore = defineStore("appStore", () => {
   ////states
-  const editingTransaction = ref(null);
-
-  const filterModel = reactive({ transactionType: "All", category: "All" });
-
   const transactionTypeOptions = [
     { value: "income", label: "Income" },
     { value: "expense", label: "Expense" },
@@ -40,50 +35,32 @@ export const useAppStore = defineStore("appStore", () => {
   );
 
   ////localStorage
-  function restoreFromLocalStorage() {
+  function restoreFromLocalStorage(key, target) {
     try {
-      const transactionsFromLS = localStorage.getItem(LS_DATA.transactions);
-      if (transactionsFromLS) {
-        const transactionsJSON = JSON.parse(transactionsFromLS);
-        if (Array.isArray(transactionsJSON)) {
-          transactions.value = transactionsJSON;
+      const dataFromLS = localStorage.getItem(LS_DATA[key]);
+      if (dataFromLS) {
+        const dataJSON = JSON.parse(dataFromLS);
+        if (Array.isArray(dataJSON)) {
+          target.value = dataJSON;
         } else {
-          throw new Error("invalid transactions format");
+          throw new Error(`invalid ${key} format`);
         }
       }
     } catch {
       console.warn(
-        "Failed to parse transactions from localStorage. Resetting to default.",
+        `Failed to parse ${key} from localStorage. Resetting to default.`,
       );
-      localStorage.removeItem(LS_DATA.transactions);
-    }
-
-    try {
-      const categoriesFromLS = localStorage.getItem(LS_DATA.categories);
-      if (categoriesFromLS) {
-        const categoriesJSON = JSON.parse(categoriesFromLS);
-        if (Array.isArray(categoriesJSON)) {
-          categoryOptions.value = categoriesJSON;
-        } else {
-          throw new Error(" Invalid categories format");
-        }
-      }
-    } catch {
-      console.warn(
-        "Failed to parse categories from localStorage. Resetting to default.",
-      );
-      localStorage.removeItem(LS_DATA.categories);
+      localStorage.removeItem(LS_DATA[key]);
     }
   }
 
-  restoreFromLocalStorage();
+  restoreFromLocalStorage("transactions", transactions);
+  restoreFromLocalStorage("categories", categoryOptions);
 
   return {
-    editingTransaction,
     transactionTypeOptions,
     transactions,
     categoryOptions,
-    filterModel,
     restoreFromLocalStorage,
   };
 });

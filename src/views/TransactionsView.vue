@@ -53,7 +53,7 @@ import TheTypography from "@/components/TheTypography.vue";
 import TransactionListFilters from "@/components/transactionlist/TransactionListFilters.vue";
 import { storeToRefs } from "pinia";
 import { useAppStore } from "@/stores/appStore";
-import { computed, watch } from "vue";
+import { computed, watch, ref, reactive } from "vue";
 import { generateId } from "@/utils/generateId";
 
 export default {
@@ -67,9 +67,9 @@ export default {
 
   setup() {
     const appStore = useAppStore();
-    const filterModel = appStore.filterModel;
-    const { editingTransaction, categoryOptions, transactions } =
-      storeToRefs(appStore);
+    const editingTransaction = ref(null);
+    const filterModel = reactive({ transactionType: "All", category: "All" });
+    const { categoryOptions, transactions } = storeToRefs(appStore);
     const { transactionTypeOptions } = appStore;
 
     const transactionFormTitle = computed(() => {
