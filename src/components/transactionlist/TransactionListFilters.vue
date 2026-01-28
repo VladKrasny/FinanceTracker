@@ -12,38 +12,28 @@
     />
   </div>
 </template>
-<script>
+<script setup>
 import TheSelect from "@/components/TheSelect.vue";
 import { computed } from "vue";
 
-export default {
-  name: "TransactionListFilters",
-  components: {
-    TheSelect,
-  },
-
-  emits: ["update:transactionType", "update:transactionCategory"],
-  props: {
-    transactionTypeOptions: { type: Array, required: true },
-    transactionType: { type: String, required: true },
-    categoryOptions: { type: Array, required: true },
-    transactionCategory: { type: String, required: true },
-  },
-  setup(props, { emit }) {
-    const transactionsTypeModel = computed({
-      get: () => props.transactionType,
-      set: (value) => emit("update:transactionType", value),
-    });
-    const transactionCategoryModel = computed({
-      get: () => props.transactionCategory,
-      set: (value) => emit("update:transactionCategory", value),
-    });
-    return {
-      transactionsTypeModel,
-      transactionCategoryModel,
-    };
-  },
-};
+const emit = defineEmits([
+  "update:transactionType",
+  "update:transactionCategory",
+]);
+const props = defineProps({
+  transactionTypeOptions: { type: Array, required: true },
+  transactionType: { type: String, required: true },
+  categoryOptions: { type: Array, required: true },
+  transactionCategory: { type: String, required: true },
+});
+const transactionsTypeModel = computed({
+  get: () => props.transactionType,
+  set: (value) => emit("update:transactionType", value),
+});
+const transactionCategoryModel = computed({
+  get: () => props.transactionCategory,
+  set: (value) => emit("update:transactionCategory", value),
+});
 </script>
 
 <style scoped>
