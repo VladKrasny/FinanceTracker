@@ -14,8 +14,8 @@
           </RouterLink>
           <RouterLink
             class="app__tab"
-            :class="{ 'app__tab--active': $route.path === '/settings' }"
-            to="/settings"
+            :class="{ 'app__tab--active': $route.path === '/categories' }"
+            to="/categories"
           >
             Settings
           </RouterLink>

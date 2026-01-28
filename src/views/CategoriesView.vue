@@ -35,7 +35,7 @@ import { computed } from "vue";
 import { generateId } from "@/utils/generateId";
 
 export default {
-  name: "SettingsView",
+  name: "CategoriesView",
   components: { TheTypography, NewCategoryForm, CategoryList },
   setup() {
     const appStore = useAppStore();
