@@ -1,7 +1,7 @@
 <template>
-  <div class="settings-view">
+  <div class="categories-view">
     <div>
-      <TheTypography variant="title">Settings</TheTypography>
+      <TheTypography variant="title">Categories</TheTypography>
       <TheTypography variant="subtitle">
         Manage your transaction categories
       </TheTypography>
@@ -35,7 +35,7 @@ import { computed } from "vue";
 import { generateId } from "@/utils/generateId";
 
 export default {
-  name: "SettingsView",
+  name: "CategoriesView",
   components: { TheTypography, NewCategoryForm, CategoryList },
   setup() {
     const appStore = useAppStore();
@@ -89,7 +89,7 @@ export default {
 </script>
 
 <style scoped>
-.settings-view {
+.categories-view {
   display: flex;
   flex-direction: column;
   gap: 20px;

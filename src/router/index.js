@@ -1,16 +1,16 @@
-import { createMemoryHistory, createRouter } from "vue-router";
+import { createWebHistory, createRouter } from "vue-router";
 import TransactionsView from "@/views/TransactionsView.vue";
-import SettingsView from "@/views/SettingsView.vue";
+import CategoriesView from "@/views/CategoriesView.vue";
 import DashboardView from "@/views/DashboardView.vue";
 
 const routes = [
-  { path: "/", redirect: "/transactions" },
+  { path: "/", redirect: "/dashboard" },
   { path: "/transactions", component: TransactionsView },
-  { path: "/settings", component: SettingsView },
+  { path: "/categories", component: CategoriesView },
   { path: "/dashboard", component: DashboardView },
 ];
 
 export const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes,
 });
