@@ -47,20 +47,23 @@
 </template>
 
 <script>
-import { inject, computed } from "vue";
 import TheTypography from "@/components/TheTypography.vue";
 import TheButton from "@/components/TheButton.vue";
 import DashboardCard from "@/components/dashboard/DashboardCard.vue";
 import TransactionList from "@/components/transactionlist/TransactionList.vue";
+import { useAppStore } from "@/stores/appStore";
+import { storeToRefs } from "pinia";
+import { computed } from "vue";
 
 export default {
   name: "DashboardView",
   components: { TheTypography, TheButton, DashboardCard, TransactionList },
   setup() {
-    const transactions = inject("transactions");
+    const appStore = useAppStore();
+    const { transactions, sortedTransactions } = storeToRefs(appStore);
 
     const recentTransactions = computed(() => {
-      return transactions.value.slice(0, 5);
+      return [...sortedTransactions.value].slice(0, 5);
     });
 
     const cardTotalsByType = computed(() => {
@@ -68,7 +71,7 @@ export default {
         (acc, t) => {
           const value = Number(t.amount || 0);
           if (t.type === "income") acc.income += value;
-          if (t.type === "expense") acc.expense += value;
+          else if (t.type === "expense") acc.expense += value;
           return acc;
         },
         { income: 0, expense: 0 },
@@ -109,11 +112,9 @@ export default {
 
     return {
       recentTransactions,
-
       incomeAmount,
       expenseAmount,
       balanceAmount,
-
       incomeStatus,
       expenseStatus,
       balanceStatus,
