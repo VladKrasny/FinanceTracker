@@ -17,7 +17,7 @@
             :class="{ 'app__tab--active': $route.path === '/categories' }"
             to="/categories"
           >
-            Settings
+            Categories
           </RouterLink>
           <RouterLink
             class="app__tab"

@@ -1,7 +1,7 @@
 <template>
-  <div class="settings-view">
+  <div class="categories-view">
     <div>
-      <TheTypography variant="title">Settings</TheTypography>
+      <TheTypography variant="title">Categories</TheTypography>
       <TheTypography variant="subtitle">
         Manage your transaction categories
       </TheTypography>
@@ -89,7 +89,7 @@ export default {
 </script>
 
 <style scoped>
-.settings-view {
+.categories-view {
   display: flex;
   flex-direction: column;
   gap: 20px;
