@@ -14,25 +14,16 @@
 </template>
 <script setup>
 import TheSelect from "@/components/TheSelect.vue";
-import { computed } from "vue";
 
-const emit = defineEmits([
-  "update:transactionType",
-  "update:transactionCategory",
-]);
 const props = defineProps({
   transactionTypeOptions: { type: Array, required: true },
-  transactionType: { type: String, required: true },
   categoryOptions: { type: Array, required: true },
-  transactionCategory: { type: String, required: true },
 });
-const transactionsTypeModel = computed({
-  get: () => props.transactionType,
-  set: (value) => emit("update:transactionType", value),
+const transactionsTypeModel = defineModel("transactionType", {
+  required: true,
 });
-const transactionCategoryModel = computed({
-  get: () => props.transactionCategory,
-  set: (value) => emit("update:transactionCategory", value),
+const transactionCategoryModel = defineModel("transactionCategory", {
+  required: true,
 });
 </script>
 

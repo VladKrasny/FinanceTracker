@@ -16,7 +16,6 @@
 
 <script setup>
 import { generateId } from "../utils/generateId.js";
-import { computed } from "vue";
 
 const props = defineProps({
   valueKey: { type: String, default: "value" },
@@ -25,21 +24,11 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  modelValue: {
-    type: String,
-    default: "",
-  },
 });
-
-const emit = defineEmits(["update:modelValue"]);
 
 const randomId = generateId("select");
 
-const model = computed({
-  get: () => props.modelValue,
-
-  set: (value) => emit("update:modelValue", value),
-});
+const model = defineModel({ default: "" });
 </script>
 
 <style scoped>

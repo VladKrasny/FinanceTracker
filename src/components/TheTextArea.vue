@@ -17,7 +17,7 @@
 
 <script setup>
 import { generateId } from "../utils/generateId.js";
-import { computed, watch, ref } from "vue";
+import { watch, ref } from "vue";
 
 const props = defineProps({
   placeholder: {
@@ -27,10 +27,6 @@ const props = defineProps({
   label: {
     type: String,
     required: true,
-  },
-  modelValue: {
-    type: String,
-    default: "",
   },
   hasError: {
     type: Boolean,
@@ -45,16 +41,11 @@ const props = defineProps({
     required: true,
   },
 });
-const emit = defineEmits(["update:modelValue"]);
 
 const textArea = ref(null);
 const randomId = generateId("textarea");
 
-const model = computed({
-  get: () => props.modelValue,
-
-  set: (value) => emit("update:modelValue", value),
-});
+const model = defineModel({ default: "" });
 
 const sizeCheck = () => {
   const el = textArea.value;
@@ -67,7 +58,7 @@ const sizeCheck = () => {
 };
 
 watch(
-  () => model.value,
+  model,
   () => {
     sizeCheck();
   },

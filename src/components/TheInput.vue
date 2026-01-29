@@ -18,7 +18,7 @@
 
 <script setup>
 import { generateId } from "../utils/generateId.js";
-import { computed, watch, ref } from "vue";
+import { watch, ref } from "vue";
 
 const props = defineProps({
   placeholder: {
@@ -30,10 +30,6 @@ const props = defineProps({
     type: String,
     default: "text",
   },
-  modelValue: {
-    type: String,
-    default: "",
-  },
   hasError: {
     type: Boolean,
     default: false,
@@ -43,8 +39,6 @@ const props = defineProps({
     default: "",
   },
 });
-
-const emit = defineEmits(["update:modelValue"]);
 
 const touched = ref(false);
 const randomId = generateId("input");
@@ -62,11 +56,7 @@ const onInput = () => {
   touched.value = true;
 };
 
-const model = computed({
-  get: () => props.modelValue,
-
-  set: (value) => emit("update:modelValue", value),
-});
+const model = defineModel({ default: true });
 </script>
 
 <style scoped>
