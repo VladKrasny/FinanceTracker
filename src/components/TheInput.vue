@@ -56,7 +56,7 @@ const onInput = () => {
   touched.value = true;
 };
 
-const model = defineModel({ default: true });
+const model = defineModel({ default: "" });
 </script>
 
 <style scoped>
