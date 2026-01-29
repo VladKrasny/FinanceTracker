@@ -16,7 +16,6 @@
 
 <script setup>
 import { generateId } from "../utils/generateId.js";
-import { computed } from "vue";
 
 const props = defineProps({
   valueKey: { type: String, default: "value" },
