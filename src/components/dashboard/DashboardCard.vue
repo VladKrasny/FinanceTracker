@@ -13,21 +13,15 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import TheTypography from "../TheTypography.vue";
 
-export default {
-  name: "DashboardCard",
-  components: {
-    TheTypography,
-  },
-  props: {
-    title: { type: String, required: true },
-    variant: { type: String, required: true },
-    amount: { type: Number, required: true },
-    statusText: { type: String, required: true },
-  },
-};
+defineProps({
+  title: { type: String, required: true },
+  variant: { type: String, required: true },
+  amount: { type: Number, required: true },
+  statusText: { type: String, required: true },
+});
 </script>
 
 <style scoped>

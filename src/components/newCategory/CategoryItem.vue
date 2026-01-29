@@ -7,22 +7,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import IconButton from "../IconButton.vue";
 
-export default {
-  name: "CategoryItem",
-  components: { IconButton },
-  props: {
-    label: { type: String, required: true },
-  },
-  emits: ["delete"],
-  methods: {
-    deleteCategory() {
-      this.$emit("delete");
-    },
-  },
-};
+defineProps({
+  label: { type: String, required: true },
+});
+const emit = defineEmits(["delete"]);
+const deleteCategory = () => emit("delete");
 </script>
 
 <style scoped>

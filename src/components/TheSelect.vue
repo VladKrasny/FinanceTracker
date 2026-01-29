@@ -14,42 +14,21 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { generateId } from "../utils/generateId.js";
 
-export default {
-  name: "TheSelect",
+const props = defineProps({
+  valueKey: { type: String, default: "value" },
+  label: { type: String, required: false },
+  options: {
+    type: Array,
+    required: true,
+  },
+});
 
-  props: {
-    valueKey: { type: String, default: "value" },
-    label: { type: String, required: false },
-    options: {
-      type: Array,
-      required: true,
-    },
-    modelValue: {
-      type: String,
-      default: "",
-    },
-  },
-  emits: ["update:modelValue"],
-  data() {
-    return {
-      randomId: generateId("select"),
-    };
-  },
+const randomId = generateId("select");
 
-  computed: {
-    model: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit("update:modelValue", value);
-      },
-    },
-  },
-};
+const model = defineModel({ default: "" });
 </script>
 
 <style scoped>

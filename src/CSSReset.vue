@@ -2,12 +2,6 @@
   <slot></slot>
 </template>
 
-<script>
-export default {
-  name: "CSSReset",
-};
-</script>
-
 <style>
 /* 1. Use a more-intuitive box-sizing model */
 *,

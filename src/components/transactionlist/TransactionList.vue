@@ -12,30 +12,24 @@
         :category="transaction.category"
         :date="transaction.date"
         :description="transaction.description"
-        @delete="$emit('delete', transaction.id)"
-        @edit="$emit('edit', transaction)"
+        @delete="emit('delete', transaction.id)"
+        @edit="emit('edit', transaction)"
       />
     </li>
   </ul>
 </template>
 
-<script>
+<script setup>
 import TransactionItem from "./TransactionItem.vue";
+const emit = defineEmits(["delete", "edit"]);
 
-export default {
-  name: "TransactionList",
-
-  components: { TransactionItem },
-  emits: ["delete", "edit"],
-
-  props: {
-    isReadOnly: { type: Boolean, required: true },
-    transactions: {
-      type: Array,
-      required: true,
-    },
+defineProps({
+  isReadOnly: { type: Boolean, required: true },
+  transactions: {
+    type: Array,
+    required: true,
   },
-};
+});
 </script>
 
 <style scoped>

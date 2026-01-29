@@ -27,40 +27,30 @@
     </div>
   </form>
 </template>
-<script>
+<script setup>
 import TheTypography from "../TheTypography.vue";
 import TheButton from "../TheButton.vue";
 import NewCategoryInput from "./NewCategoryInput.vue";
 import TheSelect from "../TheSelect.vue";
+import { ref } from "vue";
 
-export default {
-  name: "NewCategoryForm",
-  props: { transactionTypeOptions: { type: Array, required: true } },
+defineProps({
+  transactionTypeOptions: { type: Array, required: true },
+});
 
-  emits: ["submit"],
-  data() {
-    return {
-      newCategoryModel: "",
-      newCategoryError: "",
-      typeModel: "",
-    };
-  },
-  components: {
-    TheTypography,
-    NewCategoryInput,
-    TheButton,
-    TheSelect,
-  },
-  methods: {
-    submit() {
-      if (!this.newCategoryModel || this.newCategoryError) return;
-      this.$emit("submit", {
-        category: this.newCategoryModel,
-        transactionType: this.typeModel,
-      });
-      this.newCategoryModel = "";
-    },
-  },
+const emit = defineEmits(["submit"]);
+
+const newCategoryModel = ref("");
+const newCategoryError = ref("");
+const typeModel = ref("");
+
+const submit = () => {
+  if (!newCategoryModel.value || newCategoryError.value) return;
+  emit("submit", {
+    category: newCategoryModel.value,
+    transactionType: typeModel.value,
+  });
+  newCategoryModel.value = "";
 };
 </script>
 
