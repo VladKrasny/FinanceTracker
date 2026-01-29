@@ -10,6 +10,7 @@
       <TheButton
         class="dashboard-view__button"
         label="+ Add transaction"
+        shortLabel="+ Add tr..."
         @click="$router.push('/transactions')"
       />
     </div>
@@ -134,6 +135,32 @@ const balanceStatus = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  min-width: 660px;
+  width: 100%;
+  min-width: 340px;
+  max-width: 100%;
+}
+@media (max-width: 1024px) {
+  .dashboard-view {
+    padding: 20px;
+  }
+  .dashboard-view__cards {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 760px) {
+  .dashboard-view__cards {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  .dashboard-view {
+    padding: 20px;
+  }
+}
+@media (max-width: 450px) {
+  .dashboard-view__button {
+    width: 100px;
+  }
 }
 </style>

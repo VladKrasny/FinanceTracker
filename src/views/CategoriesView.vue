@@ -80,6 +80,11 @@ const deleteCategory = ({ value, label }) => {
   flex-direction: column;
   gap: 20px;
   max-width: 1620px;
-  min-width: 820px;
+  min-width: 340px;
+}
+@media (max-width: 450px) {
+  .categories-view {
+    padding: 5px;
+  }
 }
 </style>

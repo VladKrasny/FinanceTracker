@@ -8,15 +8,27 @@
     :disabled="disabled"
     @click="emit('click')"
   >
-    {{ label }}
+    <span class="button__full-text">{{ label }}</span>
+    <span class="button__short-label">{{ shortLabelText }}</span>
+    <span class="button__symbol">{{ symbolText }}</span>
   </button>
 </template>
 
 <script setup>
-defineProps({
+import { computed } from "vue";
+
+const props = defineProps({
   label: {
     type: String,
     required: true,
+  },
+  shortLabel: {
+    type: String,
+    required: false,
+  },
+  symbol: {
+    type: String,
+    required: false,
   },
   variant: {
     type: String,
@@ -29,6 +41,12 @@ defineProps({
 });
 
 const emit = defineEmits(["click"]);
+
+const shortLabelText = computed(() => props.shortLabel || props.label);
+const symbolText = computed(() => {
+  if (props.symbol) return props.symbol;
+  return props.shortLabel ?? props.label;
+});
 </script>
 
 <style scoped>
@@ -41,6 +59,7 @@ const emit = defineEmits(["click"]);
   cursor: pointer;
   font-size: 16px;
   width: 100%;
+  height: 100%;
 }
 .button--disabled {
   background-color: #a0a0a0;
@@ -51,5 +70,32 @@ const emit = defineEmits(["click"]);
 .button--white {
   background-color: white;
   color: black;
+}
+.button__full-text {
+  display: inline;
+}
+.button__short-label,
+.button__symbol {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .button__full-text {
+    display: none;
+  }
+  .button__short-label {
+    display: inline;
+  }
+}
+@media (max-width: 450px) {
+  .button {
+    padding: 5px;
+  }
+  .button__short-label {
+    display: none;
+  }
+  .button__symbol {
+    display: inline;
+  }
 }
 </style>

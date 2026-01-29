@@ -33,4 +33,13 @@ const deleteCategory = () => emit("delete");
   font-size: 20px;
   font-weight: 600;
 }
+@media (max-width: 450px) {
+  .category-item {
+    padding: 3px 10px 3px 10px;
+  }
+  .category-item__label {
+    font-size: 17px;
+    font-weight: 600;
+  }
+}
 </style>

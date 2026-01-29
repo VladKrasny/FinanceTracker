@@ -66,4 +66,36 @@ import TheTypography from "./components/TheTypography.vue";
   font-weight: 600;
   text-decoration: underline;
 }
+@media (max-width: 1024px) {
+  .app {
+    padding: 10px 20px 20px 20px;
+  }
+  .app__header {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+}
+@media (max-width: 768px) {
+  .app {
+    padding: 10px 20px 20px 20px;
+  }
+  .app__header {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+  }
+}
+@media (max-width: 450px) {
+  .app {
+    padding: 0;
+  }
+  .app__header {
+    display: flex;
+    gap: 20px;
+  }
+  .app__tab {
+    font-size: 17px;
+  }
+}
 </style>
