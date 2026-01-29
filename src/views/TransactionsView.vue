@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import TransactionForm from "@/components/TransactionForm.vue";
 import TransactionList from "@/components/transactionlist/TransactionList.vue";
 import TheTypography from "@/components/TheTypography.vue";
@@ -56,115 +56,87 @@ import { useAppStore } from "@/stores/appStore";
 import { computed, watch, ref, reactive } from "vue";
 import { generateId } from "@/utils/generateId";
 
-export default {
-  name: "TransactionsView",
-  components: {
-    TransactionForm,
-    TransactionList,
-    TheTypography,
-    TransactionListFilters,
-  },
+const appStore = useAppStore();
+const editingTransaction = ref(null);
+const filterModel = reactive({ transactionType: "All", category: "All" });
+const { categoryOptions, transactions, sortedTransactions } =
+  storeToRefs(appStore);
+const { transactionTypeOptions } = appStore;
 
-  setup() {
-    const appStore = useAppStore();
-    const editingTransaction = ref(null);
-    const filterModel = reactive({ transactionType: "All", category: "All" });
-    const { categoryOptions, transactions, sortedTransactions } =
-      storeToRefs(appStore);
-    const { transactionTypeOptions } = appStore;
+const transactionFormTitle = computed(() => {
+  return editingTransaction.value ? "Edit transaction" : "Add transaction";
+});
 
-    const transactionFormTitle = computed(() => {
-      return editingTransaction.value ? "Edit transaction" : "Add transaction";
-    });
+const categoryOptionsByTypeWithAll = computed(() => {
+  const filtered =
+    filterModel.transactionType !== "All"
+      ? categoryOptions.value.filter(
+          (c) => c.type === filterModel.transactionType,
+        )
+      : categoryOptions.value;
+  const mapped = filtered.map((c) => ({
+    value: c.label,
+    label: c.label,
+  }));
+  return [{ value: "All", label: "All" }, ...mapped];
+});
 
-    const categoryOptionsByTypeWithAll = computed(() => {
-      const filtered =
-        filterModel.transactionType !== "All"
-          ? categoryOptions.value.filter(
-              (c) => c.type === filterModel.transactionType,
-            )
-          : categoryOptions.value;
-      const mapped = filtered.map((c) => ({
-        value: c.label,
-        label: c.label,
-      }));
-      return [{ value: "All", label: "All" }, ...mapped];
-    });
+const transactionTypeOptionsWithAll = computed(() => {
+  return [{ value: "All", label: "All" }, ...transactionTypeOptions];
+});
 
-    const transactionTypeOptionsWithAll = computed(() => {
-      return [{ value: "All", label: "All" }, ...transactionTypeOptions];
-    });
+const filteredTransactions = computed(() => {
+  return sortedTransactions.value.filter((t) => {
+    const isTypeMatch =
+      filterModel.transactionType === "All" ||
+      t.type === filterModel.transactionType;
+    const isCategoryMatch =
+      filterModel.category === "All" || t.category === filterModel.category;
+    return isTypeMatch && isCategoryMatch;
+  });
+});
 
-    const filteredTransactions = computed(() => {
-      return sortedTransactions.value.filter((t) => {
-        const isTypeMatch =
-          filterModel.transactionType === "All" ||
-          t.type === filterModel.transactionType;
-        const isCategoryMatch =
-          filterModel.category === "All" || t.category === filterModel.category;
-        return isTypeMatch && isCategoryMatch;
-      });
-    });
-
-    function saveNewTransaction(newEntry) {
-      const newTransaction = {
-        id: generateId("transaction"),
-        ...newEntry,
-      };
-      transactions.value.push(newTransaction);
-    }
-
-    function saveUpdateTransaction(update) {
-      const item = transactions.value.find((t) => t.id === update.id);
-      if (!item) return;
-      Object.assign(item, update);
-      editingTransaction.value = null;
-    }
-
-    function deleteTransaction(id) {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this transaction? You won’t be able to undo this action later.",
-      );
-      if (!confirmDelete) return;
-      transactions.value = transactions.value.filter(
-        (transaction) => transaction.id !== id,
-      );
-    }
-
-    function setEditingTransaction(transaction) {
-      editingTransaction.value = transaction;
-    }
-
-    function clearEditingTransaction() {
-      editingTransaction.value = null;
-    }
-
-    watch(
-      () => filterModel.transactionType,
-      (newType, oldType) => {
-        if (newType !== oldType) {
-          filterModel.category = "All";
-        }
-      },
-    );
-
-    return {
-      clearEditingTransaction,
-      setEditingTransaction,
-      transactionFormTitle,
-      saveNewTransaction,
-      saveUpdateTransaction,
-      editingTransaction,
-      categoryOptions,
-      transactionTypeOptions,
-      categoryOptionsByTypeWithAll,
-      transactionTypeOptionsWithAll,
-      filterModel,
-      filteredTransactions,
-      deleteTransaction,
-    };
-  },
+const saveNewTransaction = (newEntry) => {
+  const newTransaction = {
+    id: generateId("transaction"),
+    ...newEntry,
+  };
+  transactions.value.push(newTransaction);
 };
+
+const saveUpdateTransaction = (update) => {
+  const item = transactions.value.find((t) => t.id === update.id);
+  if (!item) return;
+  Object.assign(item, update);
+  editingTransaction.value = null;
+};
+
+const deleteTransaction = (id) => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this transaction? You won’t be able to undo this action later.",
+  );
+  if (!confirmDelete) return;
+  transactions.value = transactions.value.filter(
+    (transaction) => transaction.id !== id,
+  );
+};
+
+const setEditingTransaction = (transaction) => {
+  editingTransaction.value = transaction;
+};
+
+const clearEditingTransaction = () => {
+  editingTransaction.value = null;
+};
+
+watch(
+  () => filterModel.transactionType,
+  (newType, oldType) => {
+    if (newType !== oldType) {
+      filterModel.category = "All";
+    }
+  },
+);
 </script>
 
 <style scoped>

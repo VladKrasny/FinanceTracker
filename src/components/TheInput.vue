@@ -8,7 +8,7 @@
       v-model="model"
       :placeholder="placeholder"
       :class="{ 'input__field--error': hasError && touched }"
-      @input="touched = true"
+      @input="onInput"
     />
     <p v-if="errorMessage && touched" class="input__error-message">
       {{ errorMessage }}
@@ -16,64 +16,47 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { generateId } from "../utils/generateId.js";
+import { watch, ref } from "vue";
 
-export default {
-  name: "TheInput",
-
-  props: {
-    placeholder: {
-      type: String,
-      default: "",
-    },
-    label: { type: String, required: false },
-    type: {
-      type: String,
-      default: "text",
-    },
-    modelValue: {
-      type: String,
-      default: "",
-    },
-    hasError: {
-      type: Boolean,
-      default: false,
-    },
-    errorMessage: {
-      type: String,
-      default: "",
-    },
+const props = defineProps({
+  placeholder: {
+    type: String,
+    default: "",
   },
-
-  emits: ["update:modelValue"],
-
-  data() {
-    return {
-      touched: false,
-      randomId: generateId("input"),
-    };
+  label: { type: String, required: false },
+  type: {
+    type: String,
+    default: "text",
   },
-
-  watch: {
-    modelValue(newValue) {
-      if (newValue === "") {
-        this.touched = false;
-      }
-    },
+  hasError: {
+    type: Boolean,
+    default: false,
   },
-
-  computed: {
-    model: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit("update:modelValue", value);
-      },
-    },
+  errorMessage: {
+    type: String,
+    default: "",
   },
+});
+
+const touched = ref(false);
+const randomId = generateId("input");
+
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (newValue === "") {
+      touched.value = false;
+    }
+  },
+);
+
+const onInput = () => {
+  touched.value = true;
 };
+
+const model = defineModel({ default: "" });
 </script>
 
 <style scoped>

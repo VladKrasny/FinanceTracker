@@ -9,65 +9,38 @@
   />
 </template>
 
-<script>
+<script setup>
+import { watch, ref } from "vue";
 import TheInput from "./TheInput.vue";
 
-export default {
-  name: "AmountInput",
+const emit = defineEmits(["error"]);
 
-  components: { TheInput },
+const amountError = ref("");
 
-  props: {
-    modelValue: {
-      type: String,
-      default: "",
-    },
-  },
+const model = defineModel({ default: "" });
 
-  emits: ["update:modelValue", "error"],
+watch(amountError, (value) => {
+  emit("error", value);
+});
 
-  data() {
-    return {
-      amountError: "",
-    };
-  },
+watch(model, (value) => {
+  const val = value.trim();
 
-  computed: {
-    model: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit("update:modelValue", value);
-      },
-    },
-  },
+  if (val === "") {
+    amountError.value = "Amount cannot be empty";
+    return;
+  }
 
-  watch: {
-    amountError(value) {
-      this.$emit("error", value);
-    },
+  if (isNaN(val)) {
+    amountError.value = "Amount must be a number";
+    return;
+  }
 
-    model(value) {
-      const val = value.trim();
+  if (Number(val) <= 0) {
+    amountError.value = "Value must be greater than 0";
+    return;
+  }
 
-      if (val === "") {
-        this.amountError = "Amount cannot be empty";
-        return;
-      }
-
-      if (isNaN(val)) {
-        this.amountError = "Amount must be a number";
-        return;
-      }
-
-      if (Number(val) <= 0) {
-        this.amountError = "Value must be greater than 0";
-        return;
-      }
-
-      this.amountError = "";
-    },
-  },
-};
+  amountError.value = "";
+});
 </script>

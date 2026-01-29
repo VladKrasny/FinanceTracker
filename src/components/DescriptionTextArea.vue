@@ -7,31 +7,8 @@
   />
 </template>
 
-<script>
+<script setup>
 import TheTextArea from "./TheTextArea.vue";
 
-export default {
-  name: "DescriptionTextArea",
-  components: { TheTextArea },
-
-  props: {
-    modelValue: {
-      type: String,
-      default: "",
-    },
-  },
-
-  emits: ["update:modelValue"],
-
-  computed: {
-    model: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit("update:modelValue", value);
-      },
-    },
-  },
-};
+const model = defineModel({ default: "" });
 </script>
