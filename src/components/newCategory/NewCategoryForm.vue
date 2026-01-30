@@ -17,8 +17,6 @@
       </div>
       <div class="new-category-form__button">
         <TheButton
-          short-label="Add..."
-          symbol="+"
           type="submit"
           label="Add Category"
           :disabled="Boolean(newCategoryError || !typeModel)"

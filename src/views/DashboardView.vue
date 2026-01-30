@@ -10,7 +10,6 @@
       <TheButton
         class="dashboard-view__button"
         label="+ Add transaction"
-        shortLabel="+ Add tr..."
         @click="$router.push('/transactions')"
       />
     </div>
