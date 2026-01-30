@@ -26,14 +26,12 @@
             Manage and filter your transactions
           </TheTypography>
         </div>
-        <div class="transactions-view__transactions-filters">
-          <TransactionListFilters
-            :transactionTypeOptions="transactionTypeOptionsWithAll"
-            :categoryOptions="categoryOptionsByTypeWithAll"
-            v-model:transactionType="filterModel.transactionType"
-            v-model:transactionCategory="filterModel.category"
-          />
-        </div>
+        <TransactionListFilters
+          :transactionTypeOptions="transactionTypeOptionsWithAll"
+          :categoryOptions="categoryOptionsByTypeWithAll"
+          v-model:transactionType="filterModel.transactionType"
+          v-model:transactionCategory="filterModel.category"
+        />
         <TransactionList
           :isReadOnly="false"
           class="transactions-view__transactions-content"
@@ -196,10 +194,6 @@ watch(
   }
   .transactions-view__transactions-header {
     gap: 4px;
-  }
-  .transactions-view__transactions-filters {
-    display: flex;
-    justify-content: center;
   }
   .transactions-view__transactions-section {
     min-width: 340px;

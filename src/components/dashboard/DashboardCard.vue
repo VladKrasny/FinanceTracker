@@ -36,6 +36,7 @@ defineProps({
   padding: 15px;
   min-width: 200px;
   width: 700px;
+  max-width: 100%;
 }
 
 .dashboard-card__amount {
@@ -59,7 +60,6 @@ defineProps({
 @media (max-width: 760px) {
   .dashboard-card {
     gap: 0;
-    max-width: 100%;
     padding: 3px 10px 3px 10px;
   }
   .dashboard-card__amount {

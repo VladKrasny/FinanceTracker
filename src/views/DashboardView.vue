@@ -134,7 +134,6 @@ const balanceStatus = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 100%;
   min-width: 340px;
   max-width: 100%;
 }
@@ -155,6 +154,9 @@ const balanceStatus = computed(() => {
   }
   .dashboard-view {
     padding: 0 5px 0 5px;
+  }
+  .dashboard-view__button {
+    width: 170px;
   }
 }
 @media (max-width: 450px) {
