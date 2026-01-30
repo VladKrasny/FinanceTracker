@@ -8,27 +8,15 @@
     :disabled="disabled"
     @click="emit('click')"
   >
-    <span class="button__full-text">{{ label }}</span>
-    <span class="button__short-label">{{ shortLabelText }}</span>
-    <span class="button__symbol">{{ symbolText }}</span>
+    {{ label }}
   </button>
 </template>
 
 <script setup>
-import { computed } from "vue";
-
 const props = defineProps({
   label: {
     type: String,
     required: true,
-  },
-  shortLabel: {
-    type: String,
-    required: false,
-  },
-  symbol: {
-    type: String,
-    required: false,
   },
   variant: {
     type: String,
@@ -41,12 +29,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["click"]);
-
-const shortLabelText = computed(() => props.shortLabel || props.label);
-const symbolText = computed(() => {
-  if (props.symbol) return props.symbol;
-  return props.shortLabel ?? props.label;
-});
 </script>
 
 <style scoped>
