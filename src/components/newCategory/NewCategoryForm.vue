@@ -12,17 +12,15 @@
           @error="newCategoryError = $event"
         />
       </div>
-      <div class="new-category-form__controls">
-        <div class="new-category-form__select">
-          <TheSelect :options="transactionTypeOptions" v-model="typeModel" />
-        </div>
-        <div class="new-category-form__button">
-          <TheButton
-            type="submit"
-            label="Add Category"
-            :disabled="Boolean(newCategoryError || !typeModel)"
-          />
-        </div>
+      <div class="new-category-form__select">
+        <TheSelect :options="transactionTypeOptions" v-model="typeModel" />
+      </div>
+      <div class="new-category-form__button">
+        <TheButton
+          type="submit"
+          label="Add Category"
+          :disabled="Boolean(newCategoryError || !typeModel)"
+        />
       </div>
     </div>
   </form>
@@ -65,30 +63,44 @@ const submit = () => {
   border-width: 1px;
   border-style: solid;
   border-color: rgb(229, 229, 229);
+  min-width: 340px;
 }
 
 .new-category-form__content {
   display: flex;
   flex-direction: row;
-  max-width: 1370px;
-  min-width: 500px;
+  width: 100%;
+  min-width: 240px;
   gap: 20px;
   justify-content: space-between;
+  height: 40px;
 }
 .new-category-form__input {
-  width: 75%;
+  width: 100%;
 }
 .new-category-form__button {
-  width: 50%;
+  min-width: 180px;
 }
 .new-category-form__select {
-  width: 50%;
+  min-width: 180px;
 }
-
-.new-category-form__controls {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  width: 25%;
+@media (max-width: 768px) {
+  .new-category-form__content {
+    gap: 10px;
+  }
+  .new-category-form__button {
+    min-width: 100px;
+  }
+  .new-category-form__select {
+    min-width: 105px;
+  }
+}
+@media (max-width: 450px) {
+  .new-category-form__button {
+    min-width: 50px;
+  }
+  .new-category-form__content {
+    gap: 5px;
+  }
 }
 </style>

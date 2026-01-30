@@ -51,4 +51,9 @@ const isEmpty = computed(() => props.categoryOptions.length === 0);
   width: 100%;
   padding: 0;
 }
+@media (max-width: 450px) {
+  .category-list__list {
+    gap: 5px;
+  }
+}
 </style>
