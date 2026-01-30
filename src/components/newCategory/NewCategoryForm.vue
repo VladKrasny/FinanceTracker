@@ -72,7 +72,7 @@ const submit = () => {
   display: flex;
   flex-direction: row;
   width: 100%;
-  min-width: 340px;
+  min-width: 240px;
   gap: 20px;
   justify-content: space-between;
   height: 40px;

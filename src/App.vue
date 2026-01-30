@@ -91,6 +91,7 @@ import TheTypography from "./components/TheTypography.vue";
     padding: 0;
   }
   .app__header {
+    padding-top: 10px;
     display: flex;
     gap: 20px;
   }

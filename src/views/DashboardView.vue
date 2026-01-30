@@ -155,7 +155,7 @@ const balanceStatus = computed(() => {
     flex-direction: column;
   }
   .dashboard-view {
-    padding: 20px;
+    padding: 0 5px 0 5px;
   }
 }
 @media (max-width: 450px) {

@@ -84,7 +84,7 @@ const deleteCategory = ({ value, label }) => {
 }
 @media (max-width: 450px) {
   .categories-view {
-    padding: 5px;
+    padding: 0 5px 0 5px;
   }
 }
 </style>
