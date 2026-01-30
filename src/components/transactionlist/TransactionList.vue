@@ -63,7 +63,6 @@ defineProps({
 }
 @media (max-width: 450px) {
   .transaction-list__item {
-    height: auto;
     padding: 10px;
   }
   .transaction-list {
