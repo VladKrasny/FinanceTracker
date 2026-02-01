@@ -13,7 +13,7 @@ Single page application for tracking personal finance built with Vue 3
 
 ## Tech Stack
 
-- [Vue 3](https://vuejs.org/) (Options API, JavaScript)
+- [Vue 3](https://vuejs.org/) (Composition API, TypeScript)
 - [Vite](https://vitejs.dev/)
 - Plain CSS
 - `localStorage` for persistence
@@ -49,7 +49,8 @@ Examples:
 ## Code Style
 
 - Prefer small, focused components.
-- Use Options API
+- Use Composition API with `<script setup>`
+- Use TypeScript with `<script lang="ts">`
 - Use `props` and `emits` for communication between parent and child components.
 - Use `computed` properties instead of recalculating values in templates.
 
