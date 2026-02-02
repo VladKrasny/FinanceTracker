@@ -13,7 +13,7 @@ Single page application for tracking personal finance built with Vue 3
 
 ## Tech Stack
 
-- [Vue 3](https://vuejs.org/) (Options API, JavaScript)
+- [Vue 3](https://vuejs.org/) (Composition API, TypeScript)
 - [Vite](https://vitejs.dev/)
 - Plain CSS
 - `localStorage` for persistence
@@ -49,7 +49,8 @@ Examples:
 ## Code Style
 
 - Prefer small, focused components.
-- Use Options API
+- Use Composition API with `<script setup>`
+- Use TypeScript with `<script lang="ts">`
 - Use `props` and `emits` for communication between parent and child components.
 - Use `computed` properties instead of recalculating values in templates.
 
@@ -65,6 +66,10 @@ Examples:
 - Firefox:
   - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
   - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+
+## Type Support for `.vue` Imports in TS
+
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
 
 ## Customize configuration
 
@@ -82,7 +87,7 @@ npm install
 npm run dev
 ```
 
-### Compile and Minify for Production
+### Type-Check, Compile and Minify for Production
 
 ```sh
 npm run build
