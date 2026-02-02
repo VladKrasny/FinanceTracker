@@ -62,12 +62,4 @@ const emit = defineEmits(["delete", "edit"]);
     gap: 7px;
   }
 }
-@media (max-width: 450px) {
-  .transaction-list__item {
-    padding: 10px;
-  }
-  .transaction-list {
-    gap: 7px;
-  }
-}
 </style>
