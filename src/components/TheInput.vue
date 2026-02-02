@@ -40,9 +40,10 @@ const props = defineProps({
   },
 });
 
+const model = defineModel({ default: "" });
+
 const touched = ref(false);
 const randomId = generateId("input");
-const model = defineModel({ default: "" });
 
 watch(
   () => props.modelValue,

@@ -14,7 +14,6 @@ export const useAppStore = defineStore("appStore", () => {
   ];
 
   const transactions = ref([]);
-  const categoryOptions = ref([]);
 
   watch(
     transactions,
@@ -23,6 +22,8 @@ export const useAppStore = defineStore("appStore", () => {
     },
     { deep: true },
   );
+
+  const categoryOptions = ref([]);
 
   watch(
     categoryOptions,
