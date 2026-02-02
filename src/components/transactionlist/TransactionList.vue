@@ -51,5 +51,14 @@ defineProps({
   border-width: 1px;
   border-radius: 20px;
   width: 100%;
+  height: auto;
+}
+@media (max-width: 450px) {
+  .transaction-list__item {
+    padding: 10px;
+  }
+  .transaction-list {
+    gap: 7px;
+  }
 }
 </style>

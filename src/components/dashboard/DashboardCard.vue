@@ -36,6 +36,7 @@ defineProps({
   padding: 15px;
   min-width: 200px;
   width: 700px;
+  max-width: 100%;
 }
 
 .dashboard-card__amount {
@@ -55,5 +56,15 @@ defineProps({
 .dashboard-card--balance {
   border-color: blue;
   color: blue;
+}
+@media (max-width: 760px) {
+  .dashboard-card {
+    gap: 0;
+    padding: 3px 10px 3px 10px;
+  }
+  .dashboard-card__amount {
+    margin: 3px;
+    font-size: 17px;
+  }
 }
 </style>

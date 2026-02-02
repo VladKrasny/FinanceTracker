@@ -34,4 +34,13 @@ defineProps({
   font-size: 16px;
   color: gray;
 }
+@media (max-width: 450px) {
+  .typography--title {
+    font-size: 22px;
+  }
+  .typography--subtitle {
+    font-size: 14px;
+    color: gray;
+  }
+}
 </style>

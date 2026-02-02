@@ -1,6 +1,6 @@
 <template>
   <div class="transactions-view">
-    <div>
+    <div class="transactions-view__header">
       <TheTypography variant="title">Transactions</TheTypography>
       <TheTypography variant="subtitle">
         Add, edit, or manage your transactions
@@ -26,14 +26,12 @@
             Manage and filter your transactions
           </TheTypography>
         </div>
-
         <TransactionListFilters
           :transactionTypeOptions="transactionTypeOptionsWithAll"
           :categoryOptions="categoryOptionsByTypeWithAll"
           v-model:transactionType="filterModel.transactionType"
           v-model:transactionCategory="filterModel.category"
         />
-
         <TransactionList
           :isReadOnly="false"
           class="transactions-view__transactions-content"
@@ -141,8 +139,9 @@ watch(
 
 <style scoped>
 .transactions-view__transaction-form {
-  width: 400px;
-  min-width: 400px;
+  max-width: 400px;
+  width: 100%;
+  min-width: 350px;
 }
 
 .transactions-view {
@@ -176,5 +175,28 @@ watch(
   height: 450px;
   max-height: 550px;
   overflow-y: auto;
+}
+@media (max-width: 768px) {
+  .transactions-view__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media (max-width: 450px) {
+  .transactions-view {
+    padding: 0 5px 0 5px;
+  }
+  .transactions-view__header {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px 0 10px;
+  }
+  .transactions-view__transactions-header {
+    gap: 4px;
+  }
+  .transactions-view__transactions-section {
+    min-width: 340px;
+  }
 }
 </style>

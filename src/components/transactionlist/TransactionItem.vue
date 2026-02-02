@@ -97,4 +97,21 @@ const formattedAmount = computed(() => {
   gap: 20px;
   align-items: center;
 }
+@media (max-width: 450px) {
+  .transaction-item__right-part {
+    gap: 5px;
+  }
+  .transaction-item__amount {
+    font-size: 20px;
+  }
+  .transaction-item__category {
+    font-size: 15px;
+  }
+  .transaction-item__date {
+    font-size: 13px;
+  }
+  .transaction-item__description {
+    font-size: 13px;
+  }
+}
 </style>

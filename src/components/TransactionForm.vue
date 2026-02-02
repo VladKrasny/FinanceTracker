@@ -160,4 +160,9 @@ watch(
 .transaction-form__cancel-button {
   flex: 3;
 }
+@media (max-width: 450px) {
+  .transaction-form {
+    gap: 10px;
+  }
+}
 </style>

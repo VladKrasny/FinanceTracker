@@ -41,6 +41,10 @@ const emit = defineEmits(["click"]);
   cursor: pointer;
   font-size: 16px;
   width: 100%;
+  height: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .button--disabled {
   background-color: #a0a0a0;
@@ -51,5 +55,10 @@ const emit = defineEmits(["click"]);
 .button--white {
   background-color: white;
   color: black;
+}
+@media (max-width: 450px) {
+  .button {
+    padding: 5px;
+  }
 }
 </style>
