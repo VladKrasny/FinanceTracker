@@ -14,8 +14,6 @@
 </template>
 
 <script setup>
-const emit = defineEmits(["click"]);
-
 defineProps({
   variant: {
     type: String,
@@ -26,6 +24,8 @@ defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(["click"]);
 </script>
 
 <style scoped>

@@ -42,10 +42,10 @@ const props = defineProps({
   },
 });
 
+const model = defineModel({ default: "" });
+
 const textArea = ref(null);
 const randomId = generateId("textarea");
-
-const model = defineModel({ default: "" });
 
 const sizeCheck = () => {
   const el = textArea.value;

@@ -66,6 +66,34 @@ const amountModel = ref("");
 const descriptionModel = ref("");
 const amountError = ref("");
 
+watch(
+  () => props.editingValues,
+  (data) => {
+    if (!data) return;
+    updateMode.value = true;
+    typeModel.value = data.type;
+    categoryModel.value = data.category;
+    amountModel.value = String(data.amount);
+    dateModel.value = data.date;
+    descriptionModel.value = data.description;
+  },
+  { immediate: true },
+);
+
+const categoryOptionsByType = computed(() => {
+  return props.categoryOptions.filter(
+    (category) => category.type === typeModel.value,
+  );
+});
+
+const isDisabled = computed(() => {
+  const areFieldsValid = Boolean(dateModel.value);
+
+  const hasErrors = Boolean(amountError.value);
+
+  return !areFieldsValid || hasErrors;
+});
+
 const onTypeChange = () => (categoryModel.value = "");
 
 const cancelUpdate = () => {
@@ -109,34 +137,6 @@ const resetForm = () => {
   dateModel.value = "";
   descriptionModel.value = "";
 };
-
-const categoryOptionsByType = computed(() => {
-  return props.categoryOptions.filter(
-    (category) => category.type === typeModel.value,
-  );
-});
-
-const isDisabled = computed(() => {
-  const areFieldsValid = Boolean(dateModel.value);
-
-  const hasErrors = Boolean(amountError.value);
-
-  return !areFieldsValid || hasErrors;
-});
-
-watch(
-  () => props.editingValues,
-  (data) => {
-    if (!data) return;
-    updateMode.value = true;
-    typeModel.value = data.type;
-    categoryModel.value = data.category;
-    amountModel.value = String(data.amount);
-    dateModel.value = data.date;
-    descriptionModel.value = data.description;
-  },
-  { immediate: true },
-);
 </script>
 
 <style scoped>

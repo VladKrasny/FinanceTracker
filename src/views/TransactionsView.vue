@@ -55,11 +55,20 @@ import { computed, watch, ref, reactive } from "vue";
 import { generateId } from "@/utils/generateId";
 
 const appStore = useAppStore();
-const editingTransaction = ref(null);
-const filterModel = reactive({ transactionType: "All", category: "All" });
 const { categoryOptions, transactions, sortedTransactions } =
   storeToRefs(appStore);
 const { transactionTypeOptions } = appStore;
+const editingTransaction = ref(null);
+const filterModel = reactive({ transactionType: "All", category: "All" });
+
+watch(
+  () => filterModel.transactionType,
+  (newType, oldType) => {
+    if (newType !== oldType) {
+      filterModel.category = "All";
+    }
+  },
+);
 
 const transactionFormTitle = computed(() => {
   return editingTransaction.value ? "Edit transaction" : "Add transaction";
@@ -126,15 +135,6 @@ const setEditingTransaction = (transaction) => {
 const clearEditingTransaction = () => {
   editingTransaction.value = null;
 };
-
-watch(
-  () => filterModel.transactionType,
-  (newType, oldType) => {
-    if (newType !== oldType) {
-      filterModel.category = "All";
-    }
-  },
-);
 </script>
 
 <style scoped>

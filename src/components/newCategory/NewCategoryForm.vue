@@ -38,9 +38,9 @@ defineProps({
 
 const emit = defineEmits(["submit"]);
 
+const typeModel = ref("");
 const newCategoryModel = ref("");
 const newCategoryError = ref("");
-const typeModel = ref("");
 
 const submit = () => {
   if (!newCategoryModel.value || newCategoryError.value) return;

@@ -41,7 +41,6 @@ const emit = defineEmits(["click"]);
   cursor: pointer;
   font-size: 16px;
   width: 100%;
-  height: 100%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

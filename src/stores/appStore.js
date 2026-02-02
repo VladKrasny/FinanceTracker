@@ -8,7 +8,6 @@ const LS_DATA = {
 };
 
 export const useAppStore = defineStore("appStore", () => {
-  ////states
   const transactionTypeOptions = [
     { value: "income", label: "Income" },
     { value: "expense", label: "Expense" },
@@ -16,15 +15,6 @@ export const useAppStore = defineStore("appStore", () => {
 
   const transactions = ref([]);
 
-  const categoryOptions = ref([]);
-
-  const sortedTransactions = computed(() => {
-    return [...transactions.value].sort((a, b) => {
-      return new Date(b.date) - new Date(a.date);
-    });
-  });
-
-  ////watchers
   watch(
     transactions,
     (newValue) => {
@@ -32,6 +22,8 @@ export const useAppStore = defineStore("appStore", () => {
     },
     { deep: true },
   );
+
+  const categoryOptions = ref([]);
 
   watch(
     categoryOptions,
@@ -41,7 +33,12 @@ export const useAppStore = defineStore("appStore", () => {
     { deep: true },
   );
 
-  ////localStorage
+  const sortedTransactions = computed(() => {
+    return [...transactions.value].sort((a, b) => {
+      return new Date(b.date) - new Date(a.date);
+    });
+  });
+
   const transactionsLS = readFromLocalStorage(
     LS_DATA.transactions,
     Array.isArray,

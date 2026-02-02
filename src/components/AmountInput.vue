@@ -15,13 +15,7 @@ import TheInput from "./TheInput.vue";
 
 const emit = defineEmits(["error"]);
 
-const amountError = ref("");
-
 const model = defineModel({ default: "" });
-
-watch(amountError, (value) => {
-  emit("error", value);
-});
 
 watch(model, (value) => {
   const val = value.trim();
@@ -42,5 +36,11 @@ watch(model, (value) => {
   }
 
   amountError.value = "";
+});
+
+const amountError = ref("");
+
+watch(amountError, (value) => {
+  emit("error", value);
 });
 </script>
