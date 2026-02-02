@@ -12,13 +12,9 @@
 import TheInput from "../TheInput.vue";
 import { watch, ref } from "vue";
 
-const newCategoryError = ref("");
-
 const emit = defineEmits(["error"]);
 
 const model = defineModel({ required: true });
-
-watch(newCategoryError, (value) => emit("error", value));
 
 watch(model, (value) => {
   if (value.length === 0) {
@@ -27,4 +23,8 @@ watch(model, (value) => {
   }
   newCategoryError.value = "";
 });
+
+const newCategoryError = ref("");
+
+watch(newCategoryError, (value) => emit("error", value));
 </script>

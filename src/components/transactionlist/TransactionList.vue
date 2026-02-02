@@ -21,7 +21,6 @@
 
 <script setup>
 import TransactionItem from "./TransactionItem.vue";
-const emit = defineEmits(["delete", "edit"]);
 
 defineProps({
   isReadOnly: { type: Boolean, required: true },
@@ -30,6 +29,8 @@ defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(["delete", "edit"]);
 </script>
 
 <style scoped>

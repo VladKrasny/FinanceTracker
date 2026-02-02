@@ -13,7 +13,9 @@ import IconButton from "../IconButton.vue";
 defineProps({
   label: { type: String, required: true },
 });
+
 const emit = defineEmits(["delete"]);
+
 const deleteCategory = () => emit("delete");
 </script>
 

@@ -19,6 +19,7 @@ const props = defineProps({
   transactionTypeOptions: { type: Array, required: true },
   categoryOptions: { type: Array, required: true },
 });
+
 const transactionsTypeModel = defineModel("transactionType", {
   required: true,
 });

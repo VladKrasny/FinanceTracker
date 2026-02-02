@@ -43,9 +43,6 @@ const props = defineProps({
 });
 
 const textArea = ref(null);
-const randomId = generateId("textarea");
-
-const model = defineModel({ default: "" });
 
 const sizeCheck = () => {
   const el = textArea.value;
@@ -57,6 +54,8 @@ const sizeCheck = () => {
   el.style.overflowY = nextHeight > props.maxHeight ? "auto" : "hidden";
 };
 
+const model = defineModel({ default: "" });
+
 watch(
   model,
   () => {
@@ -64,6 +63,8 @@ watch(
   },
   { immediate: true, flush: "post" },
 );
+
+const randomId = generateId("textarea");
 </script>
 
 <style scoped>

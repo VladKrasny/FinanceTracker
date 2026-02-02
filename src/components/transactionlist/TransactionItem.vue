@@ -23,7 +23,7 @@
       <IconButton
         v-if="!isReadOnly"
         variant="delete"
-        @click="deleteItem"
+        @click="emit('delete')"
         iconSymbol="delete"
       ></IconButton>
     </div>
@@ -34,8 +34,6 @@
 import IconButton from "../IconButton.vue";
 import { computed } from "vue";
 
-const emit = defineEmits(["delete", "edit"]);
-
 const props = defineProps({
   isReadOnly: { type: Boolean, required: true },
   type: { type: String, required: true },
@@ -45,13 +43,14 @@ const props = defineProps({
   description: { type: String, required: true },
 });
 
-const deleteItem = () => emit("delete");
+const emit = defineEmits(["delete", "edit"]);
 
 const amountClass = computed(() => {
   return props.type === "income"
     ? "transaction-item__amount--income"
     : "transaction-item__amount--expense";
 });
+
 const formattedAmount = computed(() => {
   const sign = props.type === "income" ? "+" : "-";
   const value = Number(props.amount) || 0;

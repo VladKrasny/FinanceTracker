@@ -42,6 +42,7 @@ const props = defineProps({
 
 const touched = ref(false);
 const randomId = generateId("input");
+const model = defineModel({ default: "" });
 
 watch(
   () => props.modelValue,
@@ -55,8 +56,6 @@ watch(
 const onInput = () => {
   touched.value = true;
 };
-
-const model = defineModel({ default: "" });
 </script>
 
 <style scoped>

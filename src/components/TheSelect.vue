@@ -26,9 +26,9 @@ const props = defineProps({
   },
 });
 
-const randomId = generateId("select");
-
 const model = defineModel({ default: "" });
+
+const randomId = generateId("select");
 </script>
 
 <style scoped>

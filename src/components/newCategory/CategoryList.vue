@@ -27,6 +27,7 @@ const props = defineProps({
   subtitle: { type: String, required: false },
   categoryOptions: { type: Array, required: true },
 });
+
 const emit = defineEmits(["delete"]);
 
 const isEmpty = computed(() => props.categoryOptions.length === 0);
