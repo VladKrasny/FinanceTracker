@@ -8,13 +8,15 @@
   />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import TheInput from "../TheInput.vue";
 import { watch, ref } from "vue";
 
-const emit = defineEmits(["error"]);
+const emit = defineEmits<{ error: [string] }>();
 
-const model = defineModel({ required: true });
+const model = defineModel<string>({ required: true });
+
+const newCategoryError = ref<string>("");
 
 watch(model, (value) => {
   if (value.length === 0) {
@@ -23,8 +25,6 @@ watch(model, (value) => {
   }
   newCategoryError.value = "";
 });
-
-const newCategoryError = ref("");
 
 watch(newCategoryError, (value) => emit("error", value));
 </script>

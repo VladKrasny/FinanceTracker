@@ -19,18 +19,13 @@
   </ul>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import TransactionItem from "./TransactionItem.vue";
+import type { Transaction } from "../../types/types";
 
-defineProps({
-  isReadOnly: { type: Boolean, required: true },
-  transactions: {
-    type: Array,
-    required: true,
-  },
-});
+defineProps<{ isReadOnly: boolean; transactions: Transaction[] }>();
 
-const emit = defineEmits(["delete", "edit"]);
+const emit = defineEmits<{ delete: [string]; edit: [Transaction] }>();
 </script>
 
 <style scoped>

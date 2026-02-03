@@ -30,20 +30,21 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import IconButton from "../IconButton.vue";
 import { computed } from "vue";
+import type { TransactionType } from "../../types/types";
 
-const props = defineProps({
-  isReadOnly: { type: Boolean, required: true },
-  type: { type: String, required: true },
-  amount: { type: Number, required: true },
-  category: { type: String, required: true },
-  date: { type: [String, Number], required: true },
-  description: { type: String, required: true },
-});
+const props = defineProps<{
+  isReadOnly: boolean;
+  type: TransactionType;
+  amount: number;
+  category: string;
+  date: string;
+  description: string;
+}>();
 
-const emit = defineEmits(["delete", "edit"]);
+const emit = defineEmits<{ delete: []; edit: [] }>();
 
 const amountClass = computed(() => {
   return props.type === "income"

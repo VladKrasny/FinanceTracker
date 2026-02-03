@@ -13,19 +13,12 @@
   </button>
 </template>
 
-<script setup>
-defineProps({
-  variant: {
-    type: String,
-    default: "",
-  },
-  iconSymbol: {
-    type: String,
-    required: true,
-  },
-});
+<script setup lang="ts">
+export type IcoVariant = "edit" | "delete";
 
-const emit = defineEmits(["click"]);
+defineProps<{ variant?: IcoVariant; iconSymbol: string }>();
+
+const emit = defineEmits<{ click: [] }>();
 </script>
 
 <style scoped>

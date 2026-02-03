@@ -1,6 +1,6 @@
 <template>
   <div class="text-area">
-    <label :for="randomId">{{ label }}</label>
+    <label v-if="label" :for="randomId">{{ label }}</label>
     <textarea
       class="text-area__input"
       ref="textArea"
@@ -15,39 +15,33 @@
   </div>
 </template>
 
-<script setup>
-import { generateId } from "../utils/generateId.js";
+<script setup lang="ts">
+import { generateId } from "../utils/generateId.ts";
 import { watch, ref } from "vue";
 
-const props = defineProps({
-  placeholder: {
-    type: String,
-    default: "",
+const props = withDefaults(
+  defineProps<{
+    placeholder?: string;
+    label?: string;
+    hasError?: boolean;
+    errorMessage?: string;
+    maxHeight?: number;
+  }>(),
+  {
+    label: "",
+    placeholder: "",
+    hasError: false,
+    errorMessage: "",
+    maxHeight: 135,
   },
-  label: {
-    type: String,
-    required: true,
-  },
-  hasError: {
-    type: Boolean,
-    default: false,
-  },
-  errorMessage: {
-    type: String,
-    default: "",
-  },
-  maxHeight: {
-    type: Number,
-    required: true,
-  },
-});
+);
 
-const model = defineModel({ default: "" });
+const model = defineModel<string>({ default: "" });
 
-const textArea = ref(null);
+const textArea = ref<HTMLTextAreaElement | null>(null);
 const randomId = generateId("textarea");
 
-const sizeCheck = () => {
+const sizeCheck = (): void => {
   const el = textArea.value;
   if (!el) return;
   el.style.height = "auto";

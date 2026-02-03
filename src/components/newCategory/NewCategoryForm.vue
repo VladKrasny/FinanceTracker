@@ -25,24 +25,30 @@
     </div>
   </form>
 </template>
-<script setup>
+<script setup lang="ts">
 import TheTypography from "../TheTypography.vue";
 import TheButton from "../TheButton.vue";
 import NewCategoryInput from "./NewCategoryInput.vue";
 import TheSelect from "../TheSelect.vue";
 import { ref } from "vue";
+import type { TransactionTypeOption, TransactionType } from "../../types/types";
 
-defineProps({
-  transactionTypeOptions: { type: Array, required: true },
-});
+type Submit = {
+  category: string;
+  transactionType: TransactionType;
+};
 
-const emit = defineEmits(["submit"]);
+defineProps<{ transactionTypeOptions: TransactionTypeOption[] }>();
 
-const typeModel = ref("");
-const newCategoryModel = ref("");
-const newCategoryError = ref("");
+const emit = defineEmits<{
+  submit: [Submit];
+}>();
 
-const submit = () => {
+const typeModel = ref<TransactionType>("expense");
+const newCategoryModel = ref<string>("");
+const newCategoryError = ref<string>("");
+
+const submit = (): void => {
   if (!newCategoryModel.value || newCategoryError.value) return;
   emit("submit", {
     category: newCategoryModel.value,

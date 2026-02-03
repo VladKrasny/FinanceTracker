@@ -6,7 +6,7 @@
       <option
         v-for="(option, index) in options"
         :key="index"
-        :value="option[valueKey]"
+        :value="option[valueKey ?? 'value']"
       >
         {{ option.label }}
       </option>
@@ -14,19 +14,19 @@
   </div>
 </template>
 
-<script setup>
-import { generateId } from "../utils/generateId.js";
+<script setup lang="ts">
+import { generateId } from "../utils/generateId.ts";
+import type { TransactionType } from "../types/types.ts";
 
-const props = defineProps({
-  valueKey: { type: String, default: "value" },
-  label: { type: String, required: false },
-  options: {
-    type: Array,
-    required: true,
-  },
-});
+type Option = { value: string; label: string; type?: TransactionType };
 
-const model = defineModel({ default: "" });
+const props = defineProps<{
+  valueKey?: "value" | "label";
+  label?: string;
+  options: Option[];
+}>();
+
+const model = defineModel<string>({ default: "" });
 
 const randomId = generateId("select");
 </script>

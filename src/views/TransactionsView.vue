@@ -44,22 +44,38 @@
   </div>
 </template>
 
-<script setup>
-import TransactionForm from "@/components/TransactionForm.vue";
-import TransactionList from "@/components/transactionlist/TransactionList.vue";
-import TheTypography from "@/components/TheTypography.vue";
-import TransactionListFilters from "@/components/transactionlist/TransactionListFilters.vue";
+<script setup lang="ts">
+import TransactionForm from "../components/TransactionForm.vue";
+import TransactionList from "../components/transactionlist/TransactionList.vue";
+import TheTypography from "../components/TheTypography.vue";
+import TransactionListFilters from "../components/transactionlist/TransactionListFilters.vue";
 import { storeToRefs } from "pinia";
-import { useAppStore } from "@/stores/appStore";
+import { useAppStore } from "../stores/appStore";
 import { computed, watch, ref, reactive } from "vue";
-import { generateId } from "@/utils/generateId";
+import { generateId } from "../utils/generateId";
+import type {
+  Transaction,
+  NewEntry,
+  CategoryFilterOption,
+  TransactionTypeFilterOption,
+} from "../types/types";
+
+type FilterModel = {
+  transactionType: Transaction["type"] | "All";
+  category: string | "All";
+};
+type TransactionId = Transaction["id"];
 
 const appStore = useAppStore();
 const { categoryOptions, transactions, sortedTransactions } =
   storeToRefs(appStore);
 const { transactionTypeOptions } = appStore;
-const editingTransaction = ref(null);
-const filterModel = reactive({ transactionType: "All", category: "All" });
+
+const editingTransaction = ref<Transaction | null>(null);
+const filterModel = reactive<FilterModel>({
+  transactionType: "All",
+  category: "All",
+});
 
 watch(
   () => filterModel.transactionType,
@@ -74,23 +90,25 @@ const transactionFormTitle = computed(() => {
   return editingTransaction.value ? "Edit transaction" : "Add transaction";
 });
 
-const categoryOptionsByTypeWithAll = computed(() => {
+const categoryOptionsByTypeWithAll = computed<CategoryFilterOption[]>(() => {
   const filtered =
     filterModel.transactionType !== "All"
       ? categoryOptions.value.filter(
           (c) => c.type === filterModel.transactionType,
         )
       : categoryOptions.value;
-  const mapped = filtered.map((c) => ({
+  const mapped: CategoryFilterOption[] = filtered.map((c) => ({
     value: c.label,
     label: c.label,
   }));
   return [{ value: "All", label: "All" }, ...mapped];
 });
 
-const transactionTypeOptionsWithAll = computed(() => {
-  return [{ value: "All", label: "All" }, ...transactionTypeOptions];
-});
+const transactionTypeOptionsWithAll = computed<TransactionTypeFilterOption[]>(
+  () => {
+    return [{ value: "All", label: "All" }, ...transactionTypeOptions];
+  },
+);
 
 const filteredTransactions = computed(() => {
   return sortedTransactions.value.filter((t) => {
@@ -103,22 +121,22 @@ const filteredTransactions = computed(() => {
   });
 });
 
-const saveNewTransaction = (newEntry) => {
-  const newTransaction = {
+const saveNewTransaction = (newEntry: NewEntry) => {
+  const newTransaction: Transaction = {
     id: generateId("transaction"),
     ...newEntry,
   };
   transactions.value.push(newTransaction);
 };
 
-const saveUpdateTransaction = (update) => {
+const saveUpdateTransaction = (update: Transaction) => {
   const item = transactions.value.find((t) => t.id === update.id);
   if (!item) return;
   Object.assign(item, update);
   editingTransaction.value = null;
 };
 
-const deleteTransaction = (id) => {
+const deleteTransaction = (id: TransactionId) => {
   const confirmDelete = window.confirm(
     "Are you sure you want to delete this transaction? You won’t be able to undo this action later.",
   );
@@ -128,7 +146,7 @@ const deleteTransaction = (id) => {
   );
 };
 
-const setEditingTransaction = (transaction) => {
+const setEditingTransaction = (transaction: Transaction) => {
   editingTransaction.value = transaction;
 };
 
