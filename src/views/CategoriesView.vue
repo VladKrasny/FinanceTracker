@@ -26,13 +26,13 @@
 </template>
 
 <script setup lang="ts">
-import TheTypography from "../components/TheTypography.vue";
-import NewCategoryForm from "../components/newCategory/NewCategoryForm.vue";
-import CategoryList from "../components/newCategory/CategoryList.vue";
-import { useAppStore } from "../stores/appStore";
+import TheTypography from "@/components/TheTypography.vue";
+import NewCategoryForm from "@/components/newCategory/NewCategoryForm.vue";
+import CategoryList from "@/components/newCategory/CategoryList.vue";
+import { useAppStore } from "@/stores/appStore";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
-import { generateId } from "../utils/generateId";
+import { generateId } from "@/utils/generateId";
 import type { TransactionType, CategoryOption } from "../types/types";
 
 type AddNewCategoryType = {

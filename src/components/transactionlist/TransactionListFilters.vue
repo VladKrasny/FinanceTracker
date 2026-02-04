@@ -13,7 +13,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import TheSelect from "../TheSelect.vue";
+import TheSelect from "@/components/TheSelect.vue";
 import type {
   TransactionTypeFilter,
   CategoryFilterOption,

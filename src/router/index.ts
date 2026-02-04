@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
-import TransactionsView from "../views/TransactionsView.vue";
-import CategoriesView from "../views/CategoriesView.vue";
-import DashboardView from "../views/DashboardView.vue";
+import TransactionsView from "@/views/TransactionsView.vue";
+import CategoriesView from "@/views/CategoriesView.vue";
+import DashboardView from "@/views/DashboardView.vue";
 
 const routes = [
   { path: "/", redirect: "/dashboard" },

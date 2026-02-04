@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, watch, computed } from "vue";
-import { readFromLocalStorage } from "../utils/readFromLocalStorage";
+import { readFromLocalStorage } from "@/utils/readFromLocalStorage";
 import type {
   Transaction,
   CategoryOption,

@@ -45,14 +45,14 @@
 </template>
 
 <script setup lang="ts">
-import TransactionForm from "../components/TransactionForm.vue";
-import TransactionList from "../components/transactionlist/TransactionList.vue";
-import TheTypography from "../components/TheTypography.vue";
-import TransactionListFilters from "../components/transactionlist/TransactionListFilters.vue";
+import TransactionForm from "@/components/TransactionForm.vue";
+import TransactionList from "@/components/transactionlist/TransactionList.vue";
+import TheTypography from "@/components/TheTypography.vue";
+import TransactionListFilters from "@/components/transactionlist/TransactionListFilters.vue";
 import { storeToRefs } from "pinia";
-import { useAppStore } from "../stores/appStore";
+import { useAppStore } from "@/stores/appStore";
 import { computed, watch, ref, reactive } from "vue";
-import { generateId } from "../utils/generateId";
+import { generateId } from "@/utils/generateId";
 import type {
   Transaction,
   NewEntry,

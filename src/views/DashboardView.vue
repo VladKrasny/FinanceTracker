@@ -47,11 +47,11 @@
 </template>
 
 <script setup lang="ts">
-import TheTypography from "../components/TheTypography.vue";
-import TheButton from "../components/TheButton.vue";
-import DashboardCard from "../components/dashboard/DashboardCard.vue";
-import TransactionList from "../components/transactionlist/TransactionList.vue";
-import { useAppStore } from "../stores/appStore";
+import TheTypography from "@/components/TheTypography.vue";
+import TheButton from "@/components/TheButton.vue";
+import DashboardCard from "@/components/dashboard/DashboardCard.vue";
+import TransactionList from "@/components/transactionlist/TransactionList.vue";
+import { useAppStore } from "@/stores/appStore";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
