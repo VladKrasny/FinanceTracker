@@ -15,7 +15,7 @@ import TheInput from "./TheInput.vue";
 
 const emit = defineEmits<{ error: [string] }>();
 
-const model = defineModel<string>({ default: "" });
+const model = defineModel<string>({ required: true });
 
 watch(model, (value) => {
   const val = value.trim();

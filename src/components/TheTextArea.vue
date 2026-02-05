@@ -19,22 +19,19 @@
 import { generateId } from "../utils/generateId.ts";
 import { watch, ref } from "vue";
 
-const props = withDefaults(
-  defineProps<{
-    placeholder?: string;
-    label?: string;
-    hasError?: boolean;
-    errorMessage?: string;
-    maxHeight?: number;
-  }>(),
-  {
-    label: "",
-    placeholder: "",
-    hasError: false,
-    errorMessage: "",
-    maxHeight: 135,
-  },
-);
+const {
+  label = "",
+  placeholder = "",
+  hasError = false,
+  errorMessage = "",
+  maxHeight = 135,
+} = defineProps<{
+  placeholder?: string;
+  label?: string;
+  hasError?: boolean;
+  errorMessage?: string;
+  maxHeight?: number;
+}>();
 
 const model = defineModel<string>({ default: "" });
 
@@ -46,9 +43,9 @@ const sizeCheck = (): void => {
   if (!el) return;
   el.style.height = "auto";
   const nextHeight = el.scrollHeight;
-  const clamped = Math.min(nextHeight, props.maxHeight);
+  const clamped = Math.min(nextHeight, maxHeight);
   el.style.height = `${clamped}px`;
-  el.style.overflowY = nextHeight > props.maxHeight ? "auto" : "hidden";
+  el.style.overflowY = nextHeight > maxHeight ? "auto" : "hidden";
 };
 
 watch(

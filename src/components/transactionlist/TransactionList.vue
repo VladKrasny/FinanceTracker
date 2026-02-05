@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import TransactionItem from "./TransactionItem.vue";
-import type { Transaction } from "../../types/types";
+import type { Transaction } from "@/types/types";
 
 defineProps<{ isReadOnly: boolean; transactions: Transaction[] }>();
 

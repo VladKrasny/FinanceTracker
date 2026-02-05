@@ -53,17 +53,12 @@ import type {
   NewEntry,
 } from "../types/types";
 
-const props = withDefaults(
-  defineProps<{
-    editingValues?: Transaction | null;
-    title: string;
-    categoryOptions: CategoryOption[];
-    transactionTypeOptions: TransactionTypeOption[];
-  }>(),
-  {
-    editingValues: null,
-  },
-);
+const { editingValues = null, categoryOptions } = defineProps<{
+  editingValues?: Transaction | null;
+  title: string;
+  categoryOptions: CategoryOption[];
+  transactionTypeOptions: TransactionTypeOption[];
+}>();
 
 const emit = defineEmits<{
   cancel: [];
@@ -80,7 +75,7 @@ const descriptionModel = ref<string>("");
 const amountError = ref<string>("");
 
 watch(
-  () => props.editingValues,
+  () => editingValues,
   (data) => {
     if (!data) return;
     updateMode.value = true;
@@ -94,7 +89,7 @@ watch(
 );
 
 const categoryOptionsByType = computed<CategoryOption[]>(() => {
-  return props.categoryOptions.filter(
+  return categoryOptions.filter(
     (category) => category.type === typeModel.value,
   );
 });
@@ -124,9 +119,9 @@ const entryPayload = computed<NewEntry>(() => ({
 }));
 
 const updateTransaction = () => {
-  if (!props.editingValues) return;
+  if (!editingValues) return;
   const update: Transaction = {
-    id: props.editingValues.id,
+    id: editingValues.id,
     ...entryPayload.value,
   };
   emit("update", update);

@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import IconButton from "../IconButton.vue";
 import { computed } from "vue";
-import type { TransactionType } from "../../types/types";
+import type { TransactionType } from "@/types/types";
 
 const props = defineProps<{
   isReadOnly: boolean;

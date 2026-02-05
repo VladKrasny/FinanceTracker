@@ -22,21 +22,18 @@ import { watch, ref } from "vue";
 
 type InputType = "text" | "date";
 
-const props = withDefaults(
-  defineProps<{
-    placeholder?: string;
-    label?: string;
-    type?: InputType;
-    hasError?: boolean;
-    errorMessage?: string;
-  }>(),
-  {
-    type: "text",
-    placeholder: "",
-    hasError: false,
-    errorMessage: "",
-  },
-);
+const {
+  type = "text",
+  placeholder = "",
+  hasError = false,
+  errorMessage = "",
+} = defineProps<{
+  placeholder?: string;
+  label?: string;
+  type?: InputType;
+  hasError?: boolean;
+  errorMessage?: string;
+}>();
 
 const model = defineModel<string>({ default: "" });
 

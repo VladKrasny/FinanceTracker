@@ -31,7 +31,7 @@ import TheButton from "../TheButton.vue";
 import NewCategoryInput from "./NewCategoryInput.vue";
 import TheSelect from "../TheSelect.vue";
 import { ref } from "vue";
-import type { TransactionTypeOption, TransactionType } from "../../types/types";
+import type { TransactionTypeOption, TransactionType } from "@/types/types";
 
 type Submit = {
   category: string;

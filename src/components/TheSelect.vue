@@ -6,7 +6,7 @@
       <option
         v-for="(option, index) in options"
         :key="index"
-        :value="option[valueKey ?? 'value']"
+        :value="option[valueKey]"
       >
         {{ option.label }}
       </option>
@@ -20,7 +20,7 @@ import type { TransactionType } from "../types/types.ts";
 
 type Option = { value: string; label: string; type?: TransactionType };
 
-const props = defineProps<{
+const { valueKey = "value" } = defineProps<{
   valueKey?: "value" | "label";
   label?: string;
   options: Option[];

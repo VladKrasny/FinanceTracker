@@ -18,7 +18,7 @@ import type {
   TransactionTypeFilter,
   CategoryFilterOption,
   TransactionTypeFilterOption,
-} from "../../types/types";
+} from "@/types/types";
 
 const props = defineProps<{
   transactionTypeOptions: TransactionTypeFilterOption[];
@@ -28,13 +28,11 @@ const props = defineProps<{
 const transactionsTypeModel = defineModel<TransactionTypeFilter>(
   "transactionType",
   {
-    required: true,
     default: "All",
   },
 );
 
 const transactionCategoryModel = defineModel<string>("transactionCategory", {
-  required: true,
   default: "All",
 });
 </script>

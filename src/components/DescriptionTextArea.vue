@@ -10,5 +10,5 @@
 <script setup lang="ts">
 import TheTextArea from "./TheTextArea.vue";
 
-const model = defineModel<string>({ default: "" });
+const model = defineModel<string>({ required: true });
 </script>

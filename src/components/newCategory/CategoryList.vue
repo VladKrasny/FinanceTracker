@@ -21,7 +21,7 @@
 import TheTypography from "../TheTypography.vue";
 import CategoryItem from "./CategoryItem.vue";
 import { computed } from "vue";
-import type { CategoryOption } from "../../types/types";
+import type { CategoryOption } from "@/types/types";
 
 const props = defineProps<{
   title?: string;
