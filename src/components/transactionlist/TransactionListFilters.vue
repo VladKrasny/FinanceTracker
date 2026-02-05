@@ -28,12 +28,12 @@ const props = defineProps<{
 const transactionsTypeModel = defineModel<TransactionTypeFilter>(
   "transactionType",
   {
-    default: "All",
+    required: true,
   },
 );
 
 const transactionCategoryModel = defineModel<string>("transactionCategory", {
-  default: "All",
+  required: true,
 });
 </script>
 
