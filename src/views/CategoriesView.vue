@@ -25,7 +25,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import TheTypography from "@/components/TheTypography.vue";
 import NewCategoryForm from "@/components/newCategory/NewCategoryForm.vue";
 import CategoryList from "@/components/newCategory/CategoryList.vue";
@@ -33,20 +33,28 @@ import { useAppStore } from "@/stores/appStore";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 import { generateId } from "@/utils/generateId";
+import type { TransactionType, CategoryOption } from "../types/types";
+
+type AddNewCategoryType = {
+  category: string;
+  transactionType: TransactionType;
+};
+
+type DeleteCategoryType = Pick<CategoryOption, "value" | "label">;
 
 const appStore = useAppStore();
 const { categoryOptions, transactions } = storeToRefs(appStore);
 const { transactionTypeOptions } = appStore;
 
-const incomeCategories = computed(() =>
+const incomeCategories = computed<CategoryOption[]>(() =>
   categoryOptions.value.filter((c) => c.type === "income"),
 );
 
-const expenseCategories = computed(() =>
+const expenseCategories = computed<CategoryOption[]>(() =>
   categoryOptions.value.filter((c) => c.type === "expense"),
 );
 
-const addNewCategory = ({ category, transactionType }) => {
+const addNewCategory = ({ category, transactionType }: AddNewCategoryType) => {
   const exists = categoryOptions.value.some(
     (c) =>
       c.type === transactionType &&
@@ -60,7 +68,7 @@ const addNewCategory = ({ category, transactionType }) => {
   });
 };
 
-const deleteCategory = ({ value, label }) => {
+const deleteCategory = ({ value, label }: DeleteCategoryType) => {
   const confirmDelete = window.confirm(
     "Are you sure you want to delete this category? You won’t be able to undo this action later.",
   );

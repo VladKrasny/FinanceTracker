@@ -3,20 +3,16 @@
     <div class="category-item__label">
       {{ label }}
     </div>
-    <IconButton variant="delete" iconSymbol="delete" @click="deleteCategory" />
+    <IconButton variant="delete" iconSymbol="delete" @click="emit('delete')" />
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import IconButton from "../IconButton.vue";
 
-defineProps({
-  label: { type: String, required: true },
-});
+defineProps<{ label: string }>();
 
-const emit = defineEmits(["delete"]);
-
-const deleteCategory = () => emit("delete");
+const emit = defineEmits<{ delete: [] }>();
 </script>
 
 <style scoped>

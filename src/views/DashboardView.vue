@@ -10,7 +10,7 @@
       <TheButton
         class="dashboard-view__button"
         label="+ Add transaction"
-        @click="$router.push('/transactions')"
+        @click="router.push('/transactions')"
       />
     </div>
     <div class="dashboard-view__cards">
@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import TheTypography from "@/components/TheTypography.vue";
 import TheButton from "@/components/TheButton.vue";
 import DashboardCard from "@/components/dashboard/DashboardCard.vue";
@@ -54,37 +54,38 @@ import TransactionList from "@/components/transactionlist/TransactionList.vue";
 import { useAppStore } from "@/stores/appStore";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
+import { useRouter } from "vue-router";
+import type { Transaction } from "../types/types";
+
+type CardTotals = { income: number; expense: number };
+
+const router = useRouter();
 
 const appStore = useAppStore();
 const { transactions, sortedTransactions } = storeToRefs(appStore);
 
-const recentTransactions = computed(() => {
-  return [...sortedTransactions.value].slice(0, 5);
+const recentTransactions = computed<Transaction[]>(() => {
+  return sortedTransactions.value.slice(0, 5);
 });
 
-const cardTotalsByType = computed(() => {
-  return transactions.value.reduce(
+const cardTotalsByType = computed<CardTotals>(() => {
+  return transactions.value.reduce<CardTotals>(
     (acc, t) => {
-      const value = Number(t.amount || 0);
-      if (t.type === "income") acc.income += value;
-      else if (t.type === "expense") acc.expense += value;
+      if (t.type === "income") acc.income += t.amount;
+      else acc.expense += t.amount;
       return acc;
     },
     { income: 0, expense: 0 },
   );
 });
 
-const incomeAmount = computed(() => {
-  return cardTotalsByType.value.income;
-});
+const incomeAmount = computed(() => cardTotalsByType.value.income);
 
-const expenseAmount = computed(() => {
-  return cardTotalsByType.value.expense;
-});
+const expenseAmount = computed(() => cardTotalsByType.value.expense);
 
-const balanceAmount = computed(() => {
-  return cardTotalsByType.value.income - cardTotalsByType.value.expense;
-});
+const balanceAmount = computed(
+  () => cardTotalsByType.value.income - cardTotalsByType.value.expense,
+);
 
 const incomeStatus = computed(() => {
   const count = transactions.value.filter((t) => t.type === "income").length;

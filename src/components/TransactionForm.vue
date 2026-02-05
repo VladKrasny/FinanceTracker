@@ -37,7 +37,7 @@
   </form>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import TheSelect from "./TheSelect.vue";
 import AmountInput from "./AmountInput.vue";
 import TheInput from "./TheInput.vue";
@@ -45,29 +45,37 @@ import DescriptionTextArea from "./DescriptionTextArea.vue";
 import TheButton from "./TheButton.vue";
 import TheTypography from "./TheTypography.vue";
 import { ref, watch, computed } from "vue";
+import type {
+  CategoryOption,
+  TransactionTypeOption,
+  Transaction,
+  TransactionType,
+  NewEntry,
+} from "../types/types";
 
-const props = defineProps({
-  editingValues: { type: Object, default: null },
-  title: {
-    type: String,
-    required: true,
-  },
-  categoryOptions: { type: Array, required: true },
-  transactionTypeOptions: { type: Array, required: true },
-});
+const { editingValues = null, categoryOptions } = defineProps<{
+  editingValues?: Transaction | null;
+  title: string;
+  categoryOptions: CategoryOption[];
+  transactionTypeOptions: TransactionTypeOption[];
+}>();
 
-const emit = defineEmits(["submit", "update", "cancel"]);
+const emit = defineEmits<{
+  cancel: [];
+  update: [Transaction];
+  submit: [NewEntry];
+}>();
 
-const updateMode = ref(false);
-const typeModel = ref("expense");
-const dateModel = ref("");
-const categoryModel = ref("");
-const amountModel = ref("");
-const descriptionModel = ref("");
-const amountError = ref("");
+const updateMode = ref<boolean>(false);
+const typeModel = ref<TransactionType>("expense");
+const dateModel = ref<string>("");
+const categoryModel = ref<string>("");
+const amountModel = ref<string>("");
+const descriptionModel = ref<string>("");
+const amountError = ref<string>("");
 
 watch(
-  () => props.editingValues,
+  () => editingValues,
   (data) => {
     if (!data) return;
     updateMode.value = true;
@@ -80,8 +88,8 @@ watch(
   { immediate: true },
 );
 
-const categoryOptionsByType = computed(() => {
-  return props.categoryOptions.filter(
+const categoryOptionsByType = computed<CategoryOption[]>(() => {
+  return categoryOptions.filter(
     (category) => category.type === typeModel.value,
   );
 });
@@ -102,15 +110,19 @@ const cancelUpdate = () => {
   emit("cancel");
 };
 
+const entryPayload = computed<NewEntry>(() => ({
+  type: typeModel.value,
+  amount: Number(amountModel.value),
+  category: categoryModel.value,
+  date: dateModel.value,
+  description: descriptionModel.value,
+}));
+
 const updateTransaction = () => {
-  if (!props.editingValues) return;
-  const update = {
-    id: props.editingValues.id,
-    type: typeModel.value,
-    amount: Number(amountModel.value),
-    category: categoryModel.value,
-    date: dateModel.value,
-    description: descriptionModel.value,
+  if (!editingValues) return;
+  const update: Transaction = {
+    id: editingValues.id,
+    ...entryPayload.value,
   };
   emit("update", update);
   updateMode.value = false;
@@ -118,15 +130,7 @@ const updateTransaction = () => {
 };
 
 const submitAndReset = () => {
-  const newEntry = {
-    type: typeModel.value,
-    amount: Number(amountModel.value),
-    category: categoryModel.value,
-    date: dateModel.value,
-    description: descriptionModel.value,
-  };
-
-  emit("submit", newEntry);
+  emit("submit", entryPayload.value);
   resetForm();
 };
 

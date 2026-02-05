@@ -6,29 +6,20 @@
       'button--white': variant === 'white',
     }"
     :disabled="disabled"
-    @click="emit('click')"
+    @click="!disabled && emit('click')"
   >
     {{ label }}
   </button>
 </template>
 
-<script setup>
-defineProps({
-  label: {
-    type: String,
-    required: true,
-  },
-  variant: {
-    type: String,
-    default: "",
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-});
+<script setup lang="ts">
+defineProps<{
+  label: string;
+  variant?: "white";
+  disabled?: boolean;
+}>();
 
-const emit = defineEmits(["click"]);
+const emit = defineEmits<{ click: [] }>();
 </script>
 
 <style scoped>

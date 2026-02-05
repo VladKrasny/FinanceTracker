@@ -10,13 +10,10 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  variant: {
-    type: String,
-    default: "",
-  },
-});
+<script setup lang="ts">
+type TypographyVariant = "title" | "subtitle";
+
+defineProps<{ variant?: TypographyVariant }>();
 </script>
 
 <style scoped>

@@ -13,15 +13,17 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import TheTypography from "../TheTypography.vue";
 
-defineProps({
-  title: { type: String, required: true },
-  variant: { type: String, required: true },
-  amount: { type: Number, required: true },
-  statusText: { type: String, required: true },
-});
+type DashboardVariant = "income" | "expense" | "balance";
+
+defineProps<{
+  title: string;
+  variant: DashboardVariant;
+  amount: number;
+  statusText: string;
+}>();
 </script>
 
 <style scoped>

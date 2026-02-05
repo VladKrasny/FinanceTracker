@@ -16,45 +16,35 @@
   </div>
 </template>
 
-<script setup>
-import { generateId } from "../utils/generateId.js";
+<script setup lang="ts">
+import { generateId } from "../utils/generateId.ts";
 import { watch, ref } from "vue";
 
-const props = defineProps({
-  placeholder: {
-    type: String,
-    default: "",
-  },
-  label: { type: String, required: false },
-  type: {
-    type: String,
-    default: "text",
-  },
-  hasError: {
-    type: Boolean,
-    default: false,
-  },
-  errorMessage: {
-    type: String,
-    default: "",
-  },
-});
+type InputType = "text" | "date";
 
-const model = defineModel({ default: "" });
+const {
+  type = "text",
+  placeholder = "",
+  hasError = false,
+  errorMessage = "",
+} = defineProps<{
+  placeholder?: string;
+  label?: string;
+  type?: InputType;
+  hasError?: boolean;
+  errorMessage?: string;
+}>();
 
-const touched = ref(false);
+const model = defineModel<string>({ default: "" });
+
+const touched = ref<boolean>(false);
 const randomId = generateId("input");
 
-watch(
-  () => props.modelValue,
-  (newValue) => {
-    if (newValue === "") {
-      touched.value = false;
-    }
-  },
-);
+watch(model, (newValue) => {
+  if (newValue === "") touched.value = false;
+});
 
-const onInput = () => {
+const onInput = (): void => {
   touched.value = true;
 };
 </script>

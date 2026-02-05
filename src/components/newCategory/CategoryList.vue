@@ -17,18 +17,19 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import TheTypography from "../TheTypography.vue";
 import CategoryItem from "./CategoryItem.vue";
 import { computed } from "vue";
+import type { CategoryOption } from "@/types/types";
 
-const props = defineProps({
-  title: { type: String, required: false },
-  subtitle: { type: String, required: false },
-  categoryOptions: { type: Array, required: true },
-});
+const props = defineProps<{
+  title?: string;
+  subtitle?: string;
+  categoryOptions: CategoryOption[];
+}>();
 
-const emit = defineEmits(["delete"]);
+const emit = defineEmits<{ delete: [CategoryOption] }>();
 
 const isEmpty = computed(() => props.categoryOptions.length === 0);
 </script>

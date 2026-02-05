@@ -9,13 +9,13 @@
   />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { watch, ref } from "vue";
 import TheInput from "./TheInput.vue";
 
-const emit = defineEmits(["error"]);
+const emit = defineEmits<{ error: [string] }>();
 
-const model = defineModel({ default: "" });
+const model = defineModel<string>({ required: true });
 
 watch(model, (value) => {
   const val = value.trim();
@@ -25,12 +25,13 @@ watch(model, (value) => {
     return;
   }
 
-  if (isNaN(val)) {
+  const num = Number(val);
+  if (Number.isNaN(num)) {
     amountError.value = "Amount must be a number";
     return;
   }
 
-  if (Number(val) <= 0) {
+  if (Number(num) <= 0) {
     amountError.value = "Value must be greater than 0";
     return;
   }
@@ -38,7 +39,7 @@ watch(model, (value) => {
   amountError.value = "";
 });
 
-const amountError = ref("");
+const amountError = ref<string>("");
 
 watch(amountError, (value) => {
   emit("error", value);

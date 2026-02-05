@@ -1,6 +1,11 @@
 import { defineStore } from "pinia";
 import { ref, watch, computed } from "vue";
 import { readFromLocalStorage } from "@/utils/readFromLocalStorage";
+import type {
+  Transaction,
+  CategoryOption,
+  TransactionTypeOption,
+} from "../types/types";
 
 const LS_DATA = {
   transactions: "finance-transactions",
@@ -8,12 +13,12 @@ const LS_DATA = {
 };
 
 export const useAppStore = defineStore("appStore", () => {
-  const transactionTypeOptions = [
+  const transactionTypeOptions: TransactionTypeOption[] = [
     { value: "income", label: "Income" },
     { value: "expense", label: "Expense" },
   ];
 
-  const transactions = ref([]);
+  const transactions = ref<Transaction[]>([]);
 
   watch(
     transactions,
@@ -23,7 +28,7 @@ export const useAppStore = defineStore("appStore", () => {
     { deep: true },
   );
 
-  const categoryOptions = ref([]);
+  const categoryOptions = ref<CategoryOption[]>([]);
 
   watch(
     categoryOptions,
@@ -33,20 +38,32 @@ export const useAppStore = defineStore("appStore", () => {
     { deep: true },
   );
 
-  const sortedTransactions = computed(() => {
+  const sortedTransactions = computed<Transaction[]>(() => {
     return [...transactions.value].sort((a, b) => {
-      return new Date(b.date) - new Date(a.date);
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
   });
 
+  const isTransactionArray = (value: unknown): value is Transaction[] =>
+    Array.isArray(value);
+
   const transactionsLS = readFromLocalStorage(
     LS_DATA.transactions,
-    Array.isArray,
+    isTransactionArray,
   );
+
   if (transactionsLS) transactions.value = transactionsLS;
 
-  const categoriesLS = readFromLocalStorage(LS_DATA.categories, Array.isArray);
+  const isCategoriesArray = (value: unknown): value is CategoryOption[] =>
+    Array.isArray(value);
+
+  const categoriesLS = readFromLocalStorage(
+    LS_DATA.categories,
+    isCategoriesArray,
+  );
+
   if (categoriesLS) categoryOptions.value = categoriesLS;
+
   return {
     transactionTypeOptions,
     transactions,

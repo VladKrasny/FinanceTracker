@@ -7,8 +7,8 @@
   />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import TheTextArea from "./TheTextArea.vue";
 
-const model = defineModel({ default: "" });
+const model = defineModel<string>({ required: true });
 </script>

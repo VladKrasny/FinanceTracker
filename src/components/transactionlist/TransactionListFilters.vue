@@ -12,18 +12,27 @@
     />
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import TheSelect from "@/components/TheSelect.vue";
+import type {
+  TransactionTypeFilter,
+  CategoryFilterOption,
+  TransactionTypeFilterOption,
+} from "@/types/types";
 
-const props = defineProps({
-  transactionTypeOptions: { type: Array, required: true },
-  categoryOptions: { type: Array, required: true },
-});
+const props = defineProps<{
+  transactionTypeOptions: TransactionTypeFilterOption[];
+  categoryOptions: CategoryFilterOption[];
+}>();
 
-const transactionsTypeModel = defineModel("transactionType", {
-  required: true,
-});
-const transactionCategoryModel = defineModel("transactionCategory", {
+const transactionsTypeModel = defineModel<TransactionTypeFilter>(
+  "transactionType",
+  {
+    required: true,
+  },
+);
+
+const transactionCategoryModel = defineModel<string>("transactionCategory", {
   required: true,
 });
 </script>

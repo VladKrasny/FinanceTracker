@@ -1,9 +1,12 @@
-export function readFromLocalStorage(key, checkLSValid) {
+export function readFromLocalStorage<T>(
+  key: string,
+  checkLSValid: (value: unknown) => value is T,
+): T | null {
   try {
     const dataFromLS = localStorage.getItem(key);
     if (!dataFromLS) return null;
-    const dataJSON = JSON.parse(dataFromLS);
-    if (checkLSValid && !checkLSValid(dataJSON)) {
+    const dataJSON: unknown = JSON.parse(dataFromLS);
+    if (!checkLSValid(dataJSON)) {
       throw new Error("Invalid localStorage format");
     }
     return dataJSON;
