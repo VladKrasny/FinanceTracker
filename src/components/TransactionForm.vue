@@ -149,7 +149,6 @@ const cancelUpdate = () => {
 
 const updateTransaction = handleSubmit((v) => {
   if (!editingValues) return;
-
   const update: Transaction = {
     id: editingValues.id,
     type: v.typeField,
@@ -158,7 +157,6 @@ const updateTransaction = handleSubmit((v) => {
     date: v.dateField,
     description: v.descriptionField ?? "",
   };
-
   emit("update", update);
   updateMode.value = false;
   resetForm();
