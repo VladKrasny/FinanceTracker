@@ -1,8 +1,13 @@
 <template>
   <div class="select">
     <label v-if="label" :for="randomId">{{ label }}</label>
-
-    <select class="select__options" :id="randomId" v-model="model">
+    <select
+      class="select__options"
+      :class="{ 'select__options--error': Boolean(errorMessage) }"
+      :id="randomId"
+      v-model="model"
+      @blur="emit('blur')"
+    >
       <option
         v-for="(option, index) in options"
         :key="index"
@@ -11,6 +16,7 @@
         {{ option.label }}
       </option>
     </select>
+    <p v-if="Boolean(errorMessage) && touched">{{ errorMessage }}</p>
   </div>
 </template>
 
@@ -24,7 +30,11 @@ const { valueKey = "value" } = defineProps<{
   valueKey?: "value" | "label";
   label?: string;
   options: Option[];
+  errorMessage?: string;
+  touched?: boolean;
 }>();
+
+const emit = defineEmits<{ blur: [] }>();
 
 const model = defineModel<string>({ default: "" });
 
@@ -44,5 +54,8 @@ const randomId = generateId("select");
   border: 1px solid gray;
   cursor: pointer;
   padding: 10px;
+}
+.select__options--error {
+  border-color: red;
 }
 </style>

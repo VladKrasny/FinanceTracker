@@ -1,25 +1,26 @@
 <template>
-  <form class="transaction-form" @submit.prevent="submitAndReset">
+  <form class="transaction-form" @submit.prevent="onSubmit">
     <TheTypography variant="title">{{ title }}</TheTypography>
-    <TheSelect
+    <SelectField
       label="Type"
       :options="transactionTypeOptions"
-      v-model="typeModel"
-      @update:modelValue="onTypeChange"
+      name="typeField"
     />
-    <AmountInput v-model="amountModel" @error="amountError = $event" />
-    <TheSelect
+    <SelectField
       label="Category"
       :options="categoryOptionsByType"
-      v-model="categoryModel"
       valueKey="label"
+      name="categoryField"
     />
-    <TheInput label="Date" type="date" v-model="dateModel" />
-    <DescriptionTextArea
-      label="Description (optional)"
-      v-model="descriptionModel"
+    <InputField name="amountField" label="Amount" />
+    <InputField name="dateField" type="date" label="Date" />
+    <TextAreaField name="descriptionField" label="Description (optional)" />
+    <TheButton
+      v-if="!updateMode"
+      label="Add"
+      :disabled="isDisabled"
+      type="submit"
     />
-    <TheButton v-if="!updateMode" label="Add" :disabled="isDisabled" />
     <div v-else class="transaction-form__update-mode">
       <TheButton
         class="transaction-form__update-button"
@@ -38,18 +39,20 @@
 </template>
 
 <script setup lang="ts">
-import TheSelect from "./TheSelect.vue";
-import AmountInput from "./AmountInput.vue";
-import TheInput from "./TheInput.vue";
-import DescriptionTextArea from "./DescriptionTextArea.vue";
+import SelectField from "./SelectField.vue";
+import InputField from "./InputField.vue";
+import TextAreaField from "./TextAreaField.vue";
 import TheButton from "./TheButton.vue";
 import TheTypography from "./TheTypography.vue";
 import { ref, watch, computed } from "vue";
+import { useForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
+import { z } from "zod";
+
 import type {
   CategoryOption,
   TransactionTypeOption,
   Transaction,
-  TransactionType,
   NewEntry,
 } from "../types/types";
 
@@ -67,42 +70,76 @@ const emit = defineEmits<{
 }>();
 
 const updateMode = ref<boolean>(false);
-const typeModel = ref<TransactionType>("expense");
-const dateModel = ref<string>("");
-const categoryModel = ref<string>("");
-const amountModel = ref<string>("");
-const descriptionModel = ref<string>("");
-const amountError = ref<string>("");
+
+const schema = toTypedSchema(
+  z.object({
+    typeField: z.enum(["income", "expense"]),
+    categoryField: z.string().optional(),
+    amountField: z
+      .string()
+      .trim()
+      .min(1, "Amount cannot be empty")
+      .refine((v) => !Number.isNaN(Number(v)), "Amount must be a number")
+      .refine((v) => Number(v) > 0, "Value must be greater than 0"),
+    dateField: z.string().min(1, "Date is required"),
+    descriptionField: z.string().trim().optional(),
+  }),
+);
+
+const { handleSubmit, resetForm, meta, values, setValues } = useForm({
+  validationSchema: schema,
+  initialValues: {
+    typeField: "expense",
+    categoryField: "",
+    amountField: "",
+    dateField: "",
+    descriptionField: "",
+  },
+});
+
+const onSubmit = handleSubmit((v) => {
+  const newEntry: NewEntry = {
+    type: v.typeField,
+    amount: Number(v.amountField),
+    category: v.categoryField ?? "",
+    date: v.dateField,
+    description: v.descriptionField ?? "",
+  };
+  emit("submit", newEntry);
+  resetForm();
+});
 
 watch(
   () => editingValues,
   (data) => {
     if (!data) return;
     updateMode.value = true;
-    typeModel.value = data.type;
-    categoryModel.value = data.category;
-    amountModel.value = String(data.amount);
-    dateModel.value = data.date;
-    descriptionModel.value = data.description;
+
+    setValues({
+      typeField: data.type,
+      amountField: String(data.amount),
+      categoryField: data.category,
+      dateField: data.date,
+      descriptionField: data.description ?? "",
+    });
   },
   { immediate: true },
 );
 
 const categoryOptionsByType = computed<CategoryOption[]>(() => {
   return categoryOptions.filter(
-    (category) => category.type === typeModel.value,
+    (category) => category.type === values.typeField,
   );
 });
 
-const isDisabled = computed(() => {
-  const areFieldsValid = Boolean(dateModel.value);
+const isDisabled = computed(() => !meta.value.valid);
 
-  const hasErrors = Boolean(amountError.value);
-
-  return !areFieldsValid || hasErrors;
-});
-
-const onTypeChange = () => (categoryModel.value = "");
+watch(
+  () => values.typeField,
+  () => {
+    setValues({ ...values, categoryField: "" });
+  },
+);
 
 const cancelUpdate = () => {
   resetForm();
@@ -110,37 +147,22 @@ const cancelUpdate = () => {
   emit("cancel");
 };
 
-const entryPayload = computed<NewEntry>(() => ({
-  type: typeModel.value,
-  amount: Number(amountModel.value),
-  category: categoryModel.value,
-  date: dateModel.value,
-  description: descriptionModel.value,
-}));
-
-const updateTransaction = () => {
+const updateTransaction = handleSubmit((v) => {
   if (!editingValues) return;
+
   const update: Transaction = {
     id: editingValues.id,
-    ...entryPayload.value,
+    type: v.typeField,
+    amount: Number(v.amountField),
+    category: v.categoryField ?? "",
+    date: v.dateField,
+    description: v.descriptionField ?? "",
   };
+
   emit("update", update);
   updateMode.value = false;
   resetForm();
-};
-
-const submitAndReset = () => {
-  emit("submit", entryPayload.value);
-  resetForm();
-};
-
-const resetForm = () => {
-  typeModel.value = "expense";
-  amountModel.value = "";
-  categoryModel.value = "";
-  dateModel.value = "";
-  descriptionModel.value = "";
-};
+});
 </script>
 
 <style scoped>

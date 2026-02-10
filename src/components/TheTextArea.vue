@@ -7,9 +7,12 @@
       :id="randomId"
       v-model="model"
       :placeholder="placeholder"
-      :class="{ 'text-area__input--error': hasError }"
+      :class="{
+        'text-area__input--error': showError,
+      }"
+      @blur="emit('blur')"
     ></textarea>
-    <p v-if="errorMessage" class="text-area__error-message">
+    <p v-if="showError" class="text-area__error-message">
       {{ errorMessage }}
     </p>
   </div>
@@ -17,26 +20,32 @@
 
 <script setup lang="ts">
 import { generateId } from "../utils/generateId.ts";
-import { watch, ref } from "vue";
+import { watch, ref, computed } from "vue";
 
 const {
   label = "",
   placeholder = "",
-  hasError = false,
   errorMessage = "",
   maxHeight = 135,
+  touched = false,
+  dirty = false,
 } = defineProps<{
   placeholder?: string;
   label?: string;
-  hasError?: boolean;
   errorMessage?: string;
   maxHeight?: number;
+  touched?: boolean;
+  dirty?: boolean;
 }>();
+
+const emit = defineEmits<{ blur: [] }>();
 
 const model = defineModel<string>({ default: "" });
 
 const textArea = ref<HTMLTextAreaElement | null>(null);
 const randomId = generateId("textarea");
+
+const showError = computed(() => Boolean(errorMessage));
 
 const sizeCheck = (): void => {
   const el = textArea.value;

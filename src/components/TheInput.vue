@@ -7,10 +7,12 @@
       :id="randomId"
       v-model="model"
       :placeholder="placeholder"
-      :class="{ 'input__field--error': hasError && touched }"
-      @input="onInput"
+      @blur="emit('blur')"
+      :class="{
+        'input__field--error': showError,
+      }"
     />
-    <p v-if="errorMessage && touched" class="input__error-message">
+    <p v-if="showError" class="input__error-message">
       {{ errorMessage }}
     </p>
   </div>
@@ -18,35 +20,32 @@
 
 <script setup lang="ts">
 import { generateId } from "../utils/generateId.ts";
-import { watch, ref } from "vue";
+import { computed } from "vue";
 
 type InputType = "text" | "date";
 
 const {
   type = "text",
   placeholder = "",
-  hasError = false,
   errorMessage = "",
+  touched = false,
+  dirty = false,
 } = defineProps<{
   placeholder?: string;
   label?: string;
   type?: InputType;
-  hasError?: boolean;
   errorMessage?: string;
+  touched?: boolean;
+  dirty?: boolean;
 }>();
+
+const showError = computed(() => Boolean(errorMessage) && (touched || dirty));
+
+const emit = defineEmits<{ blur: [] }>();
 
 const model = defineModel<string>({ default: "" });
 
-const touched = ref<boolean>(false);
 const randomId = generateId("input");
-
-watch(model, (newValue) => {
-  if (newValue === "") touched.value = false;
-});
-
-const onInput = (): void => {
-  touched.value = true;
-};
 </script>
 
 <style scoped>
