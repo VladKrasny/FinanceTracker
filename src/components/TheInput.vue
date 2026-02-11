@@ -29,7 +29,7 @@ const {
   errorMessage = "",
   error = false,
 } = defineProps<{
-  error: boolean;
+  error?: boolean;
   placeholder?: string;
   label?: string;
   type?: InputType;

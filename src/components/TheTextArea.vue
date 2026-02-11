@@ -29,7 +29,7 @@ const {
   maxHeight = 135,
   error = false,
 } = defineProps<{
-  error: boolean;
+  error?: boolean;
   placeholder?: string;
   label?: string;
   errorMessage?: string;

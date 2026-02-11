@@ -30,7 +30,7 @@ const { valueKey = "value", error = false } = defineProps<{
   label?: string;
   options: Option[];
   errorMessage?: string;
-  error: boolean;
+  error?: boolean;
 }>();
 
 const emit = defineEmits<{ blur: [] }>();
