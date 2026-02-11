@@ -12,7 +12,7 @@
       }"
       @blur="emit('blur')"
     ></textarea>
-    <p v-if="error" class="text-area__error-message">
+    <p v-if="error || errorMessage" class="text-area__error-message">
       {{ errorMessage }}
     </p>
   </div>

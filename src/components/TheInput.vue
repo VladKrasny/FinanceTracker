@@ -12,7 +12,7 @@
         'input__field--error': error,
       }"
     />
-    <p v-if="error" class="input__error-message">
+    <p v-if="error || errorMessage" class="input__error-message">
       {{ errorMessage }}
     </p>
   </div>

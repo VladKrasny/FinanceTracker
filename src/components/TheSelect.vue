@@ -16,7 +16,7 @@
         {{ option.label }}
       </option>
     </select>
-    <p v-if="error">{{ errorMessage }}</p>
+    <p v-if="error || errorMessage">{{ errorMessage }}</p>
   </div>
 </template>
 
