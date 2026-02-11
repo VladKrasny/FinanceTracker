@@ -13,10 +13,7 @@
         />
       </div>
       <div class="new-category-form__select">
-        <SelectField
-          :options="transactionTypeOptions"
-          name="transactionTypeSelect"
-        />
+        <SelectField :options="transactionTypeOptions" name="transactionType" />
       </div>
       <div class="new-category-form__button">
         <TheButton type="submit" label="Add Category" :disabled="!meta.valid" />
@@ -48,7 +45,7 @@ const emit = defineEmits<{
 const schema = toTypedSchema(
   z.object({
     newCategory: z.string().trim().min(1, "Category cannot be empty"),
-    transactionTypeSelect: z.enum(["income", "expense"]),
+    transactionType: z.enum(["income", "expense"]),
   }),
 );
 
@@ -56,14 +53,14 @@ const { handleSubmit, resetForm, meta } = useForm({
   validationSchema: schema,
   initialValues: {
     newCategory: "",
-    transactionTypeSelect: "expense",
+    transactionType: "expense",
   },
 });
 
 const onSubmit = handleSubmit((values) => {
   emit("submit", {
     category: values.newCategory,
-    transactionType: values.transactionTypeSelect,
+    transactionType: values.transactionType,
   });
   resetForm();
 });

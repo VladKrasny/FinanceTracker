@@ -3,7 +3,7 @@
     <label v-if="label" :for="randomId">{{ label }}</label>
     <select
       class="select__options"
-      :class="{ 'select__options--error': Boolean(errorMessage) }"
+      :class="{ 'select__options--error': error }"
       :id="randomId"
       v-model="model"
       @blur="emit('blur')"
@@ -16,22 +16,21 @@
         {{ option.label }}
       </option>
     </select>
-    <p v-if="Boolean(errorMessage) && touched">{{ errorMessage }}</p>
+    <p v-if="error">{{ errorMessage }}</p>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends string">
 import { generateId } from "../utils/generateId.ts";
-import type { TransactionType } from "../types/types.ts";
 
-type Option = { value: string; label: string; type?: TransactionType };
+type Option = { value: string; label: string; type?: T };
 
-const { valueKey = "value" } = defineProps<{
+const { valueKey = "value", error = false } = defineProps<{
   valueKey?: "value" | "label";
   label?: string;
   options: Option[];
   errorMessage?: string;
-  touched?: boolean;
+  error: boolean;
 }>();
 
 const emit = defineEmits<{ blur: [] }>();

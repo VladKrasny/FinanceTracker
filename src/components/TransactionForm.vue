@@ -1,20 +1,16 @@
 <template>
   <form class="transaction-form" @submit.prevent="onSubmit">
     <TheTypography variant="title">{{ title }}</TheTypography>
-    <SelectField
-      label="Type"
-      :options="transactionTypeOptions"
-      name="typeField"
-    />
+    <SelectField label="Type" :options="transactionTypeOptions" name="type" />
     <SelectField
       label="Category"
       :options="categoryOptionsByType"
       valueKey="label"
-      name="categoryField"
+      name="category"
     />
-    <InputField name="amountField" label="Amount" />
-    <InputField name="dateField" type="date" label="Date" />
-    <TextAreaField name="descriptionField" label="Description (optional)" />
+    <InputField name="amount" label="Amount" />
+    <InputField name="date" type="date" label="Date" />
+    <TextAreaField name="description" label="Description (optional)" />
     <TheButton
       v-if="!updateMode"
       label="Add"
@@ -73,37 +69,36 @@ const updateMode = ref<boolean>(false);
 
 const schema = toTypedSchema(
   z.object({
-    typeField: z.enum(["income", "expense"]),
-    categoryField: z.string().optional(),
-    amountField: z
-      .string()
-      .trim()
-      .min(1, "Amount cannot be empty")
-      .refine((v) => !Number.isNaN(Number(v)), "Amount must be a number")
-      .refine((v) => Number(v) > 0, "Value must be greater than 0"),
-    dateField: z.string().min(1, "Date is required"),
-    descriptionField: z.string().trim().optional(),
+    type: z.enum(["income", "expense"]),
+    category: z.string().optional(),
+    amount: z.coerce
+      .number({
+        invalid_type_error: "Amount must be a number",
+      })
+      .min(1, "Value must be greater than 0"),
+    date: z.string().min(1, "Date is required"),
+    description: z.string().trim().optional(),
   }),
 );
 
 const { handleSubmit, resetForm, meta, values, setValues } = useForm({
   validationSchema: schema,
   initialValues: {
-    typeField: "expense",
-    categoryField: "",
-    amountField: "",
-    dateField: "",
-    descriptionField: "",
+    type: "expense",
+    category: "",
+    amount: undefined,
+    date: "",
+    description: "",
   },
 });
 
 const onSubmit = handleSubmit((v) => {
   const newEntry: NewEntry = {
-    type: v.typeField,
-    amount: Number(v.amountField),
-    category: v.categoryField ?? "",
-    date: v.dateField,
-    description: v.descriptionField ?? "",
+    type: v.type,
+    amount: v.amount,
+    category: v.category ?? "",
+    date: v.date,
+    description: v.description ?? "",
   };
   emit("submit", newEntry);
   resetForm();
@@ -116,28 +111,26 @@ watch(
     updateMode.value = true;
 
     setValues({
-      typeField: data.type,
-      amountField: String(data.amount),
-      categoryField: data.category,
-      dateField: data.date,
-      descriptionField: data.description ?? "",
+      type: data.type,
+      amount: data.amount,
+      category: data.category,
+      date: data.date,
+      description: data.description ?? "",
     });
   },
   { immediate: true },
 );
 
 const categoryOptionsByType = computed<CategoryOption[]>(() => {
-  return categoryOptions.filter(
-    (category) => category.type === values.typeField,
-  );
+  return categoryOptions.filter((category) => category.type === values.type);
 });
 
 const isDisabled = computed(() => !meta.value.valid);
 
 watch(
-  () => values.typeField,
+  () => values.type,
   () => {
-    setValues({ ...values, categoryField: "" });
+    setValues({ ...values, category: "" });
   },
 );
 
@@ -151,11 +144,11 @@ const updateTransaction = handleSubmit((v) => {
   if (!editingValues) return;
   const update: Transaction = {
     id: editingValues.id,
-    type: v.typeField,
-    amount: Number(v.amountField),
-    category: v.categoryField ?? "",
-    date: v.dateField,
-    description: v.descriptionField ?? "",
+    type: v.type,
+    amount: v.amount,
+    category: v.category ?? "",
+    date: v.date,
+    description: v.description ?? "",
   };
   emit("update", update);
   updateMode.value = false;

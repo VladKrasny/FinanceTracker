@@ -8,11 +8,11 @@
       v-model="model"
       :placeholder="placeholder"
       :class="{
-        'text-area__input--error': showError,
+        'text-area__input--error': error,
       }"
       @blur="emit('blur')"
     ></textarea>
-    <p v-if="showError" class="text-area__error-message">
+    <p v-if="error" class="text-area__error-message">
       {{ errorMessage }}
     </p>
   </div>
@@ -20,22 +20,20 @@
 
 <script setup lang="ts">
 import { generateId } from "../utils/generateId.ts";
-import { watch, ref, computed } from "vue";
+import { watch, ref } from "vue";
 
 const {
   label = "",
   placeholder = "",
   errorMessage = "",
   maxHeight = 135,
-  touched = false,
-  dirty = false,
+  error = false,
 } = defineProps<{
+  error: boolean;
   placeholder?: string;
   label?: string;
   errorMessage?: string;
   maxHeight?: number;
-  touched?: boolean;
-  dirty?: boolean;
 }>();
 
 const emit = defineEmits<{ blur: [] }>();
@@ -44,8 +42,6 @@ const model = defineModel<string>({ default: "" });
 
 const textArea = ref<HTMLTextAreaElement | null>(null);
 const randomId = generateId("textarea");
-
-const showError = computed(() => Boolean(errorMessage));
 
 const sizeCheck = (): void => {
   const el = textArea.value;

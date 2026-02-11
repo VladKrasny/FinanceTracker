@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends string">
+import { computed } from "vue";
 import TheSelect from "./TheSelect.vue";
 import { useField } from "vee-validate";
-import type { TransactionType } from "../types/types.ts";
 
-type Option = { value: string; label: string; type?: TransactionType };
+type Option = { value: string; label: string; type?: T };
 
 const props = defineProps<{
   name: string;
@@ -18,21 +18,17 @@ const { value, errorMessage, handleBlur, handleChange, meta } =
     validateOnBlur: true,
   });
 
-const onUpdate = (val: string) => {
-  handleChange(val);
-};
-
-const onBlur = () => handleBlur();
+const isError = computed(() => Boolean(errorMessage.value) && meta.touched);
 </script>
 <template>
   <TheSelect
+    :error="isError"
     :valueKey
     :label
     :options
     :modelValue="value"
-    @blur="onBlur"
-    @update:modelValue="onUpdate"
+    @blur="handleBlur"
+    @update:modelValue="handleChange"
     :errorMessage="errorMessage"
-    :touched="meta.touched"
   />
 </template>
