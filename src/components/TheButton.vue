@@ -1,5 +1,6 @@
 <template>
   <button
+    :type="type"
     class="button"
     :class="{
       'button--disabled': disabled,
@@ -13,7 +14,8 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const { type = "button" } = defineProps<{
+  type?: "button" | "submit" | "reset";
   label: string;
   variant?: "white";
   disabled?: boolean;

@@ -1,26 +1,22 @@
 <template>
-  <form class="new-category-form" @submit.prevent="submit">
+  <form class="new-category-form" @submit.prevent="onSubmit">
     <TheTypography variant="title">Add new category</TheTypography>
     <TheTypography variant="subtitle"
       >Create a custom category for your transaction</TheTypography
     >
-
     <div class="new-category-form__content">
       <div class="new-category-form__input">
-        <NewCategoryInput
-          v-model="newCategoryModel"
-          @error="newCategoryError = $event"
+        <InputField
+          name="newCategory"
+          type="text"
+          placeholder="Enter new category name"
         />
       </div>
       <div class="new-category-form__select">
-        <TheSelect :options="transactionTypeOptions" v-model="typeModel" />
+        <SelectField :options="transactionTypeOptions" name="transactionType" />
       </div>
       <div class="new-category-form__button">
-        <TheButton
-          type="submit"
-          label="Add Category"
-          :disabled="Boolean(newCategoryError || !typeModel)"
-        />
+        <TheButton type="submit" label="Add Category" />
       </div>
     </div>
   </form>
@@ -28,10 +24,12 @@
 <script setup lang="ts">
 import TheTypography from "../TheTypography.vue";
 import TheButton from "../TheButton.vue";
-import NewCategoryInput from "./NewCategoryInput.vue";
-import TheSelect from "../TheSelect.vue";
-import { ref } from "vue";
+import SelectField from "../SelectField.vue";
+import InputField from "../InputField.vue";
 import type { TransactionTypeOption, TransactionType } from "@/types/types";
+import { useForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
+import { z } from "zod";
 
 type Submit = {
   category: string;
@@ -44,18 +42,28 @@ const emit = defineEmits<{
   submit: [Submit];
 }>();
 
-const typeModel = ref<TransactionType>("expense");
-const newCategoryModel = ref<string>("");
-const newCategoryError = ref<string>("");
+const schema = toTypedSchema(
+  z.object({
+    newCategory: z.string().trim().min(1, "Category cannot be empty"),
+    transactionType: z.enum(["income", "expense"]),
+  }),
+);
 
-const submit = (): void => {
-  if (!newCategoryModel.value || newCategoryError.value) return;
+const { handleSubmit, resetForm, meta } = useForm({
+  validationSchema: schema,
+  initialValues: {
+    newCategory: "",
+    transactionType: "expense",
+  },
+});
+
+const onSubmit = handleSubmit((values) => {
   emit("submit", {
-    category: newCategoryModel.value,
-    transactionType: typeModel.value,
+    category: values.newCategory,
+    transactionType: values.transactionType,
   });
-  newCategoryModel.value = "";
-};
+  resetForm();
+});
 </script>
 
 <style scoped>
@@ -79,7 +87,7 @@ const submit = (): void => {
   min-width: 240px;
   gap: 20px;
   justify-content: space-between;
-  height: 40px;
+  height: auto;
 }
 .new-category-form__input {
   width: 100%;

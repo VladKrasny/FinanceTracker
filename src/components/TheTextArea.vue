@@ -7,9 +7,12 @@
       :id="randomId"
       v-model="model"
       :placeholder="placeholder"
-      :class="{ 'text-area__input--error': hasError }"
+      :class="{
+        'text-area__input--error': error,
+      }"
+      @blur="emit('blur')"
     ></textarea>
-    <p v-if="errorMessage" class="text-area__error-message">
+    <p v-if="error || errorMessage" class="text-area__error-message">
       {{ errorMessage }}
     </p>
   </div>
@@ -22,16 +25,18 @@ import { watch, ref } from "vue";
 const {
   label = "",
   placeholder = "",
-  hasError = false,
   errorMessage = "",
   maxHeight = 135,
+  error = false,
 } = defineProps<{
+  error?: boolean;
   placeholder?: string;
   label?: string;
-  hasError?: boolean;
   errorMessage?: string;
   maxHeight?: number;
 }>();
+
+const emit = defineEmits<{ blur: [] }>();
 
 const model = defineModel<string>({ default: "" });
 
