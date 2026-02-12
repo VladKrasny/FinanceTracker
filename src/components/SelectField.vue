@@ -3,11 +3,9 @@ import { computed } from "vue";
 import TheSelect from "./TheSelect.vue";
 import { useField } from "vee-validate";
 
-type BaseKey = "value" | "label";
-
 const { valueKey = "value", ...props } = defineProps<{
   name: string;
-  valueKey?: BaseKey;
+  valueKey?: "value" | "label";
   label?: string;
   options: T[];
 }>();
