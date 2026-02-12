@@ -58,7 +58,6 @@ const { handleSubmit, resetForm, meta } = useForm({
 });
 
 const onSubmit = handleSubmit((values) => {
-  if (!meta.value.valid) return;
   emit("submit", {
     category: values.newCategory,
     transactionType: values.transactionType,

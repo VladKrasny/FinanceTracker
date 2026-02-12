@@ -20,15 +20,13 @@
   </div>
 </template>
 
-<script setup lang="ts" generic="T extends string">
+<script setup lang="ts" generic="T extends { value: string; label: string }">
 import { generateId } from "../utils/generateId.ts";
 
-type Option = { value: string; label: string; type?: T };
-
 const { valueKey = "value", error = false } = defineProps<{
-  valueKey?: "value" | "label";
+  valueKey?: keyof T;
   label?: string;
-  options: Option[];
+  options: T[];
   errorMessage?: string;
   error?: boolean;
 }>();

@@ -5,7 +5,7 @@ import { useField } from "vee-validate";
 
 const { valueKey = "value", ...props } = defineProps<{
   name: string;
-  valueKey?: "value" | "label";
+  valueKey?: keyof T;
   label?: string;
   options: T[];
 }>();

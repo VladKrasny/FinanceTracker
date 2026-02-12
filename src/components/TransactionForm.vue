@@ -87,7 +87,6 @@ const { handleSubmit, resetForm, meta, values, setValues } = useForm({
 });
 
 const onSubmit = handleSubmit((v) => {
-  if (!meta.value.valid) return;
   const newEntry: NewEntry = {
     type: v.type,
     amount: v.amount,
