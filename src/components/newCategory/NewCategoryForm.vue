@@ -16,7 +16,7 @@
         <SelectField :options="transactionTypeOptions" name="transactionType" />
       </div>
       <div class="new-category-form__button">
-        <TheButton type="submit" label="Add Category" :disabled="!meta.valid" />
+        <TheButton type="submit" label="Add Category" />
       </div>
     </div>
   </form>
@@ -58,6 +58,7 @@ const { handleSubmit, resetForm, meta } = useForm({
 });
 
 const onSubmit = handleSubmit((values) => {
+  if (!meta.value.valid) return;
   emit("submit", {
     category: values.newCategory,
     transactionType: values.transactionType,

@@ -1,15 +1,15 @@
-<script setup lang="ts" generic="T extends string">
+<script setup lang="ts" generic="T extends { value: string; label: string }">
 import { computed } from "vue";
 import TheSelect from "./TheSelect.vue";
 import { useField } from "vee-validate";
 
-type Option = { value: string; label: string; type?: T };
+type BaseKey = "value" | "label";
 
-const props = defineProps<{
+const { valueKey = "value", ...props } = defineProps<{
   name: string;
-  valueKey?: "value" | "label";
+  valueKey?: BaseKey;
   label?: string;
-  options: Option[];
+  options: T[];
 }>();
 
 const { value, errorMessage, handleBlur, handleChange, meta } =
@@ -18,7 +18,9 @@ const { value, errorMessage, handleBlur, handleChange, meta } =
     validateOnBlur: true,
   });
 
-const isError = computed(() => Boolean(errorMessage.value) && meta.touched);
+const isError = computed(
+  () => Boolean(errorMessage.value) && (meta.touched || meta.dirty),
+);
 </script>
 <template>
   <TheSelect

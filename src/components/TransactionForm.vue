@@ -11,18 +11,12 @@
     <InputField name="amount" label="Amount" />
     <InputField name="date" type="date" label="Date" />
     <TextAreaField name="description" label="Description (optional)" />
-    <TheButton
-      v-if="!updateMode"
-      label="Add"
-      :disabled="isDisabled"
-      type="submit"
-    />
+    <TheButton v-if="!updateMode" label="Add" type="submit" />
     <div v-else class="transaction-form__update-mode">
       <TheButton
         class="transaction-form__update-button"
         label="Update"
         @click="updateTransaction"
-        :disabled="isDisabled"
       />
       <TheButton
         class="transaction-form__cancel-button"
@@ -93,6 +87,7 @@ const { handleSubmit, resetForm, meta, values, setValues } = useForm({
 });
 
 const onSubmit = handleSubmit((v) => {
+  if (!meta.value.valid) return;
   const newEntry: NewEntry = {
     type: v.type,
     amount: v.amount,
@@ -124,8 +119,6 @@ watch(
 const categoryOptionsByType = computed<CategoryOption[]>(() => {
   return categoryOptions.filter((category) => category.type === values.type);
 });
-
-const isDisabled = computed(() => !meta.value.valid);
 
 watch(
   () => values.type,
